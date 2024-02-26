@@ -10,27 +10,24 @@ class User extends Database
 	/**
 	 * Atributo que indica la tabla asociada a la clase del modelo
 	 */
-	private $table = 'player';
+	private $table = 'empleados';
 
 	/**
 	 * Array con los campos de la tabla que se pueden usar como filtro para recuperar registros
 	 */
 	private $allowedConditions_get = array(
 		'id',
-		'player_name',
-		'page'
+		'nombre'
 	);
 
 	/**
 	 * Array con los campos de la tabla que se pueden proporcionar para insertar registros
 	 */
 	private $allowedConditions_insert = array(
-		'player_name',
-		'player_mins',
-		'player_pts',
-		'player_asist',
-		'player_reb',
-		'player_tap'
+		'nombre',
+		'apellidos',
+		'password',
+		'rol'
 	);
 
 	/**
@@ -38,7 +35,7 @@ class User extends Database
 	 */
 	private function validate($data){
 		
-		if(!isset($data['player_name']) || empty($data['player_name'])){
+		if(!isset($data['nombre']) || empty($data['nombre'])){
 			$response = array(
 				'result' => 'error',
 				'details' => 'El campo nombre es obligatorio'

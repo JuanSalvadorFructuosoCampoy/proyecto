@@ -5,7 +5,7 @@
 */
 require_once 'classes/response.php';
 require_once 'src/classes/empleados.class.php';
-require_once '../autenticacion/src/classes/auth.class.php';
+require_once 'autenticacion/src/classes/auth.class.php';
 
 $auth = new Authentication(); // Se crea un objeto de la clase Authentication
 $auth->verify();// Se verifica si el usuario está autenticado
