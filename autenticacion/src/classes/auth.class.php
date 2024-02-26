@@ -36,7 +36,7 @@ class Authentication extends AuthModel
 			exit;
 		}
 
-		$result = parent::login($user['nombre'], hash('sha256' , $user['password']));
+		$result = parent::login($user['usuario'], hash('sha256' , $user['password']));
 
 		if(sizeof($result) == 0){
 			$response = array(
@@ -52,7 +52,7 @@ class Authentication extends AuthModel
 			'iat' => time(),
 			'data' => array(
 				'id' => $result[0]['id'],
-				'nombres' => $result[0]['nombres']
+				'nombre' => $result[0]['nombre']
 			)
 		);
 

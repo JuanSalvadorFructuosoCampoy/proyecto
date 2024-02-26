@@ -1,20 +1,26 @@
 const form = document.querySelector("form");
 const usuario = document.getElementById("user");
 const password = document.getElementById("password");
-const botonEnviar = document.getElementById("submit");
+const botonEnviar = document.getElementById("enviar");
 
-const errorUser = document.createElement("p");
+usuario.focus(); // Pone el foco en el campo usuario al cargar la página
+const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";
 errorUser.classList.add("error");
 
-const errorPassword = document.createElement("p");
+const errorPassword = document.createElement("div");
 errorPassword.textContent = "La contraseña no puede estar vacía";
-password.classList.add("error");
+errorPassword.classList.add("error");
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
-const form = document.querySelector("form");
-    event.preventDefault();
+    const form = document.querySelector("form");
+
+    const errores = document.querySelectorAll(".error");
+
+    for (let i = 0; i < errores.length; i++) {
+        errores[i].textContent = "";
+    }
 
     if(usuario.value == "" && password.value == "") {
         form.insertBefore(errorPassword, botonEnviar);
@@ -37,6 +43,7 @@ const form = document.querySelector("form");
     }else{
         errorPassword.remove();
     }
+    
     const data = {
         usuario: usuario.value,
         password: password.value
@@ -45,14 +52,24 @@ const form = document.querySelector("form");
     // Enviamos los datos al servidor en formato JSON
     const jsonDatos = JSON.stringify(data);
     fetch("auth.php", {
-        method: "POST",
+        method: "POST",// Método de envío de la petición
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json" // Formato de los datos que enviamos al servidor
         },
-        body: jsonDatos
+        body: jsonDatos// Datos que enviamos al servidor
     })
-    
-
- 
+      
+    .then(response => response.json())// Convertimos la respuesta a JSON
+    .then(data => { 
+    console.log("Datos:",data)
+    if(data.result == "error"){
+    const mensaje = document.createElement("div");
+    mensaje.classList.add("error")
+    mensaje.textContent = data.details;
+    form.appendChild(mensaje);
+}else{
+    console.log(data.token)
+}
+    })
 });
 
