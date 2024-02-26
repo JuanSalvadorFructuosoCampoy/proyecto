@@ -12,7 +12,7 @@ class Database
 	private $results_page = 50;
 
 	public function __construct(){
-		$this->connection = new mysqli('127.0.0.1', 'root', '', 'apirestdwes', '3306');
+		$this->connection = new mysqli('127.0.0.1', 'root', '', 'peluqueria', '3306');
 
 		if($this->connection->connect_errno){
 			echo 'Error de conexión a la base de datos';

@@ -22,11 +22,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
 		$params = $_GET;
 
-		$jugadores = $player->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		$empleados = $player->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
 		//$consultas = $user->verUsos($id);// Se llama al método verUsos() del modelo para ver los usos de la API
 		$response = array(
 			'result' => 'ok',
-			'jugadores' => $jugadores, 
+			'empleados' => $empleados, 
 		);
 
 		Response::result(200, $response);
@@ -50,7 +50,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 
 
-		$insert_id = $player->insert($params);
+		$insert_id = $empleado->insert($params);
 
 		$response = array(
 			'result' => 'ok',
