@@ -26,7 +26,7 @@ class Authentication extends AuthModel
 	 */
 	public function signIn($user)
 	{
-		if(!isset($user['nombre']) || !isset($user['password']) || empty($user['nombre']) || empty($user['password'])){
+		if(!isset($user['usuario']) || !isset($user['password']) || empty($user['usuario']) || empty($user['password'])){
 			$response = array(
 				'result' => 'error',
 				'details' => 'Los campos nombre y contraseña son obligatorios'

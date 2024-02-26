@@ -21,7 +21,7 @@ class AuthModel
 	 */
 	public function login($username, $password)
 	{
-		$query = "SELECT * FROM usuario WHERE nombre = '$username' AND password = '$password'";//Consulta para obtener el usuario con el nombre de usuario y contraseña
+		$query = "SELECT * FROM empleados WHERE nombre = '$username' AND password = '$password'";//Consulta para obtener el usuario con el nombre de usuario y contraseña
 
 		$results = $this->connection->query($query);//Se ejecuta la consulta
 

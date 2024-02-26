@@ -12,9 +12,10 @@ echo "<h1>PAGINA DE LOGIN</h1>";
     <title>Acceso</title>
 </head>
 <body>
-    <form action="api/autenticacion/login.php" method="POST">
-        <input type="text" name="usuario" id="usuario" placeholder="Usuario">
-        <input type="password" name="password" id="password" placeholder="Contraseña">
-        <input type="submit" value="Ingresar">
+    <form action="auth.php" method="POST">
+        <input type="text" name="user" id="user" placeholder="Usuario"><br>
+        <input type="password" name="password" id="password" placeholder="Contraseña"><br>
+        <input type="submit" id="enviar" value="Ingresar">
+    </form>
 </body>
 </html>
