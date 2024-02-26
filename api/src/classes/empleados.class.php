@@ -2,7 +2,7 @@
 /**
  * Clase para el modelo que representa a la tabla "player".
  */
-require_once 'response.php';
+
 require_once 'src/database.php';
 
 class User extends Database

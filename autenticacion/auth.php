@@ -3,7 +3,7 @@
  * Clase que hace de endpoint para la autentificación
  * Se debe mandar por POST un json con el usuario y la contraseña
  */
-require_once 'src/classes/auth.class.php';
+require_once 'src/auth.class.php';
 require_once 'src/response.php';
 
 $auth = new Authentication();
@@ -18,7 +18,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		$response = array(
 			'result' => 'ok',
-			'token' => $token
+			'token' => $token,
 		);
 		Response::result(201, $response);
 

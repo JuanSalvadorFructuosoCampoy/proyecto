@@ -71,7 +71,7 @@ form.addEventListener("submit", function (event) {
     })
     .then(response => response.json())
     .then(data => { 
-        console.log("Datos:",data)
+        
         if(data.result == "error"){
             // Mostrar mensaje de error si la autenticación falla
             const mensaje = document.createElement("div");
@@ -80,7 +80,6 @@ form.addEventListener("submit", function (event) {
             form.appendChild(mensaje);
         } else {
             // Almacenar el token en el almacenamiento local y redirigir a la página principal
-            console.log(data.token);
             sessionStorage.setItem('token', data.token);
             window.location.href = "../../index.html";
         }

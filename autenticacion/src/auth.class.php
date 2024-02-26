@@ -4,9 +4,9 @@
  * Hace uso de las clases implementadas en la carpeta "jwt" para realizar la autentificación mediante token
  * El token se genera a partir del id del usuario, por lo que cada usuario tendrá siempre un token distinto. Además del id, para generar el token se hace uso de una clave secreta que es un atributo de la clase
  */
-require_once 'jwt/JWT.php';
-require_once 'src/authModel.php';
-require_once 'src/response.php';
+require_once 'authModel.php';
+require_once dirname(__DIR__) . '/jwt/JWT.php'; 
+require_once 'response.php';
 use Firebase\JWT\JWT;
 
 class Authentication extends AuthModel
