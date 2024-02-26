@@ -20,7 +20,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			'result' => 'ok',
 			'token' => $token
 		);
-		$_SESSION['token'] = $token;
 		Response::result(201, $response);
 
 		break;
