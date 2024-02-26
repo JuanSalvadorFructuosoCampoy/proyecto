@@ -82,7 +82,7 @@ form.addEventListener("submit", function (event) {
             // Almacenar el token en el almacenamiento local y redirigir a la página principal
             console.log(data.token);
             sessionStorage.setItem('token', data.token);
-            window.location.href = "../../index.php";
+            window.location.href = "../../index.html";
         }
     });
 });
