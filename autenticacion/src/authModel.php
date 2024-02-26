@@ -8,7 +8,7 @@ class AuthModel
 	private $connection;
 	
 	public function __construct(){
-		$this->connection = new mysqli('127.0.0.1', 'root', '', 'apirestdwes', '3306');
+		$this->connection = new mysqli('127.0.0.1', 'root', '', 'peluqueria', '3306');
 
 		if($this->connection->connect_errno){
 			echo 'Error de conexión a la base de datos';
@@ -21,7 +21,7 @@ class AuthModel
 	 */
 	public function login($username, $password)
 	{
-		$query = "SELECT id, nombres, username FROM usuario WHERE username = '$username' AND password = '$password'";//Consulta para obtener el usuario con el nombre de usuario y contraseña
+		$query = "SELECT * FROM usuario WHERE nombre = '$username' AND password = '$password'";//Consulta para obtener el usuario con el nombre de usuario y contraseña
 
 		$results = $this->connection->query($query);//Se ejecuta la consulta
 
@@ -42,7 +42,7 @@ class AuthModel
 	 */
 	public function update($id, $token)
 	{
-		$query = "UPDATE usuario SET token = '$token' WHERE id = $id";
+		$query = "UPDATE empleados SET token = '$token' WHERE id = $id";
 
 		$this->connection->query($query);
 		
@@ -58,7 +58,7 @@ class AuthModel
 	 */
 	public function getById($id)
 	{
-		$query = "SELECT token FROM usuario WHERE id = $id";
+		$query = "SELECT token FROM empleados WHERE id = $id";
 
 		$results = $this->connection->query($query);
 
@@ -73,23 +73,11 @@ class AuthModel
 		return $resultArray;
 	}
 
-	public function verUsos($id)
-	{
-		$query = "SELECT `contador` FROM `usuario` WHERE `id` = $id";
-		$result = $this->connection->query($query);
-		$row = $result->fetch_assoc();
-		return (int) $row['contador'];
-	}
-
-	public function sumarUso($id)
-	{
-		$query = "UPDATE `usuario` SET `contador` = `contador` + 1 WHERE `id` = $id";
-		$this->connection->query($query);
-	}
+	
 
 	public function getIdUser($token)
 	{
-		$query = "SELECT `id` FROM `usuario` WHERE `token` = '$token'";
+		$query = "SELECT `id` FROM `empleados` WHERE `token` = '$token'";
 		$result = $this->connection->query($query);
 		$row = $result->fetch_assoc();
 		return (int) $row['id'];
