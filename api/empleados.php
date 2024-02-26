@@ -3,9 +3,9 @@
  *	Script que se usa en los endpoints para trabajar con registros de la tabla PLAYER
  *	La clase "player.class.php" es la clase del modelo, que representa a un jugador de la tabla
 */
-require_once 'src/response.php';
-require_once 'src/classes/player.class.php';
-require_once 'src/classes/auth.class.php';
+require_once 'classes/response.php';
+require_once 'src/classes/empleados.class.php';
+require_once '../autenticacion/src/classes/auth.class.php';
 
 $auth = new Authentication(); // Se crea un objeto de la clase Authentication
 $auth->verify();// Se verifica si el usuario está autenticado
