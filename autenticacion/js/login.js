@@ -36,7 +36,6 @@ form.addEventListener("submit", function (event) {
 
     // Enviar los datos al servidor en formato JSON
     const jsonDatos = JSON.stringify(data);
-    console.log(jsonDatos)
     fetch("auth.php", {
         method: "POST",
         headers: {

@@ -50,6 +50,8 @@ cerrarSesion.addEventListener("click", () => {
 contenedor.addEventListener("click", (e) => {
     const tarjeta = e.target.closest(".card");//Si el elemento clickeado es un hijo de un elemento con la clase card, se selecciona
     if (tarjeta) {//Si se seleccionó una tarjeta
-        console.log(tarjeta)
+        
+        console.log(tarjeta.id)
+        window.location.href = `apiScripts/${tarjeta.id}.html`;
     }
 });
