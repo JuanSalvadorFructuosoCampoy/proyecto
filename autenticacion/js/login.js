@@ -10,7 +10,7 @@ const botonEnviar = document.getElementById("enviar");
 
 // Poner el foco en el campo de usuario al cargar la página
 usuario.focus();
-
+botonEnviar.classList.add("btn", "button-primary");
 // Crear elementos de error para el campo de usuario y contraseña
 const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";
@@ -20,40 +20,15 @@ const errorPassword = document.createElement("div");
 errorPassword.textContent = "La contraseña no puede estar vacía";
 errorPassword.classList.add("error");
 
+const errorAmbos = document.createElement("div");
+errorAmbos.textContent = "El usuario y la contraseña no pueden estar vacíos";
+errorPassword.classList.add("error");
+
 // Agregar un evento de escucha al formulario cuando se envía
 form.addEventListener("submit", function (event) {
     event.preventDefault();
-
-    // Eliminar los mensajes de error existentes
-    const errores = document.querySelectorAll(".error");
-    for (let i = 0; i < errores.length; i++) {
-        errores[i].textContent = "";
-    }
-
-    // Validar que el campo de usuario y contraseña no estén vacíos
-    if(usuario.value == "" && password.value == "") {
-        form.insertBefore(errorPassword, botonEnviar);
-        form.insertBefore(errorUser, password);
-        return;
-    } else {
-        errorUser.remove();
-        errorPassword.remove();
-    }
-
-    if(usuario.value ==""){
-       form.insertBefore(errorUser, password);
-       return;
-    } else {
-        errorUser.remove();
-    }
-
-    if(password.value == ""){
-        form.insertBefore(errorPassword, botonEnviar);
-        return;
-    } else {
-        errorPassword.remove();
-    }
-
+    vaciarMensajes();
+    validar();
     // Crear un objeto con los datos de usuario y contraseña
     const data = {
         usuario: usuario.value.trim(),
@@ -73,18 +48,44 @@ form.addEventListener("submit", function (event) {
     })
     .then(response => response.json())
     .then(data => { 
-        
-        if(data.result == "error"){
+        if(data.result == "error" && data.details=="El usuario y/o la contraseña son incorrectas"){
             // Mostrar mensaje de error si la autenticación falla
             const mensaje = document.createElement("div");
-            mensaje.classList.add("error")
+            mensaje.classList.add("error");
             mensaje.textContent = data.details;
             form.appendChild(mensaje);
-        } else {
+            vaciarInputs();
+            
+        } else if(data.result != "error"){
             // Almacenar el token en el almacenamiento local y redirigir a la página principal
             sessionStorage.setItem('token', data.token);
             window.location.href = "../../index.html";
         }
     });
 });
+
+function vaciarInputs(){
+    usuario.value = "";
+    password.value = "";
+}
+
+function validar(){
+    if(usuario.value == "" && password.value == ""){
+        form.appendChild(errorAmbos);
+        return false;
+    } else if(usuario.value == ""){
+        form.appendChild(errorUser);
+        return false;
+    } else if(password.value == ""){
+        form.appendChild(errorPassword);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function vaciarMensajes(){
+    const errores = document.querySelectorAll(".error");
+    errores.forEach(error => error.remove());
+}
 
