@@ -7,13 +7,8 @@ const usuario = document.getElementById("user");
 const password = document.getElementById("password");
 // Selecciona el botón de enviar
 const botonEnviar = document.getElementById("enviar");
-
-const h3 = document.getElementsByTagName("h3")[0];
-h3.classList.add("text-center");
-form.classList.add()//FALTA AÑADIR CLASSLIST AL FORMULARIO
 // Poner el foco en el campo de usuario al cargar la página
 usuario.focus();
-botonEnviar.classList.add("btn", "btn-success");
 // Crear elementos de error para el campo de usuario y contraseña
 const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";
@@ -25,7 +20,7 @@ errorPassword.classList.add("error");
 
 const errorAmbos = document.createElement("div");
 errorAmbos.textContent = "El usuario y la contraseña no pueden estar vacíos";
-errorPassword.classList.add("error");
+errorAmbos.classList.add("error");
 
 // Agregar un evento de escucha al formulario cuando se envía
 form.addEventListener("submit", function (event) {

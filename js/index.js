@@ -1,10 +1,7 @@
+const contenedor = document.querySelectorAll(".row")[0];
+console.log(contenedor)
 async function inicializarPagina() {
     await hacerFetch();
-
-    const cerrarSesion = document.createElement("button");
-    cerrarSesion.classList.add("btn", "button-primary");    
-    cerrarSesion.textContent = "Cerrar sesión";
-    document.body.appendChild(cerrarSesion);
 }
 
 async function hacerFetch() {
@@ -20,14 +17,32 @@ async function hacerFetch() {
     sessionStorage.setItem("nombre", data.empleados[0].nombre); //Guardamos el nombre en el sessionStorage
     const h2 = document.createElement("h2")
     h2.textContent = `¡Hola, ${sessionStorage.getItem("nombre")}!`
-    document.body.appendChild(h2)
+    contenedor.parentNode.insertBefore(h2, contenedor);
 
     if (sessionStorage.getItem("rol") == "admin") {
-        const enlaceGestEmpl = document.createElement("A");
-        enlaceGestEmpl.setAttribute("href", "apiScripts/empleados.html");
-        enlaceGestEmpl.textContent = "Gestionar empleados";
-        document.body.appendChild(enlaceGestEmpl);
-    }
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("card","m-4","p-1","bg-light");
+        tarjeta.style.width = "10rem";
+        contenedor.appendChild(tarjeta);
+        const imagen = document.createElement("img");
+        imagen.classList.add("card-img-top");
+        imagen.setAttribute("src", "../images/empleados.png");
+        imagen.setAttribute("alt", "Empleados");
+        tarjeta.appendChild(imagen);
+        const tarjetaCuerpo = document.createElement("div");
+        tarjetaCuerpo.classList.add("card-body");
+        tarjeta.appendChild(tarjetaCuerpo);
+        const titulo = document.createElement("h5");
+        titulo.classList.add("card-title","text-center");
+        titulo.textContent = 'Empleados';
+        tarjetaCuerpo.appendChild(titulo);
+    }//href="apiScripts/empleados.html"
 }
 
 inicializarPagina();
+
+const cerrarSesion = document.getElementById("cerrarSesion");
+cerrarSesion.addEventListener("click", () => {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+});

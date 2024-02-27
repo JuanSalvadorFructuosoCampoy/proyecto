@@ -6,21 +6,31 @@
     <script defer src="js/login.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/normalize.css">
-    <link rel="stylesheet" href="../css/login.css">
     <title>Acceso</title>
 </head>
 <body>
-    <h1>SALUD CAPILAR HAIR DELUXE</h1>
-    <h3>LOGIN</h3>
-    <form action="auth.php" method="POST">
-
-        <label for="user">Usuario:</label>
-        <input type="text" name="user" id="user" placeholder="Usuario"><br>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" placeholder="Contraseña"><br>
-        <input type="submit" id="enviar" value="Ingresar">
+    <div class="container">
+        <h1 class="text-center">SALUD CAPILAR HAIR DELUXE</h1>
+        <div class="row d-flex justify-content-center align-items-center vh-100">
+            <div class="col-12 col-md-6 col-lg-4">
+                <br>
+                <div class="text-center">
+                    <br> <!-- BEGIN: Move h3 element up -->
+                    <h3 class="text-center" style="margin-top: -100px;">ACCESO</h3>
+                    <!-- END: Move h3 element up -->
+                </div>
+                <br>
+                <form action="auth.php" method="POST" class="text-center">
+                    <label for="user" class="form-label">Usuario:</label>
+                    <input type="text" name="user" id="user" placeholder="Usuario" class="form-control"><br>
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="password" name="password" id="password" placeholder="Contraseña" class="form-control"><br>
+                    <input type="submit" id="enviar" value="Ingresar" class="btn btn-success">
+                </form>
+            </div>
+        </div>
     </div>
-    </form>
+</body>
+</html>
 </body>
 </html>
