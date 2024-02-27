@@ -8,9 +8,12 @@ const password = document.getElementById("password");
 // Selecciona el botón de enviar
 const botonEnviar = document.getElementById("enviar");
 
+const h3 = document.getElementsByTagName("h3")[0];
+h3.classList.add("text-center");
+form.classList.add()//FALTA AÑADIR CLASSLIST AL FORMULARIO
 // Poner el foco en el campo de usuario al cargar la página
 usuario.focus();
-botonEnviar.classList.add("btn", "button-primary");
+botonEnviar.classList.add("btn", "btn-success");
 // Crear elementos de error para el campo de usuario y contraseña
 const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";
