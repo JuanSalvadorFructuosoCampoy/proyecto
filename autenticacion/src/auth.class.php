@@ -37,21 +37,21 @@ class Authentication extends AuthModel
 		}
 
 		$result = parent::login($user['usuario'], hash('sha256' , $user['password']));
-		
-		if($result[0]['activo'] == 0){
+
+		if(sizeof($result) == 0){
 			$response = array(
 				'result' => 'error',
-				'details' => 'El usuario no está activo. Por favor, contacte con el administrador del sistema para más información'
+				'details' => 'El usuario y/o la contraseña son incorrectas'
 			);
 
 			Response::result(403, $response);
 			exit;
 		}
 
-		if(sizeof($result) == 0){
+		if(isset($result[0]['activo']) && $result[0]['activo'] == 0){
 			$response = array(
 				'result' => 'error',
-				'details' => 'El usuario y/o la contraseña son incorrectas'
+				'details' => 'El usuario no está activo. Por favor, contacte con el administrador del sistema para más información'
 			);
 
 			Response::result(403, $response);

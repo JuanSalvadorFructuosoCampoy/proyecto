@@ -53,15 +53,17 @@ form.addEventListener("submit", function (event) {
     } else {
         errorPassword.remove();
     }
-    
+
     // Crear un objeto con los datos de usuario y contraseña
     const data = {
-        usuario: usuario.value,
-        password: password.value
+        usuario: usuario.value.trim(),
+        password: password.value.trim(),
     };
+
 
     // Enviar los datos al servidor en formato JSON
     const jsonDatos = JSON.stringify(data);
+    console.log(jsonDatos)
     fetch("auth.php", {
         method: "POST",
         headers: {
