@@ -52,6 +52,6 @@ contenedor.addEventListener("click", (e) => {
     if (tarjeta) {//Si se seleccionó una tarjeta
         
         console.log(tarjeta.id)
-        window.location.href = `apiScripts/${tarjeta.id}.html`;
+        window.location.href = `apiScripts/${tarjeta.id}/${tarjeta.id}.html`;
     }
 });

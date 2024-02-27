@@ -45,8 +45,9 @@ form.addEventListener("submit", function (event) {
     })
     .then(response => response.json())
     .then(data => { 
-        if(data.result == "error" && data.details=="El usuario y/o la contraseña son incorrectas"){
+        if(data.result == "error" && data.details != "Los campos nombre y contraseña son obligatorios"){
             // Mostrar mensaje de error si la autenticación falla
+            console.log("Detalles del error:",data.details)
             const mensaje = document.createElement("div");
             mensaje.classList.add("error");
             mensaje.textContent = data.details;
@@ -85,4 +86,6 @@ function vaciarMensajes(){
     const errores = document.querySelectorAll(".error");
     errores.forEach(error => error.remove());
 }
+
+
 
