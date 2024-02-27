@@ -88,7 +88,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 tr.appendChild(td6);
 
                 tbody.appendChild(tr);
-                
+
             })
         }
         switchActivo = document.querySelector(".form-switch input");
@@ -96,9 +96,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
             let empleadoActivo
             console.log(e.target.checked)
             const id = e.target.parentNode.parentNode.parentNode.firstChild.textContent
-            if(e.target.checked == true){
+            if (e.target.checked == true) {
                 empleadoActivo = 1;
-            }else{
+            } else {
                 empleadoActivo = 0
             }
             fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
@@ -118,23 +118,23 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
         })
     });
 
-    const botonVolver = document.createElement("button")
-    botonVolver.textContent = "Volver al inicio"
-    botonVolver.classList.add("btn", "btn-primary","position-fixed", "bottom-0", "end-0", "m-3")
-    botonVolver.setAttribute("id", "volver")
-    document.body.appendChild(botonVolver)
-    botonVolver.addEventListener("click", () => {
-        window.location.href = "../../index.html"
-    })
+const botonVolver = document.createElement("button")
+botonVolver.textContent = "Volver al inicio"
+botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
+botonVolver.setAttribute("id", "volver")
+document.body.appendChild(botonVolver)
+botonVolver.addEventListener("click", () => {
+    window.location.href = "../../index.html"
+})
 
-    const botonNuevo = document.createElement("button");
-    botonNuevo.textContent = "Nuevo empleado";
-    botonNuevo.classList.add("btn", "btn-success", "position-fixed", "bottom-20", "start-0", "m-3");
-    botonNuevo.setAttribute("id", "nuevo");
-    document.body.insertBefore(botonNuevo, botonVolver);
-    botonNuevo.addEventListener("click", () => {
-        // Add your logic here
-    });
+const botonNuevo = document.createElement("button");
+botonNuevo.textContent = "Nuevo empleado";
+botonNuevo.classList.add("btn", "btn-success", "position-fixed", "bottom-20", "start-0", "m-3");
+botonNuevo.setAttribute("id", "nuevo");
+document.body.insertBefore(botonNuevo, botonVolver);
+botonNuevo.addEventListener("click", () => {
+    window.location.href = "nuevo.html"
+});
 
-    
+
 
