@@ -1,5 +1,4 @@
 const contenedor = document.querySelectorAll(".row")[0];
-console.log(contenedor)
 async function inicializarPagina() {
     await hacerFetch();
 }
@@ -23,6 +22,7 @@ async function hacerFetch() {
         const tarjeta = document.createElement("div");
         tarjeta.classList.add("card","m-4","p-1","bg-light");
         tarjeta.style.width = "10rem";
+        tarjeta.setAttribute("id", "empleados");
         contenedor.appendChild(tarjeta);
         const imagen = document.createElement("img");
         imagen.classList.add("card-img-top");
@@ -47,3 +47,9 @@ cerrarSesion.addEventListener("click", () => {
     window.location.href = "index.html";
 });
 
+contenedor.addEventListener("click", (e) => {
+    const tarjeta = e.target.closest(".card");//Si el elemento clickeado es un hijo de un elemento con la clase card, se selecciona
+    if (tarjeta) {//Si se seleccionó una tarjeta
+        console.log(tarjeta)
+    }
+});
