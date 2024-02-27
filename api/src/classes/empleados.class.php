@@ -17,7 +17,8 @@ class User extends Database
 	 */
 	private $allowedConditions_get = array(
 		'id',
-		'nombre'
+		'nombre',
+		'token'
 	);
 
 	/**
