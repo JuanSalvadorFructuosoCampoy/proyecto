@@ -1,4 +1,4 @@
-fetch("api/empleados.php", {
+fetch(`api/empleados.php?token=${sessionStorage.getItem("token")}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
     }
