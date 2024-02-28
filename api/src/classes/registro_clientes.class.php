@@ -10,30 +10,25 @@ class User extends Database
 	/**
 	 * Atributo que indica la tabla asociada a la clase del modelo
 	 */
-	private $table = 'clientes';
+	private $table = 'registro_clientes';
 
 	/**
 	 * Array con los campos de la tabla que se pueden usar como filtro para recuperar registros
 	 */
 	private $allowedConditions_get = array(
 		'id',
-		'nombre',
-		'apellido1',
-		'apellido2',
-		'telefono',
-		'direccion'
+		'id_cliente',
+		'fecha',
+		'evento'
 	);
 
 	/**
 	 * Array con los campos de la tabla que se pueden proporcionar para insertar registros
 	 */
 	private $allowedConditions_insert = array(
-		'nombre',
-		'id_fiscal',
-		'apellido1',
-		'apellido2',
-		'telefono',
-		'direccion'
+		'id_cliente',
+		'fecha',
+		'evento'
 	);
 
 	/**
@@ -71,9 +66,9 @@ class User extends Database
 			}
 		}
 
-		$clientes = parent::getDB($this->table, $params);
+		$registros = parent::getDB($this->table, $params);
 
-		return $clientes;
+		return $registros;
 	}
 
 	/**

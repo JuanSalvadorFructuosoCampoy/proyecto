@@ -4,13 +4,13 @@
  *	La clase "player.class.php" es la clase del modelo, que representa a un jugador de la tabla
 */
 
-require 'src/classes/empleados.class.php';//Se incluye el archivo de la clase del modelo
+require 'src/classes/registro_clientes.class.php';//Se incluye el archivo de la clase del modelo
 require '../autenticacion/src/auth.class.php';//Se incluye el archivo de la clase de autentificación
 
 $auth = new Authentication(); // Se crea un objeto de la clase Authentication
 $auth->verify();// Se verifica si el usuario está autenticado
 
-$empleado = new User();// Se crea un objeto de la clase User
+$registro = new User();// Se crea un objeto de la clase User
 
 /**
  * Se mira el tipo de petición que ha llegado a la API y dependiendo de ello se realiza una u otra accción
@@ -22,11 +22,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
 		$params = $_GET;
 
-		$empleados = $empleado->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		$registros = $registro->getRegistro($params['id']);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
 		//$consultas = $user->verUsos($id);// Se llama al método verUsos() del modelo para ver los usos de la API
 		$response = array(
 			'result' => 'ok',
-			'empleados' => $empleados, 
+			'registros' => $registros, 
 		);
 
 		Response::result(200, $response);
@@ -50,7 +50,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 
 
-		$insert_id = $empleado->insert($params);
+		$insert_id = $registro->insert($params);
 
 		$response = array(
 			'result' => 'ok',
@@ -76,7 +76,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			exit;
 		}
 
-		$empleado->update($_GET['id'], $params);
+		$registro->update($_GET['id'], $params);
 
 		$response = array(
 			'result' => 'ok'
@@ -90,7 +90,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
 	
 	
-			$empleado->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
+			$registro->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
 	
 			$response = 'ok';
 	
@@ -111,7 +111,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			exit;
 		}
 
-		$empleado->delete($_GET['id']);
+		$registro->delete($_GET['id']);
 
 		$response = array(
 			'result' => 'ok'

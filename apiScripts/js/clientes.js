@@ -115,8 +115,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 })
 
                 botonFicha.addEventListener("click", (e) => {
-
-                   //Acceso a la ficha del cliente
+                    const id = e.target.parentNode.parentNode.firstChild.textContent;
+                    window.location.href = `registro.html?id=${id}`
                 })
 
                 botonBorrar.addEventListener("click", (e) => {

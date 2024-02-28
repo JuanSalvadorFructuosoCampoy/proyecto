@@ -19,7 +19,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
 
     .then(response => response.json())
     .then(data => {
-        h2.childNodes[0].textContent += data['empleados'][0].nombre;
+        h2.childNodes[0].textContent += data['empleados'][0].nombre.toUpperCase();
 
     })
 

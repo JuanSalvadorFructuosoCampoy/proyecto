@@ -67,9 +67,9 @@ class User extends Database
 			}
 		}
 
-		$jugadores = parent::getDB($this->table, $params);
+		$empleados = parent::getDB($this->table, $params);
 
-		return $jugadores;
+		return $empleados;
 	}
 
 	/**

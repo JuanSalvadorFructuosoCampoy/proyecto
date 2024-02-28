@@ -120,7 +120,18 @@ class Database
 		}
 
 		return $this->connection->affected_rows;
-	}	
+	}
+	
+	public function getRegistro($id_cliente){
+		$query = "SELECT * FROM registro_clientes WHERE id_cliente = $id_cliente ORDER BY fecha DESC";
+		$results = $this->connection->query
+		($query);
+		$resultArray = array();
+		foreach ($results as $value) {
+			$resultArray[] = $value;
+		}
+		return $resultArray;
+	}
 }
 
 
