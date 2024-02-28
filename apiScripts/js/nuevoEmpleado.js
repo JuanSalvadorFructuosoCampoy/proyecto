@@ -5,8 +5,8 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
 
     const mensajesError = document.querySelectorAll('.text-danger');
     mensajesError.forEach(mensaje => mensaje.remove());
-    const nombre = document.getElementById('nombre').value;
-    const apellidos = document.getElementById('apellidos').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellidos = document.getElementById('apellidos').value.trim();
     const rol = document.getElementById('rol').value;
     const password = document.getElementById('password').value.trim();
     const password2 = document.getElementById('password2').value.trim();
