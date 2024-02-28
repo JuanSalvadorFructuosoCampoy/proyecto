@@ -167,3 +167,31 @@ th3.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = `nuevo_registro.html?id_cliente=${idURL}&nombre_cliente=${nombreCliente}`
 });
+
+const barraBusqueda = document.createElement("input");
+barraBusqueda.setAttribute("id", "busqueda");
+barraBusqueda.setAttribute("type", "text");
+barraBusqueda.setAttribute("placeholder", "Buscar evento");
+barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
+document.body.insertBefore(barraBusqueda, table);
+
+barraBusqueda.addEventListener("input",()=>{
+    const texto = barraBusqueda.value.toLowerCase();
+    const filas = tbody.getElementsByTagName("tr");
+    for (let i = 0; i < filas.length; i++) {
+        const celdas = filas[i].getElementsByTagName("td");
+        let coincide = false;
+        for (let j = 0; j < celdas.length && !coincide; j++) {
+            const celda = celdas[j];
+            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda
+                coincide = true;
+            }
+        }
+        if (coincide) {
+            filas[i].style.display = "";
+        } else {
+            filas[i].style.display = "none";
+        }
+    }
+
+})

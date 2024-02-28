@@ -184,7 +184,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
-barraBusqueda.setAttribute("placeholder", "Buscar cliente");
+barraBusqueda.setAttribute("placeholder", "Buscar empleado");
 barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 
