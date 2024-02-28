@@ -123,7 +123,7 @@ class Database
 	}
 	
 	public function getRegistro($id_cliente){
-		$query = "SELECT * FROM registro_clientes WHERE id_cliente = $id_cliente ORDER BY fecha DESC";
+		$query = "SELECT * FROM registro_clientes WHERE id_cliente = $id_cliente ORDER BY fecha DESC, id DESC";
 		$results = $this->connection->query
 		($query);
 		$resultArray = array();
@@ -131,10 +131,6 @@ class Database
 			$resultArray[] = $value;
 		}
 		return $resultArray;
-	}
-
-	public function nuevoRegistro(){
-		
 	}
 }
 

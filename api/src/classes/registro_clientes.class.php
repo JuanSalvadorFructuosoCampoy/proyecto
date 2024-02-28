@@ -88,10 +88,7 @@ class User extends Database
 				exit;
 			}
 		}
-
-		if($this->validate($params)){
 			return parent::insertDB($this->table, $params);
-		}
 	}
 
 	/**

@@ -87,9 +87,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 td1.textContent = `${dia}-${mes}-${anio}`;
                 td2.textContent = element.evento;
 
-                td1.classList.add("p-4", "text-center")
-                td2.classList.add("p-4", "text-center")
-                td3.classList.add("p-4", "text-center")
+                td1.classList.add("p-4", "text-center", "align-middle"); 
+                td2.classList.add("p-4", "text-center", "align-middle"); 
+                td3.classList.add("p-4", "text-center", "align-middle");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
@@ -103,7 +103,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info", "btn-sm","m-1");
+                botonEditar.classList.add("btn", "btn-info", "btn-sm", "m-1","text-center");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td3.appendChild(botonEditar);
 
@@ -113,7 +113,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td3.appendChild(botonBorrar);
 
-                botonEditar.addEventListener("click", (e) => {                    
+                botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
                     window.location.href = `editar_registro.html?id=${id}`
                 })
@@ -165,5 +165,5 @@ botonNuevo.classList.add("btn", "btn-success", "btn-sm");
 botonNuevo.setAttribute("id", "nuevoRegistro");
 th3.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
-    window.location.href = `nuevo_registro.html?nombre_cliente=${nombreCliente}`
+    window.location.href = `nuevo_registro.html?id_cliente=${idURL}&nombre_cliente=${nombreCliente}`
 });
