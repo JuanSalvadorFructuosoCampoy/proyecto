@@ -19,7 +19,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
 
     .then(response => response.json())
     .then(data => {
-        console.log(data['clientes'])
         h2.childNodes[0].textContent += data['clientes'][0].nombre.toUpperCase();
     })
 
@@ -43,6 +42,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
     th2.setAttribute("scope", "col")
     th2.classList.add("p-4", "text-center","col-8")
     th3.classList.add("p-4", "text-center")
+
     
     tr.appendChild(th1);
     tr.appendChild(th2);
@@ -63,7 +63,32 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
 
 .then(response => response.json())
 .then(data => {
-console.log(data)
+console.log(data['registros'])
+if (data['registros'].length == 0) {
+    const h4 = document.createElement("h4");
+    const strong = document.createElement("strong");
+    h4.classList.add("text-center");
+    strong.textContent = "SIN REGISTROS DE EVENTOS PARA ESTE CLIENTE"
+    h4.appendChild(strong);
+    document.body.appendChild(h4);
+} else {
+    data['registros'].forEach(element => {
+        const tr = document.createElement("tr");
+        const td1 = document.createElement("td");
+        const td2 = document.createElement("td");
+        const td3 = document.createElement("td");
+        td1.textContent = element.fecha;
+        td2.textContent = element.evento;
+
+        td1.classList.add("p-4", "text-center")
+        td2.classList.add("p-4", "text-center")
+        td3.classList.add("p-4", "text-center")
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tbody.appendChild(tr);
+    });
+}
 });
 
 
@@ -84,3 +109,12 @@ document.body.appendChild(botonVolver)
 botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
+
+const botonNuevo = document.createElement("button");
+botonNuevo.textContent = "Nuevo evento";
+botonNuevo.classList.add("btn", "btn-success", "btn-sm");
+botonNuevo.setAttribute("id", "nuevoRegistro");
+th3.append(botonNuevo);
+botonNuevo.addEventListener("click", () => {
+    window.location.href = "nuevo_registro.html"
+});

@@ -12,6 +12,7 @@ const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 const th5 = document.createElement("th");
 const th6 = document.createElement("th");
+const th7 = document.createElement("th");
 
 th1.textContent = "ID";
 th2.textContent = "Nombre";
@@ -26,6 +27,7 @@ th3.classList.add("p-4", "text-center")
 th4.classList.add("p-4", "text-center")
 th5.classList.add("p-4", "text-center")
 th6.classList.add("p-4", "text-center")
+th7.classList.add("p-4", "text-center")
 
 tr.appendChild(th1);
 tr.appendChild(th2);
@@ -33,6 +35,7 @@ tr.appendChild(th3);
 tr.appendChild(th4);
 tr.appendChild(th5);
 tr.appendChild(th6);
+tr.appendChild(th7);
 thead.appendChild(tr);
 
 const tbody = document.createElement("tbody");
@@ -47,7 +50,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
     .then(data => {
         if (data.empleados.length == 0) {
             const h4 = document.createElement("h4");
-            h4.textContent = "No hay empleados";
+            const strong = document.createElement("strong");
+            h4.classList.add("text-center");
+            strong.textContent = "NO HAY EMPLEADOS EN EL REGISTRO"
+            h4.appendChild(strong);
             document.body.appendChild(h4);
         } else {
             data.empleados.forEach(element => {
@@ -214,9 +220,9 @@ botonVolver.addEventListener("click", () => {
 
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Nuevo empleado";
-botonNuevo.classList.add("btn", "btn-success", "position-fixed", "bottom-20", "start-0", "m-3");
+botonNuevo.classList.add("btn", "btn-success","btn-sm");
 botonNuevo.setAttribute("id", "nuevo");
-document.body.insertBefore(botonNuevo, botonVolver);
+th7.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });

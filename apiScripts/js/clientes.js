@@ -12,6 +12,7 @@ const th4 = document.createElement("th");
 const th5 = document.createElement("th");
 const th6 = document.createElement("th");
 const th7 = document.createElement("th");
+const th8 = document.createElement("th");
 th1.textContent = "ID";
 th2.textContent = "ID fiscal";
 th3.textContent = "Nombre";
@@ -26,6 +27,7 @@ th4.classList.add("p-4", "text-center")
 th5.classList.add("p-4", "text-center")
 th6.classList.add("p-4", "text-center")
 th7.classList.add("p-4", "text-center")
+th8.classList.add("p-4", "text-center")
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
@@ -33,6 +35,7 @@ tr.appendChild(th4);
 tr.appendChild(th5);
 tr.appendChild(th6);
 tr.appendChild(th7);
+tr.appendChild(th8);
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaclientes").appendChild(tbody);
@@ -181,9 +184,9 @@ botonVolver.addEventListener("click", () => {
 
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Nuevo cliente";
-botonNuevo.classList.add("btn", "btn-success", "position-fixed", "bottom-20", "start-0", "m-3");
+botonNuevo.classList.add("btn", "btn-success","btn-sm");
 botonNuevo.setAttribute("id", "nuevo");
-document.body.insertBefore(botonNuevo, botonVolver);
+th8.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
