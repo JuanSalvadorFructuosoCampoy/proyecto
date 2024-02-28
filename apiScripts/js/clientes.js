@@ -89,7 +89,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info","btn-sm","m-1   ");
+                botonEditar.classList.add("btn", "btn-info","btn-sm","m-1");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td8.appendChild(botonEditar);
 
