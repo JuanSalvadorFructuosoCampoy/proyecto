@@ -1,9 +1,8 @@
 const form = document.getElementsByTagName('form')[0];
-console.log(form)
 
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
-    console.log("Entra en el evento")
+
     const mensajesError = document.querySelectorAll('.text-danger');
     mensajesError.forEach(mensaje => mensaje.remove());
     const nombre = document.getElementById('nombre').value;
@@ -51,33 +50,34 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     }
 
     const hashedPassword = await hashInput(password);
-    const hashedPassword2 = await hashInput(password2);
+    
+    const datosInput = {
+        nombre: nombre,
+        apellidos: apellidos,
+        password: hashedPassword,
+        rol: rol,
+        activo: "0"
+    }
 
-
-     console.log(nombre, apellidos, rol, hashedPassword, hashedPassword2)
+    const jsonDatos = JSON.stringify(datosInput)
     fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             "api-key": sessionStorage.getItem("token")
         },
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            password: hashedPassword,
-            rol: rol,
-            activo: 0
-        })
+        body: jsonDatos
     })
         .then(response => response.json())
         .then(data => {
+            console.log("Entrado en el then de la promesa de fetch")
             console.log('Éxito:', data);
             window.location.href = "empleados.html";
         })
         .catch((error) => {
             console.error('Error:', error);
         });
-});
+    });
 
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {

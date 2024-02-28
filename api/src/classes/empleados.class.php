@@ -28,7 +28,8 @@ class User extends Database
 		'nombre',
 		'apellidos',
 		'password',
-		'rol'
+		'rol',
+		'activo'
 	);
 
 	/**

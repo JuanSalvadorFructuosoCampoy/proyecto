@@ -27,6 +27,8 @@ tr.appendChild(th3);
 tr.appendChild(th4);
 tr.appendChild(th5);
 thead.appendChild(tr);
+const tbody = document.createElement("tbody");
+document.getElementById("tablaempleados").appendChild(tbody);
 
 fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
     headers: {
@@ -41,8 +43,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
             document.body.appendChild(h4);
         } else {
             data.empleados.forEach(element => {
-                const tbody = document.createElement("tbody");
-                document.getElementById("tablaempleados").appendChild(tbody);
+
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
@@ -50,6 +51,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
                 const td6 = document.createElement("td");
+                const td7 = document.createElement("td");
                 td1.textContent = element.id;
                 td1.classList.add("p-4", "text-center")
                 td2.classList.add("p-4", "text-center")
@@ -57,6 +59,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 td4.classList.add("p-4", "text-center")
                 td5.classList.add("p-4", "text-center")
                 td6.classList.add("p-4", "text-center")
+                td7.classList.add("p-4", "text-center")
                 td2.textContent = element.nombre;
                 td3.textContent = element.apellidos;
                 if (element.rol == "admin") {
@@ -78,14 +81,20 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 botonBorrar.textContent = "Borrar empleado";
                 botonBorrar.classList.add("btn", "btn-danger");
                 botonBorrar.setAttribute("id", `boton${element.id}`);
-                td6.appendChild(botonBorrar);
+                td7.appendChild(botonBorrar);
+
+                const botonEditar = document.createElement("button");
+                botonEditar.textContent = "Editar empleado";
+                botonEditar.classList.add("btn", "btn-info");
+                botonEditar.setAttribute("id", `boton${element.id}`);
+                td7.appendChild(botonEditar);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tr.appendChild(td4);
                 tr.appendChild(td5);
-                tr.appendChild(td6);
+                tr.appendChild(td7);
 
                 tbody.appendChild(tr);
                 if (divCheck.parentNode.parentNode.firstChild.textContent == sessionStorage.getItem("id")) {//Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
@@ -97,26 +106,27 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
             })
 
         }
-        switchActivo = document.querySelector(".form-switch input");
-        switchActivo.addEventListener("change", (e) => {
-            let empleadoActivo
-            const id = e.target.parentNode.parentNode.parentNode.firstChild.textContent
-            if (e.target.checked == true) {
-                empleadoActivo = 1;
-            } else {
-                empleadoActivo = 0
+        document.addEventListener("change", (e) => {
+            if (e.target.matches(".form-switch input")) {
+                let empleadoActivo;
+                const id = e.target.parentNode.parentNode.parentNode.firstChild.textContent;
+                if (e.target.checked) {
+                    empleadoActivo = 1;
+                } else {
+                    empleadoActivo = 0;
+                }
+                fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "api-key": sessionStorage.getItem("token"),
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        activo: empleadoActivo
+                    })
+                });
             }
-            fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
-                method: "PATCH",
-                headers: {
-                    "api-key": sessionStorage.getItem("token"),
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    activo: empleadoActivo
-                })
-            })
-        })
+        });
     });
 
 const botonVolver = document.createElement("button")

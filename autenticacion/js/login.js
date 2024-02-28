@@ -1,3 +1,5 @@
+// Limpiar el almacenamiento local
+sessionStorage.clear();
 // Seleccionar elementos del DOM
 // Selecciona el formulario
 const form = document.querySelector("form");
@@ -35,6 +37,7 @@ form.addEventListener("submit", function (event) {
         usuario: usuario.value.trim(),
         password: password.value.trim(),
     };
+
 
 
     // Enviar los datos al servidor en formato JSON
