@@ -18,7 +18,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
     .then(response => response.json())
     .then(data => {
         document.getElementById('nombre').value = data['empleados'][0].nombre;
-        document.getElementById('apellidos').value = data['empleados'][0].apellidos;
+        document.getElementById('apellido1').value = data['empleados'][0].apellido2;
+        document.getElementById('apellido2').value = data['empleados'][0].apellido1;
         document.getElementById('rol').value = data['empleados'][0].rol;
         if(document.getElementsByTagName('option').value == data['empleados'][0].rol){
             document.getElementsByTagName('option').selected = true;
@@ -29,13 +30,15 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     e.preventDefault();
 
     const nombre = document.getElementById('nombre').value;
-    const apellidos = document.getElementById('apellidos').value;
+    const apellido1 = document.getElementById('apellido1').value;
+    const apellido2 = document.getElementById('apellido2').value;
     const rol = document.getElementById('rol').value;
 
     
     const datosInput = {
         nombre: nombre,
-        apellidos: apellidos,
+        apellido1: apellido1,
+        apellido2: apellido2,
         rol: rol,
         activo: "1"
     }

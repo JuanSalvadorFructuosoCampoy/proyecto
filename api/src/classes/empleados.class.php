@@ -26,7 +26,8 @@ class User extends Database
 	 */
 	private $allowedConditions_insert = array(
 		'nombre',
-		'apellidos',
+		'apellido1',
+		'apellido2',
 		'password',
 		'rol',
 		'activo'

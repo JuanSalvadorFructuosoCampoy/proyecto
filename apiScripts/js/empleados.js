@@ -11,22 +11,30 @@ const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 const th5 = document.createElement("th");
+const th6 = document.createElement("th");
+
 th1.textContent = "ID";
 th2.textContent = "Nombre";
-th3.textContent = "Apellido";
-th4.textContent = "Rol";
-th5.textContent = "Activo";
+th3.textContent = "Primer apellido";
+th4.textContent = "Segundo apellido";
+th5.textContent = "Rol";
+th6.textContent = "Activo";
+
 th1.classList.add("p-4", "text-center")
 th2.classList.add("p-4", "text-center")
 th3.classList.add("p-4", "text-center")
 th4.classList.add("p-4", "text-center")
 th5.classList.add("p-4", "text-center")
+th6.classList.add("p-4", "text-center")
+
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
 tr.appendChild(th4);
 tr.appendChild(th5);
+tr.appendChild(th6);
 thead.appendChild(tr);
+
 const tbody = document.createElement("tbody");
 document.getElementById("tablaempleados").appendChild(tbody);
 
@@ -51,23 +59,28 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
                 const td6 = document.createElement("td");
-                td1.textContent = element.id;
+                const td7 = document.createElement("td");
+
                 td1.classList.add("p-4", "text-center")
                 td2.classList.add("p-4", "text-center")
                 td3.classList.add("p-4", "text-center")
                 td4.classList.add("p-4", "text-center")
                 td5.classList.add("p-4", "text-center")
                 td6.classList.add("p-4", "text-center")
+                td7.classList.add("p-4", "text-center")
+                
+                td1.textContent = element.id;
                 td2.textContent = element.nombre;
-                td3.textContent = element.apellidos;
+                td3.textContent = element.apellido1;
+                td4.textContent = element.apellido2;
                 if (element.rol == "admin") {
-                    td4.textContent = "Administrador";
+                    td5.textContent = "Administrador";
                 } else {
-                    td4.textContent = "Empleado";
+                    td5.textContent = "Empleado";
                 }
                 const divCheck = document.createElement("div");
                 divCheck.classList.add("form-switch");
-                td5.appendChild(divCheck);
+                td6.appendChild(divCheck);
                 const checkboxActivo = document.createElement("input");
                 checkboxActivo.setAttribute("type", "checkbox");
                 checkboxActivo.setAttribute("id", `checkbox${element.id}`);
@@ -79,19 +92,19 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 botonBorrar.textContent = "Borrar";
                 botonBorrar.classList.add("btn", "btn-danger");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td6.appendChild(botonBorrar);
+                td7.appendChild(botonBorrar);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
                 botonEditar.classList.add("btn", "btn-info");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
-                td6.appendChild(botonEditar);
+                td7.appendChild(botonEditar);
 
                 const botonPassword = document.createElement("button");
                 botonPassword.textContent = "Cambiar contraseña";
                 botonPassword.classList.add("btn", "btn-warning");
                 botonPassword.setAttribute("id", `botonPassword${element.id}`);
-                td6.appendChild(botonPassword);
+                td7.appendChild(botonPassword);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -99,6 +112,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 tr.appendChild(td4);
                 tr.appendChild(td5);
                 tr.appendChild(td6);
+                tr.appendChild(td7);
 
                 tbody.appendChild(tr);
                 if (divCheck.parentNode.parentNode.firstChild.textContent == sessionStorage.getItem("id")) {//Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
