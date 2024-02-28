@@ -88,8 +88,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 tr.appendChild(td6);
 
                 tbody.appendChild(tr);
-                console.log(divCheck.parentNode.parentNode.firstChild.textContent);
-                if(divCheck.parentNode.parentNode.firstChild.textContent == sessionStorage.getItem("id")){//Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
+                if (divCheck.parentNode.parentNode.firstChild.textContent == sessionStorage.getItem("id")) {//Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
                     checkboxActivo.disabled = true;
                     botonBorrar.disabled = true;
                 }
@@ -101,7 +100,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
         switchActivo = document.querySelector(".form-switch input");
         switchActivo.addEventListener("change", (e) => {
             let empleadoActivo
-            console.log(e.target.checked)
             const id = e.target.parentNode.parentNode.parentNode.firstChild.textContent
             if (e.target.checked == true) {
                 empleadoActivo = 1;
@@ -118,10 +116,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                     activo: empleadoActivo
                 })
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
         })
     });
 

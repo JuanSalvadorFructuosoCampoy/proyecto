@@ -13,14 +13,17 @@ usuario.focus();
 const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";
 errorUser.classList.add("error");
+errorUser.classList.add("text-danger")
 
 const errorPassword = document.createElement("div");
 errorPassword.textContent = "La contraseña no puede estar vacía";
 errorPassword.classList.add("error");
+errorPassword.classList.add("text-danger")
 
 const errorAmbos = document.createElement("div");
 errorAmbos.textContent = "El usuario y la contraseña no pueden estar vacíos";
 errorAmbos.classList.add("error");
+errorAmbos.classList.add("text-danger")
 
 // Agregar un evento de escucha al formulario cuando se envía
 form.addEventListener("submit", function (event) {
@@ -50,6 +53,7 @@ form.addEventListener("submit", function (event) {
             console.log("Detalles del error:",data.details)
             const mensaje = document.createElement("div");
             mensaje.classList.add("error");
+            mensaje.classList.add("text-danger")
             mensaje.textContent = data.details;
             form.appendChild(mensaje);
             vaciarInputs();
