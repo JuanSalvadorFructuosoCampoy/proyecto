@@ -22,74 +22,118 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
         h2.childNodes[0].textContent += data['clientes'][0].nombre.toUpperCase();
     })
 
-    const table = document.createElement("table");
-    table.setAttribute("id", "tablaregistro");
-    document.body.append(table)
-    table.classList.add("table", "table-bordered", "table-hover");
-    const thead = document.createElement("thead");
-    document.getElementById("tablaregistro").appendChild(thead);
-    const tr = document.createElement("tr");
-    const th1 = document.createElement("th");
-    const th2 = document.createElement("th");
-    const th3 = document.createElement("th");
+const table = document.createElement("table");
+table.setAttribute("id", "tablaregistro");
+document.body.append(table)
+table.classList.add("table", "table-bordered", "table-hover");
+const thead = document.createElement("thead");
+document.getElementById("tablaregistro").appendChild(thead);
+const tr = document.createElement("tr");
+const th1 = document.createElement("th");
+const th2 = document.createElement("th");
+const th3 = document.createElement("th");
 
-    th1.textContent = "Fecha";
-    th2.textContent = "Evento";
+th1.textContent = "Fecha";
+th2.textContent = "Evento";
 
-    th1.setAttribute("scope", "col")
-    th1.classList.add("p-4", "text-center","col-2")
+th1.setAttribute("scope", "col")
+th1.classList.add("p-4", "text-center", "col-2")
 
-    th2.setAttribute("scope", "col")
-    th2.classList.add("p-4", "text-center","col-8")
-    th3.classList.add("p-4", "text-center")
+th2.setAttribute("scope", "col")
+th2.classList.add("p-4", "text-center", "col-8")
+th3.classList.add("p-4", "text-center")
 
-    
-    tr.appendChild(th1);
-    tr.appendChild(th2);
-    tr.appendChild(th3);
-    
-    thead.appendChild(tr);
-    const tbody = document.createElement("tbody");
-    document.getElementById("tablaregistro").appendChild(tbody);
+
+tr.appendChild(th1);
+tr.appendChild(th2);
+tr.appendChild(th3);
+
+thead.appendChild(tr);
+const tbody = document.createElement("tbody");
+document.getElementById("tablaregistro").appendChild(tbody);
 
 
 
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
-fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id_cliente=${idURL}`,{
+fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id_cliente=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
     },
 })
 
-.then(response => response.json())
-.then(data => {
-console.log(data['registros'])
-if (data['registros'].length == 0) {
-    const h4 = document.createElement("h4");
-    const strong = document.createElement("strong");
-    h4.classList.add("text-center");
-    strong.textContent = "SIN REGISTROS DE EVENTOS PARA ESTE CLIENTE"
-    h4.appendChild(strong);
-    document.body.appendChild(h4);
-} else {
-    data['registros'].forEach(element => {
-        const tr = document.createElement("tr");
-        const td1 = document.createElement("td");
-        const td2 = document.createElement("td");
-        const td3 = document.createElement("td");
-        td1.textContent = element.fecha;
-        td2.textContent = element.evento;
+    .then(response => response.json())
+    .then(data => {
+        console.log(data['registros'])
+        if (data['registros'].length == 0) {
+            const h4 = document.createElement("h4");
+            const strong = document.createElement("strong");
+            h4.classList.add("text-center");
+            strong.textContent = "SIN REGISTROS DE EVENTOS PARA ESTE CLIENTE"
+            h4.appendChild(strong);
+            document.body.appendChild(h4);
+        } else {
+            data['registros'].forEach(element => {
 
-        td1.classList.add("p-4", "text-center")
-        td2.classList.add("p-4", "text-center")
-        td3.classList.add("p-4", "text-center")
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        tbody.appendChild(tr);
+
+                const tr = document.createElement("tr");
+                const td1 = document.createElement("td");
+                const td2 = document.createElement("td");
+                const td3 = document.createElement("td");
+                td1.textContent = element.fecha;
+                td2.textContent = element.evento;
+
+                td1.classList.add("p-4", "text-center")
+                td2.classList.add("p-4", "text-center")
+                td3.classList.add("p-4", "text-center")
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tbody.appendChild(tr);
+
+                const inputOculto = document.createElement("input")
+                inputOculto.setAttribute("type", "hidden")
+                inputOculto.setAttribute("id", `id${element.id}`)
+                inputOculto.setAttribute("value", element.id)
+                td1.appendChild(inputOculto)
+
+                const botonEditar = document.createElement("button");
+                botonEditar.textContent = "Editar";
+                botonEditar.classList.add("btn", "btn-info", "btn-sm","m-1");
+                botonEditar.setAttribute("id", `botonEditar${element.id}`);
+                td3.appendChild(botonEditar);
+
+                const botonBorrar = document.createElement("button");
+                botonBorrar.textContent = "Borrar";
+                botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
+                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
+                td3.appendChild(botonBorrar);
+
+                botonEditar.addEventListener("click", (e) => {                    
+                    const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
+                    window.location.href = `editar_registro.html?id=${id}`
+                })
+
+                botonBorrar.addEventListener("click", (e) => {
+                    const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
+                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este registro?");
+                    if (confirmDelete) {
+                        fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id=${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                "api-key": sessionStorage.getItem("token")
+                            },
+                        })
+                            .then(() => {
+                                window.location.reload(); //Recarga la página para que se actualice la tabla
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    }
+                });
+            });
+        }
     });
-}
-});
 
 
 const botonClientes = document.createElement("button")
