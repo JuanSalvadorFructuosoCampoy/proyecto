@@ -81,23 +81,23 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 td6.textContent = element.telefono;
                 td7.textContent = element.direccion;
                 
-                const botonBorrar = document.createElement("button");
-                botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger");
-                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td8.appendChild(botonBorrar);
+                const botonFicha = document.createElement("button");
+                botonFicha.textContent = "Historial";
+                botonFicha.classList.add("btn", "btn-warning","btn-sm");
+                botonFicha.setAttribute("id", `botonFicha${element.id}`);
+                td8.appendChild(botonFicha);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info");
+                botonEditar.classList.add("btn", "btn-info","btn-sm","m-1   ");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td8.appendChild(botonEditar);
 
-                const botonFicha = document.createElement("button");
-                botonFicha.textContent = "Historial";
-                botonFicha.classList.add("btn", "btn-warning");
-                botonFicha.setAttribute("id", `botonFicha${element.id}`);
-                td8.appendChild(botonFicha);
+                const botonBorrar = document.createElement("button");
+                botonBorrar.textContent = "Borrar";
+                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
+                td8.appendChild(botonBorrar);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);

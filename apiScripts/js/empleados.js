@@ -88,23 +88,24 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 checkboxActivo.checked = element.activo == 1; // Si el empleado está activo, el checkbox estará marcado. Compara si el valor de activo es 1 y devolverá true o false
                 divCheck.appendChild(checkboxActivo);
 
-                const botonBorrar = document.createElement("button");
-                botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger");
-                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td7.appendChild(botonBorrar);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info");
+                botonEditar.classList.add("btn", "btn-info","btn-sm");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td7.appendChild(botonEditar);
 
                 const botonPassword = document.createElement("button");
                 botonPassword.textContent = "Cambiar contraseña";
-                botonPassword.classList.add("btn", "btn-warning");
+                botonPassword.classList.add("btn", "btn-warning","btn-sm","m-1");
                 botonPassword.setAttribute("id", `botonPassword${element.id}`);
                 td7.appendChild(botonPassword);
+                
+                const botonBorrar = document.createElement("button");
+                botonBorrar.textContent = "Borrar";
+                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
+                td7.appendChild(botonBorrar);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
