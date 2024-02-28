@@ -21,8 +21,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	 */
 	case 'GET':
 		$params = $_GET;
-
+		if(isset($params['id_cliente']) && !empty($params['id_cliente'])){
 		$registros = $registro->getRegistro($params['id_cliente']);// Se llama al método getRegistro() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		//$consultas = $user->verUsos($id);// Se llama al método verUsos() del modelo para ver los usos de la API
+		}else{
+			$registros = $registro->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		}
 		$response = array(
 			'result' => 'ok',
 			'registros' => $registros, 

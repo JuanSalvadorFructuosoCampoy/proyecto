@@ -4,34 +4,36 @@ const form = document.querySelector("form");
 let urlParams = new URLSearchParams(queryString);
 
 // Obtén el id desde los parámetros de la URL
-let idURL = urlParams.get('id_cliente');
+let idURL = urlParams.get('id');
+let idCliente = urlParams.get('id_cliente');
 let nombreCliente = urlParams.get('nombre_cliente');
-
 const h2 = document.querySelector('h2');
 h2.childNodes[0].textContent += nombreCliente.toUpperCase();
-//Usamos ese parámetro en el fetch para obtener los datos del cliente
+
+//Usamos ese parámetro en el fetch para obtener los datos del registro del cliente
+fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id=${idURL}`, {
+    headers: {
+        "api-key": sessionStorage.getItem("token")
+    },
+})
+    .then(response => response.json())
+    .then(data => {
+         document.getElementById('registro').value = data['registros'][0].evento;
+    })
+
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
-
     let registro = document.getElementById('registro').value.trim();
     registro = registro.replaceAll('"',"`");
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
-    const day = String(fechaActual.getDate()).padStart(2, '0');
-    const fechaFormateada = `${year}-${month}-${day}`;
-
 
     const datosInput = {
-        id_cliente: idURL,
-        fecha: fechaFormateada,
         evento: registro,
     }
 
     const jsonDatos = JSON.stringify(datosInput)
 
-    fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php`, {
-        method: 'POST',
+    fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id=${idURL}`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             "api-key": sessionStorage.getItem("token")
@@ -40,8 +42,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     })
         .then(response => response.json())
         .then(data => {
-
-            window.location.href = `registro.html?id=${idURL}`;
+            window.location.href = `registro.html?id=${idCliente}`;
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -59,5 +60,5 @@ botonVolver.addEventListener("click", () => {
 
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
-    window.location.href = `registro.html?id=${idURL}`;
+    window.location.href = `registro.html?id=${idCliente}`;
 });

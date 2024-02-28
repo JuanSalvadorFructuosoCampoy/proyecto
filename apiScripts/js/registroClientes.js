@@ -115,7 +115,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
 
                 botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
-                    window.location.href = `editar_registro.html?id=${id}`
+                    window.location.href = `editar_registro.html?id=${id}&nombre_cliente=${nombreCliente}&id_cliente=${idURL}`
                 })
 
                 botonBorrar.addEventListener("click", (e) => {

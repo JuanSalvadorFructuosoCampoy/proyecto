@@ -124,7 +124,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
 
                 botonBorrar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este cliente?");
+                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este cliente? Se borrarán todos los registros asociados al mismo.");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${id}`, {
                             method: 'DELETE',    

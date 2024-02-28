@@ -112,6 +112,10 @@ class Database
 	 */
 	public function deleteDB($table, $id)
 	{
+		if($table == "clientes"){
+			$query = "DELETE FROM registro_clientes WHERE id_cliente = $id";
+			$this->connection->query($query);
+		}
 		$query = "DELETE FROM $table WHERE id = $id";
 		$this->connection->query($query);
 
