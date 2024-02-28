@@ -132,6 +132,10 @@ class Database
 		}
 		return $resultArray;
 	}
+
+	public function nuevoRegistro(){
+		
+	}
 }
 
 

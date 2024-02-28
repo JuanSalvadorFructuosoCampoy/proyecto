@@ -9,7 +9,7 @@ let urlParams = new URLSearchParams(queryString);
 let idURL = urlParams.get('id');
 
 const h2 = document.querySelector('h2');
-
+let nombreCliente = "";
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
 fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${idURL}`, {
     headers: {
@@ -20,6 +20,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
     .then(response => response.json())
     .then(data => {
         h2.childNodes[0].textContent += data['clientes'][0].nombre.toUpperCase();
+        nombreCliente = data['clientes'][0].nombre;
     })
 
 const table = document.createElement("table");
@@ -52,8 +53,6 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
-
-
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
 fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id_cliente=${idURL}`, {
     headers: {
@@ -79,7 +78,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
                 const td3 = document.createElement("td");
-                td1.textContent = element.fecha;
+
+                //Formateamos la fecha para mostrar primero el día, luego el mes y luego el año
+                const fecha = new Date(element.fecha);
+                const dia = fecha.getDate().toString().padStart(2, '0');
+                const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                const anio = fecha.getFullYear().toString();
+                td1.textContent = `${dia}-${mes}-${anio}`;
                 td2.textContent = element.evento;
 
                 td1.classList.add("p-4", "text-center")
@@ -160,5 +165,5 @@ botonNuevo.classList.add("btn", "btn-success", "btn-sm");
 botonNuevo.setAttribute("id", "nuevoRegistro");
 th3.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
-    window.location.href = "nuevo_registro.html"
+    window.location.href = `nuevo_registro.html?nombre_cliente=${nombreCliente}`
 });
