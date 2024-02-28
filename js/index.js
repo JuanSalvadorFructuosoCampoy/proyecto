@@ -14,6 +14,7 @@ async function hacerFetch() {
 
     sessionStorage.setItem("rol", data.empleados[0].rol); //Guardamos el rol en el sessionStorage
     sessionStorage.setItem("nombre", data.empleados[0].nombre); //Guardamos el nombre en el sessionStorage
+    sessionStorage.setItem("id", data.empleados[0].id); //Guardamos el id en el sessionStorage
     const h2 = document.createElement("h2")
     h2.textContent = `¡Hola, ${sessionStorage.getItem("nombre")}!`
     contenedor.parentNode.insertBefore(h2, contenedor);
