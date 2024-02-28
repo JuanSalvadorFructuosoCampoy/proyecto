@@ -17,7 +17,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
 
     .then(response => response.json())
     .then(data => {
-        console.log(data['empleados'][0])
         document.getElementById('nombre').value = data['empleados'][0].nombre;
         document.getElementById('apellidos').value = data['empleados'][0].apellidos;
         document.getElementById('rol').value = data['empleados'][0].rol;

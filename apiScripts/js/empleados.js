@@ -108,21 +108,36 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                     botonBorrar.disabled = true;
                 }
 
-                    botonEditar.addEventListener("click", (e) => {
-                        const id = e.target.parentNode.parentNode.firstChild.textContent;
-                        window.location.href = `editar.html?id=${id}`
-                    })
+                botonEditar.addEventListener("click", (e) => {
+                    const id = e.target.parentNode.parentNode.firstChild.textContent;
+                    window.location.href = `editar.html?id=${id}`
+                })
 
-                    botonPassword.addEventListener("click", (e) => {
-                        console.log("Evento del botón editar")
-                        const id = e.target.parentNode.parentNode.firstChild.textContent;
-                        window.location.href = `password.html?id=${id}`
-                    })
+                botonPassword.addEventListener("click", (e) => {
 
+                    const id = e.target.parentNode.parentNode.firstChild.textContent;
+                    window.location.href = `password.html?id=${id}`
+                })
 
-
+                botonBorrar.addEventListener("click", (e) => {
+                    const id = e.target.parentNode.parentNode.firstChild.textContent;
+                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este empleado?");
+                    if (confirmDelete) {
+                        fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
+                            method: 'DELETE',    
+                            headers: {
+                                "api-key": sessionStorage.getItem("token")
+                            },
+                        })
+                        .then(() => {
+                            window.location.reload(); //Recarga la página para que se actualice la tabla
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    }
+                });
             })
-
         }
         document.addEventListener("change", (e) => {
             if (e.target.matches(".form-switch input")) {
