@@ -11,24 +11,28 @@ const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 const th5 = document.createElement("th");
 const th6 = document.createElement("th");
+const th7 = document.createElement("th");
 th1.textContent = "ID";
-th2.textContent = "Nombre";
-th3.textContent = "Primer pellido";
-th4.textContent = "Segundo apellido";
-th5.textContent = "Teléfono";
-th6.textContent = "Dirección";
+th2.textContent = "ID fiscal";
+th3.textContent = "Nombre";
+th4.textContent = "Primer pellido";
+th5.textContent = "Segundo apellido";
+th6.textContent = "Teléfono";
+th7.textContent = "Dirección";
 th1.classList.add("p-4", "text-center")
 th2.classList.add("p-4", "text-center")
 th3.classList.add("p-4", "text-center")
 th4.classList.add("p-4", "text-center")
 th5.classList.add("p-4", "text-center")
 th6.classList.add("p-4", "text-center")
+th7.classList.add("p-4", "text-center")
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
 tr.appendChild(th4);
 tr.appendChild(th5);
 tr.appendChild(th6);
+tr.appendChild(th7);
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaclientes").appendChild(tbody);
@@ -58,6 +62,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 const td5 = document.createElement("td");
                 const td6 = document.createElement("td");
                 const td7 = document.createElement("td");
+                const td8 = document.createElement("td");
 
                 td1.classList.add("p-4", "text-center")
                 td2.classList.add("p-4", "text-center")
@@ -66,31 +71,33 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 td5.classList.add("p-4", "text-center")
                 td6.classList.add("p-4", "text-center")
                 td7.classList.add("p-4", "text-center")
+                td8.classList.add("p-4", "text-center")
 
                 td1.textContent = element.id;
-                td2.textContent = element.nombre;
-                td3.textContent = element.apellido1;
-                td4.textContent = element.apellido2;
-                td5.textContent = element.telefono;
-                td6.textContent = element.direccion;
+                td2.textContent = element.id_fiscal;
+                td3.textContent = element.nombre;
+                td4.textContent = element.apellido1;
+                td5.textContent = element.apellido2;
+                td6.textContent = element.telefono;
+                td7.textContent = element.direccion;
                 
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
                 botonBorrar.classList.add("btn", "btn-danger");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td7.appendChild(botonBorrar);
+                td8.appendChild(botonBorrar);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
                 botonEditar.classList.add("btn", "btn-info");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
-                td7.appendChild(botonEditar);
+                td8.appendChild(botonEditar);
 
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Historial";
                 botonFicha.classList.add("btn", "btn-warning");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
-                td7.appendChild(botonFicha);
+                td8.appendChild(botonFicha);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -99,6 +106,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 tr.appendChild(td5);
                 tr.appendChild(td6);
                 tr.appendChild(td7);
+                tr.appendChild(td8);
                 tbody.appendChild(tr);
 
                 botonEditar.addEventListener("click", (e) => {
