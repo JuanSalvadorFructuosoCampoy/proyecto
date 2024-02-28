@@ -70,7 +70,6 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     })
         .then(response => response.json())
         .then(data => {
-            console.log("Entrado en el then de la promesa de fetch")
             console.log('Éxito:', data);
             window.location.href = "empleados.html";
         })

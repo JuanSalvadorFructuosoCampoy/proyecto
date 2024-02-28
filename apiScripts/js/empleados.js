@@ -80,13 +80,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar empleado";
                 botonBorrar.classList.add("btn", "btn-danger");
-                botonBorrar.setAttribute("id", `boton${element.id}`);
+                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td7.appendChild(botonBorrar);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar empleado";
                 botonEditar.classList.add("btn", "btn-info");
-                botonEditar.setAttribute("id", `boton${element.id}`);
+                botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td7.appendChild(botonEditar);
 
                 tr.appendChild(td1);
@@ -101,6 +101,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                     checkboxActivo.disabled = true;
                     botonBorrar.disabled = true;
                 }
+
+                    botonEditar.addEventListener("click", (e) => {
+                        console.log("Evento del botón editar")
+                        const id = e.target.parentNode.parentNode.firstChild.textContent;
+                        console.log("ID del empleado: " + id)
+                        window.location.href = `editar.html?id=${id}`
+                    })
+
 
 
             })
@@ -146,6 +154,5 @@ document.body.insertBefore(botonNuevo, botonVolver);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
-
 
 
