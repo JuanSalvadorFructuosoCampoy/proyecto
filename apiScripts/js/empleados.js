@@ -89,6 +89,12 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td7.appendChild(botonEditar);
 
+                const botonPassword = document.createElement("button");
+                botonPassword.textContent = "Cambiar contraseña";
+                botonPassword.classList.add("btn", "btn-warning");
+                botonPassword.setAttribute("id", `botonPassword${element.id}`);
+                td7.appendChild(botonPassword);
+
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
@@ -103,10 +109,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 }
 
                     botonEditar.addEventListener("click", (e) => {
+                        const id = e.target.parentNode.parentNode.firstChild.textContent;
+                        window.location.href = `editar.html?id=${id}`
+                    })
+
+                    botonPassword.addEventListener("click", (e) => {
                         console.log("Evento del botón editar")
                         const id = e.target.parentNode.parentNode.firstChild.textContent;
-                        console.log("ID del empleado: " + id)
-                        window.location.href = `editar.html?id=${id}`
+                        window.location.href = `password.html?id=${id}`
                     })
 
 

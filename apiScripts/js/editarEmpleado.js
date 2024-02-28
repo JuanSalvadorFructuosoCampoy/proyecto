@@ -29,8 +29,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
-    const mensajesError = document.querySelectorAll('.text-danger');
-    mensajesError.forEach(mensaje => mensaje.remove());
     const nombre = document.getElementById('nombre').value;
     const apellidos = document.getElementById('apellidos').value;
     const rol = document.getElementById('rol').value;
