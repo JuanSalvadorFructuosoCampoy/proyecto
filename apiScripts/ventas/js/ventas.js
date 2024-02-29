@@ -9,7 +9,7 @@ const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
 barraBusqueda.setAttribute("placeholder", "Buscar item");
-barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
+barraBusqueda.classList.add("form-control","w-50","m-auto", "mt-3");
 const contenedorBusqueda = document.createElement("div");
 contenedorBusqueda.classList.add("d-flex", "justify-content-center");
 contenedorBusqueda.appendChild(barraBusqueda);
@@ -75,7 +75,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","col-12","col-sm-3","col-md-4","m-1","text-center","border","bg-light","rounded-3","p-3");
+            tarjeta.classList.add("card","col","col-12","col-sm-12","col-md-5","col-lg-3","m-1","text-center","border","bg-light","rounded-3","p-3");
             tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
             const titulo = document.createElement("div");

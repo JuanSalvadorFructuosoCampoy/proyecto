@@ -122,7 +122,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");
         barraBusqueda.setAttribute("placeholder", "Buscar producto");
-        barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
+        barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
         

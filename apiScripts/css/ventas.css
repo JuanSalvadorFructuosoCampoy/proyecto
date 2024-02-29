@@ -10,7 +10,14 @@ article {
 
 @media (max-width: 600px) {
     article {
-        height: 200px; /* Establece un alto fijo */
+        height: 150px; /* Establece un alto fijo */
     }
     
 }
+
+@media (min-width: 601px) and (max-width:1000px){
+    article{
+        height:200px;
+    }
+}
+

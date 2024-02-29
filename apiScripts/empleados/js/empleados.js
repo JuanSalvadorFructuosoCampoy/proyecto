@@ -185,7 +185,7 @@ const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
 barraBusqueda.setAttribute("placeholder", "Buscar empleado");
-barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
+barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 barraBusqueda.focus();
 
