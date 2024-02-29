@@ -18,7 +18,7 @@ class User extends Database
 	 */
 	private $allowedConditions_get = array(
 		'id',
-		'producto',
+		'nombre',
 		'stock',
 		'precio'
 	);
@@ -27,7 +27,7 @@ class User extends Database
 	 * Array con los campos de la tabla que se pueden proporcionar para insertar registros
 	 */
 	private $allowedConditions_insert = array(
-		'producto',
+		'nombre',
 		'stock',
 		'precio'
 	);
@@ -69,9 +69,9 @@ class User extends Database
 			}
 		}
 
-		$empleados = parent::getDB($this->table, $params);
+		$productos = parent::getDB($this->table, $params);
 
-		return $empleados;
+		return $productos;
 	}
 
 	/**

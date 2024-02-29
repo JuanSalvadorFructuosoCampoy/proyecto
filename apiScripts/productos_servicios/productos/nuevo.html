@@ -10,15 +10,15 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="../../../js/sessionStorage.js"></script>
-    <script defer src="./js/editarServicio.js"></script>
+    <script defer src="./js/nuevoProducto.js"></script>
     <link rel="stylesheet" href="../../css/estilos.css">
-    <title>Editar servicio</title>
+    <title>Nuevo producto</title>
 </head>
 
 <body>
     <h1 class="text-center"><strong>SALUD CAPILAR HAIR DELUXE</strong></h1>
     <br>
-    <h2 class="text-center"><strong>EDITAR SERVICIO</strong></h2>
+    <h2 class="text-center"><strong>NUEVO PRODUCTO</strong></h2>
     <div class="row d-flex justify-content-center align-items-center max-vh-100">
         <div class="col-12 col-md-6 col-lg-4">
     <form id="formNuevoServicio" class="formNuevoServicio">
@@ -31,8 +31,12 @@
             <label for="precio" class="form-label"><strong>Precio (en caso de ser fijo)</strong></label><br>
             <input type="number" step="0.01" id="precio" min="0" width="40">
         </div>
+        <div class="mb-3">
+            <label for="stock" class="form-label"><strong>Stock disponible</strong></label><br>
+            <input type="number" id="stock" min="0" width="40">
+        </div>
        
-        <button type="submit" class="btn btn-primary" id="enviar">Editar servicio</button>
+        <button type="submit" class="btn btn-primary" id="enviar">Añadir producto</button>
         <button type="button" class="btn btn-secondary" id="cancelar">Cancelar</button>
     </form>
         </div>

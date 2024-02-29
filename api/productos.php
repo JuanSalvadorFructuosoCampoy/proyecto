@@ -75,8 +75,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-
-		$producto->update($_GET['id'], $params);
+		$id = "'".$_GET['id']."'";
+		$producto->update($id, $params);
 
 		$response = array(
 			'result' => 'ok'
@@ -89,8 +89,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			//Llama al método patch del modelo
 			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
 	
-	
-			$producto->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
+			$id = "'".$_GET['id']."'";
+			$producto->patch($id, $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
 	
 			$response = 'ok';
 	
@@ -110,8 +110,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-
-		$producto->delete($_GET['id']);
+		$id = "'".$_GET['id']."'";
+		$producto->delete($id);
 
 		$response = array(
 			'result' => 'ok'
