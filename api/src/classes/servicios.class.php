@@ -89,7 +89,11 @@ class User extends Database
 		}
 
 		if($this->validate($params)){
+			if($this->table == 'servicios' || $this->table == 'empleados'){
+			return parent::insertPoS($this->table, $params);
+			}else{
 			return parent::insertDB($this->table, $params);
+		}
 		}
 	}
 
