@@ -158,12 +158,12 @@ botonVolver.addEventListener("click", () => {
 })
 
 const botonProdYServ = document.createElement("button")
-botonProdYServ.textContent = "Productos y productos"
+botonProdYServ.textContent = "Productos y servicios"
 botonProdYServ.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-0", "m-3")
 botonProdYServ.setAttribute("id", "volver")
 document.body.appendChild(botonProdYServ)
 botonProdYServ.addEventListener("click", () => {
-    window.location.href = "../productos_productos.html"
+    window.location.href = "../productos_servicios.html"
 })
 
 const botonNuevo = document.createElement("button");
