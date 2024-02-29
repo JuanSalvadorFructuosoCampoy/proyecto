@@ -1,6 +1,7 @@
 const categorias = document.querySelector("aside")
 let radioProductos = document.querySelector('#productos');
 let radioServicios = document.querySelector('#servicios');
+let article = document.querySelector("article")
 let url = "productos"
 
 if(sessionStorage.getItem("tipo")){//Si hay algo en el sessionStorage, se lo asigna a la variable url
@@ -16,12 +17,10 @@ hacerFetch(sessionStorage.getItem("tipo"))
 
 document.querySelector("aside").addEventListener("change", () => {
     if (radioProductos.checked) {
-        console.log('Productos está seleccionado');
         sessionStorage.setItem("tipo", "productos")
         radioProductos.checked = true
         
     } else if (radioServicios.checked) {
-        console.log('Servicios está seleccionado');
         sessionStorage.setItem("tipo", "servicios")
         radioServicios.checked = true
     }
@@ -29,6 +28,7 @@ document.querySelector("aside").addEventListener("change", () => {
 })
 
 function hacerFetch(url){
+    article.innerHTML = ""
 fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -36,7 +36,22 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
 })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        const list = document.createElement("li");
+        list.classList.add("row", "row-cols-md-4", "row-cols-lg-5","row-cols-xl-6");
+        article.appendChild(list);
+        data[url].forEach(item => {
+            console.log(item);
+            const tarjeta = document.createElement("div")
+            tarjeta.classList.add("card","col", "mb-4","text-center","border","bg-light","rounded-3","p-1","m-1");
+            list.appendChild(tarjeta);
+            const titulo = document.createElement("h6");
+            const strong = document.createElement("strong");
+            strong.textContent = item.nombre;
+            titulo.appendChild(strong);
+            const precio = document.createElement("div")
+            precio.textContent = item.precio+"€";
+            tarjeta.append(titulo, precio);
+        });
     })
 }
 
