@@ -2,3 +2,8 @@ aside {
     height: 80px;
     width: 100px;
 }
+
+article {
+    height: 300px; /* Establece un alto fijo */
+    overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
+}
