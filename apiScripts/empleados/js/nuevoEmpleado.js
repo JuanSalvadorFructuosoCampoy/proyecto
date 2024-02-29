@@ -1,4 +1,5 @@
 const form = document.getElementsByTagName('form')[0];
+document.getElementById('nombre').focus();
 
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();

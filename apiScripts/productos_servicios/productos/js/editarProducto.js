@@ -25,6 +25,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id
         }
         document.getElementById('stock').value = data['productos'][0].stock;
     })
+    document.getElementById('nombre').focus();
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 

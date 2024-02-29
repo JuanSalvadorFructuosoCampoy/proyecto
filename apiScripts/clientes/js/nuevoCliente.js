@@ -3,7 +3,7 @@ const errorMessageElementTelefono = document.createElement('p');
 document.getElementById('telefono').insertAdjacentElement('afterend', errorMessageElementTelefono);
 const errorMessageElementIdFiscal = document.createElement('p');
 document.getElementById('id_fiscal').insertAdjacentElement('afterend', errorMessageElementIdFiscal);
-
+document.getElementById('nombre').focus();
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 

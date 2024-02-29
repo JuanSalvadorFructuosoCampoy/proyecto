@@ -7,7 +7,7 @@ let urlParams = new URLSearchParams(queryString);
 
 // Obtén el id desde los parámetros de la URL
 let idURL = urlParams.get('id');
-
+document.getElementById('nombre').focus();
 //Usamos ese parámetro en el fetch para obtener los datos del empleado
 fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${idURL}`, {
     headers: {

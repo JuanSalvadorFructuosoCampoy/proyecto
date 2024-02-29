@@ -6,7 +6,7 @@ let urlParams = new URLSearchParams(queryString);
 // Obtén el id desde los parámetros de la URL
 let idURL = urlParams.get('id_cliente');
 let nombreCliente = urlParams.get('nombre_cliente');
-
+document.getElementById('registro').focus();
 const h2 = document.querySelector('h2');
 h2.childNodes[0].textContent += nombreCliente.toUpperCase();
 //Usamos ese parámetro en el fetch para obtener los datos del cliente

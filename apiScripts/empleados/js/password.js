@@ -10,7 +10,7 @@ let idURL = urlParams.get('id');
 
 const h2 = document.querySelector('h2');
 console.log(h2.childNodes[0])
-
+document.getElementById('password').focus();
 fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")

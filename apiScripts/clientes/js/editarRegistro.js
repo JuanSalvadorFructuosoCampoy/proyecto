@@ -9,7 +9,7 @@ let idCliente = urlParams.get('id_cliente');
 let nombreCliente = urlParams.get('nombre_cliente');
 const h2 = document.querySelector('h2');
 h2.childNodes[0].textContent += nombreCliente.toUpperCase();
-
+document.getElementById('registro').focus();
 //Usamos ese parámetro en el fetch para obtener los datos del registro del cliente
 fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id=${idURL}`, {
     headers: {
