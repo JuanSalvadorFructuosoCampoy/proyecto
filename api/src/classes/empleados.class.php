@@ -1,6 +1,6 @@
 <?php
 /**
- * Clase para el modelo que representa a la tabla "player".
+ * Clase para el modelo que representa a la tabla "empleados".
  */
 
 require_once 'src/database.php';

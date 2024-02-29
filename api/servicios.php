@@ -1,7 +1,7 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con registros de la tabla PLAYER
- *	La clase "player.class.php" es la clase del modelo, que representa a un jugador de la tabla
+ *	Script que se usa en los endpoints para trabajar con registros de la tabla SERVICIO
+ *	La clase "servicios.class.php" es la clase del modelo, que representa a un servicio de la tabla
 */
 
 require 'src/classes/servicios.class.php';//Se incluye el archivo de la clase del modelo
@@ -10,7 +10,7 @@ require '../autenticacion/src/auth.class.php';//Se incluye el archivo de la clas
 $auth = new Authentication(); // Se crea un objeto de la clase Authentication
 $auth->verify();// Se verifica si el usuario está autenticado
 
-$servicio = new User();// Se crea un objeto de la clase User
+$servicio = new User();// Se crea un objeto de la clase Servicio
 
 /**
  * Se mira el tipo de petición que ha llegado a la API y dependiendo de ello se realiza una u otra accción
@@ -61,7 +61,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		break;
 
 	/**
-	 * Cuando es PUT, comprobamos si la petición lleva el id del jugador que hay que actualizar. En caso afirmativo se usa el método update() del modelo.
+	 * Cuando es PUT, comprobamos si la petición lleva el id del servicio que hay que actualizar. En caso afirmativo se usa el método update() del modelo.
 	 */
 	case 'PUT':
 		$params = json_decode(file_get_contents('php://input'), true);
@@ -85,17 +85,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		Response::result(200, $response);	
 		break;
 
-		case 'PATCH':
-			//Llama al método patch del modelo
-			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
-	
-	
-			$servicio->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
-	
-			$response = 'ok';
-	
-			Response::result(200, $response);
-			break;
+	case 'PATCH':
+		//Llama al método patch del modelo
+		$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
+
+
+		$servicio->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del servicio y el array $params
+
+		$response = 'ok';
+
+		Response::result(200, $response);
+		break;
 
 	/**
 	 * Cuando se solicita un DELETE se comprueba que se envíe un id de jugador. En caso afirmativo se utiliza el método delete() del modelo.

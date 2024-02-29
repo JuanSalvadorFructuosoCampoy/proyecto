@@ -1,7 +1,7 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con registros de la tabla PLAYER
- *	La clase "player.class.php" es la clase del modelo, que representa a un jugador de la tabla
+ *	Script que se usa en los endpoints para trabajar con registros de la tabla empleados
+ *	La clase "empleados.class.php" es la clase del modelo, que representa a un jugador de la tabla
 */
 
 require 'src/classes/empleados.class.php';//Se incluye el archivo de la clase del modelo

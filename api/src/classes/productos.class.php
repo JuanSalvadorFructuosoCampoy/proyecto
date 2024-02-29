@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Clase para el modelo que representa a la tabla "player".
+ * Clase para el modelo que representa a la tabla "productos".
  */
 
 require_once 'src/database.php';
@@ -92,10 +92,7 @@ class User extends Database
 				exit;
 			}
 		}
-
-		if ($this->validate($params)) {
 			return parent::insertPoS($this->table, $params);
-		}
 	}
 
 	/**
