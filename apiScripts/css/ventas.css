@@ -15,19 +15,71 @@ article {
     overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
 }
 
-@media (max-width: 600px) {
-    article {
-        height: 150px; /* Establece un alto fijo */
-    }
-    
-    
-}
 
-@media (min-width: 601px) and (max-width:1000px){
-    article{
-        height:150px;
+
+@media (max-width: 576.98px) { /* Pantallas xs */
+    h1,h2{
+        display:none;
     }
-}
+    article{
+        height:250px;
+        overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
+    }
+        .position-xs-fixed{
+            position: fixed !important;
+        }
+        .position-xs-absolute {
+            position: absolute !important;
+        }
+        .bottom-xs-0 {
+            bottom: 0 !important;
+        }
+        .start-xs-50 {
+            left: 50% !important;
+            transform: translateX(-50%);
+        }
+        .start-xs-0 {
+            left: 0 !important;
+        }
+        .top-xs-0 {
+            top: 0 !important;
+        }
+        .end-xs-0 {
+            right: 0 !important;
+        }
+        .vh-xs-120 {
+            height: 200px !important; /* Ajusta este valor según sea necesario */
+        }
+    }
+    
+    @media (min-width: 577px) and (max-width: 767.98px) { /* Pantallas sm */
+        article{
+            height:250px;
+            overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
+        }
+        .position-sm-absolute {
+            position: absolute !important;
+        }
+        .top-sm-50 {
+            top: 50% !important;
+            transform: translateY(-50%);
+        }
+    
+        .bottom-sm-0 {
+            bottom: 0 !important;
+        }
+        .start-sm-50 {
+            left: 50% !important;
+            transform: translateX(-50%);
+        }
+        .translate-middle-y {
+            transform: translateY(-50%) !important;
+        }
+        .vh-sm-120{
+            height: 200px !important; /* Ajusta este valor según sea necesario */
+        
+        }
+    }
 
 @media (min-width: 768px) and (max-width: 991.98px) { /* Pantallas md */
     .position-md-absolute {
@@ -63,51 +115,7 @@ article {
     }
 }
 
-@media (max-width: 576.98px) { /* Pantallas xs */
-h1,h2{
-    display:none;
-}
-    .position-xs-fixed{
-        position: fixed !important;
-    }
-    .position-xs-absolute {
-        position: absolute !important;
-    }
-    .bottom-xs-0 {
-        bottom: 0 !important;
-    }
-    .start-xs-50 {
-        left: 50% !important;
-        transform: translateX(-50%);
-    }
-    .top-xs-0 {
-        top: 0 !important;
-    }
-    .end-xs-0 {
-        right: 0 !important;
-    }
-}
 
-@media (min-width: 577px) and (max-width: 767.98px) { /* Pantallas sm */
-    .position-sm-absolute {
-        position: absolute !important;
-    }
-    .top-sm-50 {
-        top: 50% !important;
-        transform: translateY(-50%);
-    }
-
-    .bottom-sm-0 {
-        bottom: 0 !important;
-    }
-    .start-sm-50 {
-        left: 50% !important;
-        transform: translateX(-50%);
-    }
-    .translate-middle-y {
-        transform: translateY(-50%) !important;
-    }
-}
 
 section{
     background-image: url("../../images/fondo-gradiente.jpg");

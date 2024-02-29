@@ -71,11 +71,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         const contenedor = document.createElement('div');
         article.appendChild(contenedor);
         const list = document.createElement("li");
-        list.classList.add("row", "row-cols-md-2", "row-cols-lg-4","row-cols-xl-5");
+        list.classList.add("row", "row-cols-md-2", "row-cols-lg-5","row-cols-xl-5");
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","col-12","col-sm-12","col-md-5","col-lg-3","m-1","text-center","border","bg-light","rounded-3","p-3");
+            tarjeta.classList.add("card","col","col-12","col-sm-12","col-md-5","col-lg-5","m-1","text-center","border","bg-light","rounded-3","p-3");
             tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
             const titulo = document.createElement("div");
@@ -92,7 +92,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
 
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
-botonVolver.classList.add("btn", "btn-primary","position-sm-absolute","fixed-height","top-sm-50", "start-sm-0", "translate-middle-y", "position-xs-absolute", "position-fixed", "bottom-0", "start-0","top-xs-0","end-xs-0", "m-3")
+botonVolver.classList.add("btn", "btn-primary","position-sm-absolute","fixed-height","top-sm-50", "start-sm-0", "translate-middle-y", "position-xs-absolute", "position-fixed", "bottom-0", "start-0","top-xs-0","end-xs-0", "m-3","start-xs-0")
 botonVolver.setAttribute("id", "volver")
 document.body.appendChild(botonVolver)
 botonVolver.addEventListener("click", () => {
