@@ -5,8 +5,6 @@ aside {
 
 section{
     bottom:344px;
-    height:130px;
-    width: 100px;
     right: 10px;
 }
 
@@ -25,6 +23,11 @@ article {
         height:250px;
         overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
     }
+    section{
+        width: 100% !important;
+        height:500px !important;
+    }
+
         .position-xs-fixed{
             position: fixed !important;
         }
@@ -57,6 +60,10 @@ article {
             height:250px;
             overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
         }
+        section{
+            width: 100% !important;
+            height:500px !important;
+        }
         .position-sm-absolute {
             position: absolute !important;
         }
@@ -76,7 +83,7 @@ article {
             transform: translateY(-50%) !important;
         }
         .vh-sm-120{
-            height: 200px !important; /* Ajusta este valor según sea necesario */
+            height: 200px !important;
         
         }
     }
@@ -85,22 +92,39 @@ article {
     .position-md-absolute {
         position: absolute !important;
     }
-    .top-md-0 {
-        top: 0 !important;
+    .bottom-md-0 {
+        bottom: 0 !important;
     }
-    .end-md-0 {
-        right: 0 !important;
+    .start-md-0 {
+        left: 0 !important;
     }
     .vh-md-100 {
-        height: 100vh !important;
+        height: 100px !important;
     }
     article{
-        height:300px;
-    
+        height:500px;
+    }
+    section{
+        width: 100% !important;
+        height:450px !important;
+        position:absolute;
+        bottom:0;
+        right:0;
+        border:1px solid black;
+    }
+    .translate-middle-y {
+        transform: translateY(-50%) !important;
     }
 }
 
 @media (min-width: 992px) { /* Pantallas lg y superiores */
+    section{
+        height: 100vh !important;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width:25% !important;
+    }
     .position-lg-absolute {
         position: absolute !important;
     }
@@ -109,9 +133,6 @@ article {
     }
     .end-lg-0 {
         right: 0 !important;
-    }
-    .vh-md-100 {
-        height: 100vh !important;
     }
 }
 
