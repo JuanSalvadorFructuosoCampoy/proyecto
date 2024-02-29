@@ -90,7 +90,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
 
                 botonBorrar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este servicio? Si tiene alguna venta asociada, éste no se podrá borrar");
+                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este servicio? Si tiene alguna venta asociada, éste no se borrará");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php?id=${id}`, {
                             method: 'DELETE',    
