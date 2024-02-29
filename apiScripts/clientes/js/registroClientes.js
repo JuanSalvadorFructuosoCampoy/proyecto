@@ -38,11 +38,11 @@ th1.textContent = "Fecha";
 th2.textContent = "Evento";
 
 th1.setAttribute("scope", "col")
-th1.classList.add("p-4", "text-center", "col-2")
+th1.classList.add("p-2", "text-center", "col-2")
 
 th2.setAttribute("scope", "col")
-th2.classList.add("p-4", "text-center", "col-8")
-th3.classList.add("p-4", "text-center")
+th2.classList.add("p-2", "text-center", "col-8")
+th3.classList.add("p-2", "text-center")
 
 
 tr.appendChild(th1);
@@ -62,7 +62,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
 
     .then(response => response.json())
     .then(data => {
-        console.log(data['registros'])
         if (data['registros'].length == 0) {
             const h4 = document.createElement("h4");
             const strong = document.createElement("strong");
@@ -87,9 +86,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 td1.textContent = `${dia}-${mes}-${anio}`;
                 td2.textContent = element.evento;
 
-                td1.classList.add("p-4", "text-center", "align-middle"); 
-                td2.classList.add("p-4", "text-center", "align-middle"); 
-                td3.classList.add("p-4", "text-center", "align-middle");
+                td1.classList.add("p-2", "text-center", "align-middle"); 
+                td2.classList.add("p-2", "text-center", "align-middle"); 
+                td3.classList.add("p-2", "text-center", "align-middle");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
