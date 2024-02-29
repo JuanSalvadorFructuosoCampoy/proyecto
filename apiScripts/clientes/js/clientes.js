@@ -48,6 +48,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
     .then(response => response.json())
     .then(data => {
         if (data.clientes.length == 0) {
+
             const h4 = document.createElement("h4");
             const strong = document.createElement("strong");
             h4.classList.add("text-center");
@@ -55,6 +56,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
             h4.appendChild(strong);
             document.body.appendChild(h4);
         } else {
+            console.log("Cargado el script de clientes");
             data.clientes.forEach(element => {
 
                 const tr = document.createElement("tr");
