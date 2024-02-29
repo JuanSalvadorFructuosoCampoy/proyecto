@@ -136,6 +136,50 @@ class Database
 		}
 		return $resultArray;
 	}
+
+	public function getNuevaId($table){
+		if($table == "productos"){
+			$query = "SELECT MAX(id) AS max_id FROM productos";
+			$result = $this->connection->query($query);
+			$row = $result->fetch_assoc();
+			$maxId = $row['max_id'];
+			if($maxId == null){
+				return "P1";
+			}
+			$number = intval(substr($maxId, 1)) + 1;
+			return "P" . $number;
+		}
+		elseif($table == "servicios"){
+			$query = "SELECT MAX(id) AS max_id FROM servicios";
+			$result = $this->connection->query($query);
+			$row = $result->fetch_assoc();
+			$maxId = $row['max_id'];
+			if($maxId == null){
+				return "S1";
+			}
+			$number = intval(substr($maxId, 1)) + 1;
+			return "S" . $number;
+		}
+		else{
+			return null;
+		}
+	}
+
+	public function insertPoS($table, $data)
+	{
+		$id = $this->getNuevaId($table);
+		$data['id'] = $id;
+
+		$fields = implode(',', array_keys($data));
+		$values = '"';
+		$values .= implode('","', array_values($data));
+		$values .= '"';
+
+		$query = "INSERT INTO $table (".$fields.') VALUES ('.$values.')';
+		$this->connection->query($query);
+
+		return $this->connection->insert_id;
+	}
 }
 
 
