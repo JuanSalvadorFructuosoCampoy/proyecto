@@ -1,8 +1,39 @@
 const categorias = document.querySelector("aside")
-let radioProductos = document.querySelector('#productos');
-let radioServicios = document.querySelector('#servicios');
-let article = document.querySelector("article")
+const radioProductos = document.querySelector('#productos');
+const radioServicios = document.querySelector('#servicios');
+const article = document.querySelector("article")
 let url = "productos"
+const contenedorFluid = document.querySelector(".container-fluid")
+
+const barraBusqueda = document.createElement("input");
+barraBusqueda.setAttribute("id", "busqueda");
+barraBusqueda.setAttribute("type", "text");
+barraBusqueda.setAttribute("placeholder", "Buscar item");
+barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
+const contenedorBusqueda = document.createElement("div");
+contenedorBusqueda.classList.add("d-flex", "justify-content-center");
+contenedorBusqueda.appendChild(barraBusqueda);
+document.body.insertBefore(contenedorBusqueda, contenedorFluid);
+barraBusqueda.focus();
+barraBusqueda.addEventListener("input", () => {
+    const texto = barraBusqueda.value.toLowerCase();
+    const tarjetas = document.querySelectorAll(".card");
+    tarjetas.forEach(tarjeta => {
+        const celdas = tarjeta.getElementsByTagName("div");
+        let coincide = false;
+        for (let j = 0; j < celdas.length && !coincide; j++) {
+            const celda = celdas[j];
+            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {
+                coincide = true;
+            }
+        }
+        if (coincide) {
+            tarjeta.style.display = "";
+        } else {
+            tarjeta.style.display = "none";
+        }
+    });
+});
 
 if(sessionStorage.getItem("tipo")){//Si hay algo en el sessionStorage, se lo asigna a la variable url
 hacerFetch(sessionStorage.getItem("tipo"))
@@ -24,6 +55,7 @@ document.querySelector("aside").addEventListener("change", () => {
         sessionStorage.setItem("tipo", "servicios")
         radioServicios.checked = true
     }
+    
     hacerFetch(sessionStorage.getItem("tipo"))
 })
 
@@ -39,11 +71,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         const contenedor = document.createElement('div');
         article.appendChild(contenedor);
         const list = document.createElement("li");
-        list.classList.add("row", "row-cols-md-3", "row-cols-lg-4","row-cols-xl-5");
+        list.classList.add("row", "row-cols-md-2", "row-cols-lg-4","row-cols-xl-5");
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","m-1","text-center","border","bg-light","rounded-3","p-0","pb-0");
+            tarjeta.classList.add("card","col","col-12","col-sm-3","col-md-4","m-1","text-center","border","bg-light","rounded-3","p-3");
             tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
             const titulo = document.createElement("div");
@@ -54,6 +86,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
             precio.textContent = item.precio+"€";
             tarjeta.append(titulo, precio);
         });
+
     })
 }
 

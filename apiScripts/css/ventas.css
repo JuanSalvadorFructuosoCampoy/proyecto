@@ -7,3 +7,10 @@ article {
     height: 300px; /* Establece un alto fijo */
     overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
 }
+
+@media (max-width: 600px) {
+    article {
+        height: 200px; /* Establece un alto fijo */
+    }
+    
+}
