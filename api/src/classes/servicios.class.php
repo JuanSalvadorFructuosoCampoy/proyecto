@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Clase para el modelo que representa a la tabla "player".
  */
@@ -33,9 +34,10 @@ class User extends Database
 	/**
 	 * Método para validar los datos que se mandan para insertar un registro, comprobar campos obligatorios, valores válidos, etc.
 	 */
-	private function validate($data){
-		
-		if(!isset($data['id']) || empty($data['id'])){
+	private function validate($data)
+	{
+
+		if (!isset($data['id']) || empty($data['id'])) {
 			$response = array(
 				'result' => 'error',
 				'details' => 'El campo id es obligatorio'
@@ -44,22 +46,23 @@ class User extends Database
 			Response::result(400, $response);
 			exit;
 		}
-		
+
 		return true;
 	}
 
 	/**
 	 * Método para recuperar registros, pudiendo indicar algunos filtros 
 	 */
-	public function get($params){
+	public function get($params)
+	{
 		foreach ($params as $key => $param) {
-			if(!in_array($key, $this->allowedConditions_get)){
+			if (!in_array($key, $this->allowedConditions_get)) {
 				unset($params[$key]);
 				$response = array(
 					'result' => 'error',
 					'details' => 'Error en la solicitud'
 				);
-	
+
 				Response::result(400, $response);
 				exit;
 			}
@@ -76,24 +79,20 @@ class User extends Database
 	public function insert($params)
 	{
 		foreach ($params as $key => $param) {
-			if(!in_array($key, $this->allowedConditions_insert)){
+			if (!in_array($key, $this->allowedConditions_insert)) {
 				unset($params[$key]);
 				$response = array(
 					'result' => 'error',
 					'details' => 'Error en la solicitud'
 				);
-	
+
 				Response::result(400, $response);
 				exit;
 			}
 		}
 
-		if($this->validate($params)){
-			if($this->table == 'servicios' || $this->table == 'empleados'){
+		if ($this->validate($params)) {
 			return parent::insertPoS($this->table, $params);
-			}else{
-			return parent::insertDB($this->table, $params);
-		}
 		}
 	}
 
@@ -103,22 +102,22 @@ class User extends Database
 	public function update($id, $params)
 	{
 		foreach ($params as $key => $parm) {
-			if(!in_array($key, $this->allowedConditions_insert)){
+			if (!in_array($key, $this->allowedConditions_insert)) {
 				unset($params[$key]);
 				$response = array(
 					'result' => 'error',
 					'details' => 'Error en la solicitud'
 				);
-	
+
 				Response::result(400, $response);
 				exit;
 			}
 		}
 
-		if($this->validate($params)){
+		if ($this->validate($params)) {
 			$affected_rows = parent::updateDB($this->table, $id, $params);
 
-			if($affected_rows==0){
+			if ($affected_rows == 0) {
 				$response = array(
 					'result' => 'error',
 					'details' => 'No hubo cambios'
@@ -132,19 +131,18 @@ class User extends Database
 
 	public function patch($id, $params)
 	{
-		$affected_rows = parent::updateDB($this->table, $id, $params);//Llama al método updateDB de la clase Database (parent de player, que player extends Database),
+		$affected_rows = parent::updateDB($this->table, $id, $params); //Llama al método updateDB de la clase Database (parent de player, que player extends Database),
 
-		if ($affected_rows == 0) {//Si no se ha actualizado ningún registro, devuelve un error
+		if ($affected_rows == 0) { //Si no se ha actualizado ningún registro, devuelve un error
 			$response = array(
 				'result' => 'error',
 				'details' => 'No hubo cambios'
 			);
 
-			Response::result(200, $response);//Genera una respuesta con el código de error 200 y el array $response
+			Response::result(200, $response); //Genera una respuesta con el código de error 200 y el array $response
 			exit;
-
+		}
 	}
-}
 
 	/**
 	 * Método para borrar un registro de la base de datos, se indica el id del registro que queremos eliminar
@@ -153,7 +151,7 @@ class User extends Database
 	{
 		$affected_rows = parent::deleteDB($this->table, $id);
 
-		if($affected_rows==0){
+		if ($affected_rows == 0) {
 			$response = array(
 				'result' => 'error',
 				'details' => 'No hubo cambios'
@@ -163,7 +161,4 @@ class User extends Database
 			exit;
 		}
 	}
-
 }
-
-?>
