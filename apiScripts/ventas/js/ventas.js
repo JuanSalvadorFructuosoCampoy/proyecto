@@ -37,14 +37,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
     .then(response => response.json())
     .then(data => {
         const list = document.createElement("li");
-        list.classList.add("row", "row-cols-md-4", "row-cols-lg-5","row-cols-xl-6");
+        list.classList.add("row", "row-cols-md-3", "row-cols-lg-4","row-cols-xl-5");
         article.appendChild(list);
         data[url].forEach(item => {
-            console.log(item);
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col", "mb-4","text-center","border","bg-light","rounded-3","p-1","m-1");
+            tarjeta.classList.add("card","col","m-1","text-center","border","bg-gradient-light","rounded-3","p-0");
+            tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
-            const titulo = document.createElement("h6");
+            const titulo = document.createElement("div");
             const strong = document.createElement("strong");
             strong.textContent = item.nombre;
             titulo.appendChild(strong);
