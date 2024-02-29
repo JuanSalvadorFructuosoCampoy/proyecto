@@ -13,10 +13,10 @@ const th4 = document.createElement("th");
 th1.textContent = "ID";
 th2.textContent = "Nombre servicio";
 th3.textContent = "Precio";
-th1.classList.add("p-4", "text-center")
-th2.classList.add("p-4", "text-center")
-th3.classList.add("p-4", "text-center")
-th4.classList.add("p-4", "text-center")
+th1.classList.add("p-2", "text-center")
+th2.classList.add("p-2", "text-center")
+th3.classList.add("p-2", "text-center")
+th4.classList.add("p-2", "text-center")
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
@@ -50,27 +50,32 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
                 const td3 = document.createElement("td");
                 const td4 = document.createElement("td");
 
-                td1.classList.add("p-4", "text-center")
-                td2.classList.add("p-4", "text-center")
-                td3.classList.add("p-4", "text-center")
-                td4.classList.add("p-4", "text-center")
-
+                td1.classList.add("p-2", "text-center")
+                td2.classList.add("p-2", "text-center")
+                td3.classList.add("p-2", "text-center")
+                td4.classList.add("p-2", "text-center")
+                let precioServicio 
+                if(element.precio == 0){
+                    precioServicio = "No definido";
+                }else{
+                    precioServicio = element.precio.toFixed(2);+"€"
+                }
 
                 td1.textContent = element.id;
                 td2.textContent = element.nombre;
-                td3.textContent = element.precio;
+                td3.textContent = precioServicio;
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
                 botonEditar.classList.add("btn", "btn-info","btn-sm","m-1");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
-                td8.appendChild(botonEditar);
+                td4.appendChild(botonEditar);
 
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
                 botonBorrar.classList.add("btn", "btn-danger","btn-sm");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td8.appendChild(botonBorrar);
+                td4.appendChild(botonBorrar);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);

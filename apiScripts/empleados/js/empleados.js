@@ -21,13 +21,13 @@ th4.textContent = "Segundo apellido";
 th5.textContent = "Rol";
 th6.textContent = "Activo";
 
-th1.classList.add("p-4", "text-center")
-th2.classList.add("p-4", "text-center")
-th3.classList.add("p-4", "text-center")
-th4.classList.add("p-4", "text-center")
-th5.classList.add("p-4", "text-center")
-th6.classList.add("p-4", "text-center")
-th7.classList.add("p-4", "text-center")
+th1.classList.add("p-2", "text-center")
+th2.classList.add("p-2", "text-center")
+th3.classList.add("p-2", "text-center")
+th4.classList.add("p-2", "text-center")
+th5.classList.add("p-2", "text-center")
+th6.classList.add("p-2", "text-center")
+th7.classList.add("p-2", "text-center")
 
 tr.appendChild(th1);
 tr.appendChild(th2);
@@ -67,13 +67,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 const td6 = document.createElement("td");
                 const td7 = document.createElement("td");
 
-                td1.classList.add("p-4", "text-center")
-                td2.classList.add("p-4", "text-center")
-                td3.classList.add("p-4", "text-center")
-                td4.classList.add("p-4", "text-center")
-                td5.classList.add("p-4", "text-center")
-                td6.classList.add("p-4", "text-center")
-                td7.classList.add("p-4", "text-center")
+                td1.classList.add("p-2", "text-center")
+                td2.classList.add("p-2", "text-center")
+                td3.classList.add("p-2", "text-center")
+                td4.classList.add("p-2", "text-center")
+                td5.classList.add("p-2", "text-center")
+                td6.classList.add("p-2", "text-center")
+                td7.classList.add("p-2", "text-center")
 
                 td1.textContent = element.id;
                 td2.textContent = element.nombre;

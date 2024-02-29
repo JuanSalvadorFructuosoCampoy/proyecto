@@ -20,14 +20,14 @@ th4.textContent = "Primer pellido";
 th5.textContent = "Segundo apellido";
 th6.textContent = "Teléfono";
 th7.textContent = "Dirección";
-th1.classList.add("p-4", "text-center")
-th2.classList.add("p-4", "text-center")
-th3.classList.add("p-4", "text-center")
-th4.classList.add("p-4", "text-center")
-th5.classList.add("p-4", "text-center")
-th6.classList.add("p-4", "text-center")
-th7.classList.add("p-4", "text-center")
-th8.classList.add("p-4", "text-center")
+th1.classList.add("p-2", "text-center")
+th2.classList.add("p-2", "text-center")
+th3.classList.add("p-2", "text-center")
+th4.classList.add("p-2", "text-center")
+th5.classList.add("p-2", "text-center")
+th6.classList.add("p-2", "text-center")
+th7.classList.add("p-2", "text-center")
+th8.classList.add("p-2", "text-center")
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
@@ -69,14 +69,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 const td7 = document.createElement("td");
                 const td8 = document.createElement("td");
 
-                td1.classList.add("p-4", "text-center")
-                td2.classList.add("p-4", "text-center")
-                td3.classList.add("p-4", "text-center")
-                td4.classList.add("p-4", "text-center")
-                td5.classList.add("p-4", "text-center")
-                td6.classList.add("p-4", "text-center")
-                td7.classList.add("p-4", "text-center")
-                td8.classList.add("p-4", "text-center")
+                td1.classList.add("p-2", "text-center")
+                td2.classList.add("p-2", "text-center")
+                td3.classList.add("p-2", "text-center")
+                td4.classList.add("p-2", "text-center")
+                td5.classList.add("p-2", "text-center")
+                td6.classList.add("p-2", "text-center")
+                td7.classList.add("p-2", "text-center")
+                td8.classList.add("p-2", "text-center")
 
                 td1.textContent = element.id;
                 td2.textContent = element.id_fiscal;
