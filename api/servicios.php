@@ -75,8 +75,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-
-		$servicio->update($_GET['id'], $params);
+		$id = "'".$_GET['id']."'";
+		$servicio->update($id, $params);
 
 		$response = array(
 			'result' => 'ok'
@@ -89,8 +89,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		//Llama al método patch del modelo
 		$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
 
-
-		$servicio->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del servicio y el array $params
+		$id = "'".$_GET['id']."'";
+		$servicio->patch($id, $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del servicio y el array $params
 
 		$response = 'ok';
 
@@ -110,8 +110,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			Response::result(400, $response);
 			exit;
 		}
-
-		$servicio->delete($_GET['id']);
+		$id = "'".$_GET['id']."'";
+		$servicio->delete($id);
 
 		$response = array(
 			'result' => 'ok'

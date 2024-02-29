@@ -17,12 +17,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php?id
 
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         document.getElementById('nombre').value = data['servicios'][0].nombre;
         if(data['servicios'][0].precio == "No definido"){
             document.getElementById('precio').value = 0;
         }else{
-            document.getElementById('precio').value = data['servicios'][0].precio.substring(0, data['servicios'][0].precio.length - 1);
+            document.getElementById('precio').value = data['servicios'][0].precio;
         }
     })
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
@@ -48,7 +47,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     })
         .then(response => response.json())
         .then(data => {
-            window.location.href = "../servicios.html";
+            window.location.href = "servicios.html";
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -57,7 +56,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
 
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
-    window.location.href = "../servicios.html";
+    window.location.href = "servicios.html";
 });
 
 const botonVolver = document.createElement("button")
