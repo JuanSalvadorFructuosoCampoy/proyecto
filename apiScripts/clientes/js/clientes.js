@@ -151,7 +151,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         barraBusqueda.setAttribute("placeholder", "Buscar cliente");
         barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
-        
+        barraBusqueda.focus();
         barraBusqueda.addEventListener("input",()=>{
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");

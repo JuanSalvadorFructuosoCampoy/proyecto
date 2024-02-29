@@ -3,7 +3,7 @@ const errorMessageElementTelefono = document.createElement('p');
 document.getElementById('telefono').insertAdjacentElement('afterend', errorMessageElementTelefono);
 const errorMessageElementIdFiscal = document.createElement('p');
 document.getElementById('id_fiscal').insertAdjacentElement('afterend', errorMessageElementIdFiscal);
-document.getElementById('nombre').focus();
+document.getElementById('id_fiscal').focus();
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
 

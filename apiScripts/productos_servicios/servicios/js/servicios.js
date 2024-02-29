@@ -115,6 +115,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
         barraBusqueda.setAttribute("placeholder", "Buscar servicio");
         barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
+        barraBusqueda.focus();
         
         barraBusqueda.addEventListener("input",()=>{
             const texto = barraBusqueda.value.toLowerCase();

@@ -124,6 +124,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
         barraBusqueda.setAttribute("placeholder", "Buscar producto");
         barraBusqueda.classList.add("form-control", "w-25", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
+        barraBusqueda.focus();
         
         barraBusqueda.addEventListener("input",()=>{
             const texto = barraBusqueda.value.toLowerCase();
