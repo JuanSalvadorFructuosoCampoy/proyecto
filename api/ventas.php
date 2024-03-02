@@ -23,7 +23,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		$params = $_GET;
 
 		$ventas = $venta->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
-		//$consultas = $user->verUsos($id);// Se llama al método verUsos() del modelo para ver los usos de la API
+		
 		$response = array(
 			'result' => 'ok',
 			'ventas' => $ventas, 

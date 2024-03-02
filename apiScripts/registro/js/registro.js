@@ -48,7 +48,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     .then(response => response.json())
     .then(data => {
         if (data.ventas.length == 0) {
-
             const h4 = document.createElement("h4");
             const strong = document.createElement("strong");
             h4.classList.add("text-center");
@@ -77,12 +76,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 td6.classList.add("p-2", "text-center")
                 td7.classList.add("p-2", "text-center")
 
-                // th1.textContent = "ID";
-                // th2.textContent = "Fecha";
-                // th3.textContent = "Cliente";
-                // th4.textContent = "Empleado";
-                // th5.textContent = "Tipo de pago";
-                // th6.textContent = "Total";
                 td1.textContent = element.id;
 
                 const fecha = new Date(element.fecha);
@@ -130,14 +123,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
                 botonFicha.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    window.location.href = `registro.html?id=${id}`
+                    window.location.href = `productos_ventas.html?id=${id}`
                 })
 
                 botonBorrar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este cliente? Se borrarán todos los registros asociados al mismo.");
+                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar esta venta? Se borrarán todos los registros asociados a la misma.");
                     if (confirmDelete) {
-                        fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${id}`, {
+                        fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`, {
                             method: 'DELETE',    
                             headers: {
                                 "api-key": sessionStorage.getItem("token")

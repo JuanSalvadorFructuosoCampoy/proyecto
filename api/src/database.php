@@ -25,13 +25,7 @@ class Database
 	 */
 	public function getDB($table, $extra = null)
 	{
-		$page = 0;
 		$query = "SELECT * FROM $table";
-
-		if(isset($extra['page'])){
-			$page = $extra['page'];
-			unset($extra['page']);
-		}
 
 		if($extra != null){
 			$query .= ' WHERE';
@@ -44,16 +38,7 @@ class Database
 			}
 		}
 
-		/**
-		 * Aquí se paginan los resultados para evitar recuperar todos los registros de una tabla que contenga muchísimos
-		 */
-		if($page > 0){
-			$since = (($page-1) * $this->results_page);
-			$query .= " LIMIT $since, $this->results_page";
-		}
-		else{
-			$query .= " LIMIT 0, $this->results_page";
-		}
+
 
 		$results = $this->connection->query($query);
 		$resultArray = array();
@@ -114,6 +99,11 @@ class Database
 	{
 		if($table == "clientes"){
 			$query = "DELETE FROM registro_clientes WHERE id_cliente = $id";
+			$this->connection->query($query);
+		}
+
+		if($table == "ventas"){
+			$query = "DELETE FROM productos_ventas WHERE id = $id";
 			$this->connection->query($query);
 		}
 		$query = "DELETE FROM $table WHERE id = $id";
@@ -179,12 +169,6 @@ class Database
 		$this->connection->query($query);
 
 		return $this->connection->insert_id;
-	}
-
-	public function borrarRegistrosVenta($id)
-	{
-		$query = "DELETE FROM registro_ventas WHERE id_venta = $id";
-		$this->connection->query($query);
 	}
 }
 

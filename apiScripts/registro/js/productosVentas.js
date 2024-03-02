@@ -9,19 +9,10 @@ let urlParams = new URLSearchParams(queryString);
 let idURL = urlParams.get('id');
 
 const h2 = document.querySelector('h2');
-let numeroRegistro = "";
-//Usamos ese parámetro en el fetch para obtener los datos del cliente
-fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${idURL}`, {
-    headers: {
-        "api-key": sessionStorage.getItem("token")
-    },
-})
+const strong = document.createElement("strong");
+strong.textContent += idURL;
+h2.appendChild(strong);
 
-    .then(response => response.json())
-    .then(data => {
-        h2.childNodes[0].textContent += data['ventas'][0].nombre.toUpperCase();
-        numeroRegistro = data['ventas'][0].nombre;
-    })
 
 const table = document.createElement("table");
 table.setAttribute("id", "tablaregistro");
@@ -43,23 +34,27 @@ th4.textContent = "Cantidad";
 th5.textContent = "Precio";
 
 th1.setAttribute("scope", "col")
-th1.classList.add("p-2", "text-center", "col-2")
+th1.classList.add("p-2", "text-center")
 
 th2.setAttribute("scope", "col")
-th2.classList.add("p-2", "text-center", "col-8")
+th2.classList.add("p-2", "text-center")
 th3.classList.add("p-2", "text-center")
+th4.classList.add("p-2", "text-center")
+th5.classList.add("p-2", "text-center")
 
 
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
+tr.appendChild(th4);
+tr.appendChild(th5);
 
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
-fetch(`${window.location.protocol}//${window.location.host}/api/registro_ventas.php?id_cliente=${idURL}`, {
+fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php?id=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
     },
@@ -68,93 +63,58 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_ventas.
     .then(response => response.json())
     .then(data => {
 
-            data['registros'].forEach(element => {
+            data['productos'].forEach(element => {
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
                 const td3 = document.createElement("td");
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
-                // th1.textContent = "ID";
-                // th2.textContent = "Item";
-                // th3.textContent = "Cliente";
-                // th4.textContent = "Cantidad";
-                // th5.textContent = "Precio";
                 td1.textContent = element.id;
-                td2.textContent = element.id_item;
 
-                if (element.id_cliente == null) {
-                    td2.textContent = "NO DEFINIDO";
-                } else {
-                    td2.textContent = element.id_cliente;
+                //Si es un producto, hacemos el fetch a los productos. Si es un servicio, lo hacemos a los servicios
+                if(element.id_item.charAt(0) == "P"){
+                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id=${element.id_item}`)
+                    .then(data => td2.textContent = data.productos[0].nombre)
+                }else{
+                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/servicios.php?id=${element.id_item}`)
+                    .then(data => td2.textContent = data.servicios[0].nombre)
                 }
 
-                td3.textContent = element.cantidad;
-                td4.textContent = element.precio;
+                if (element.id_cliente == 0) {
+                    td3.textContent = "NO DEFINIDO";
+                } else {
+                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.id_cliente}`)
+                .then(data => td3.textContent = data.clientes[0].nombre+" "+data.clientes[0].apellido1+" "+data.clientes[0].apellido2)
+                }
+
+                td4.textContent = element.cantidad;
+                td5.textContent = element.precio + "€";
 
                 td1.classList.add("p-2", "text-center", "align-middle"); 
                 td2.classList.add("p-2", "text-center", "align-middle"); 
                 td3.classList.add("p-2", "text-center", "align-middle");
                 td4.classList.add("p-2", "text-center", "align-middle");
+                td5.classList.add("p-2", "text-center", "align-middle");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tr.appendChild(td4);
+                tr.appendChild(td5);
                 tbody.appendChild(tr);
 
-                // const inputOculto = document.createElement("input")
-                // inputOculto.setAttribute("type", "hidden")
-                // inputOculto.setAttribute("id", `id${element.id}`)
-                // inputOculto.setAttribute("value", element.id)
-                // td1.appendChild(inputOculto)
-
-                const botonEditar = document.createElement("button");
-                botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info", "btn-sm", "m-1","text-center");
-                botonEditar.setAttribute("id", `botonEditar${element.id}`);
-                td3.appendChild(botonEditar);
-
-                const botonBorrar = document.createElement("button");
-                botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
-                botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td3.appendChild(botonBorrar);
-
-                botonEditar.addEventListener("click", (e) => {
-                    const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
-                    window.location.href = `editar_registro.html?id=${id}&nombre_cliente=${nombreCliente}&id_cliente=${idURL}`
-                })
-
-                botonBorrar.addEventListener("click", (e) => {
-                    const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
-                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este registro?");
-                    if (confirmDelete) {
-                        fetch(`${window.location.protocol}//${window.location.host}/api/registro_ventas.php?id=${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                "api-key": sessionStorage.getItem("token")
-                            },
-                        })
-                            .then(() => {
-                                window.location.reload(); //Recarga la página para que se actualice la tabla
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                            });
-                    }
-                });
             });
         
     });
 
 
 const botonventas = document.createElement("button")
-botonventas.textContent = "ventas"
+botonventas.textContent = "Ventas"
 botonventas.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-0", "m-3")
 botonventas.setAttribute("id", "volver")
 document.body.appendChild(botonventas)
 botonventas.addEventListener("click", () => {
-    window.location.href = "ventas.html"
+    window.location.href = "../registro/registro.html"
 })
 
 const botonVolver = document.createElement("button")
@@ -166,14 +126,6 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
-const botonNuevo = document.createElement("button");
-botonNuevo.textContent = "Nuevo evento";
-botonNuevo.classList.add("btn", "btn-success", "btn-sm");
-botonNuevo.setAttribute("id", "nuevoRegistro");
-th3.append(botonNuevo);
-botonNuevo.addEventListener("click", () => {
-    window.location.href = `nuevo_registro.html?id_cliente=${idURL}&nombre_cliente=${nombreCliente}`
-});
 
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
@@ -202,3 +154,16 @@ barraBusqueda.addEventListener("input",()=>{
     }
 
 })
+
+async function hacerFetch(url){
+    try {
+        const response = await fetch(url, {
+            headers: {
+                "api-key": sessionStorage.getItem("token")
+            }
+        });
+        return await response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
