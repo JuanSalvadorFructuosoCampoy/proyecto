@@ -49,12 +49,12 @@
                 </tbody>
             </table>
             </div>
-
             <div class="m-1 p-1">
                 <ul class="list-group">
                     <li class="d-flex justify-content-around list-group-item bg-dark">
                         <h3 class="text-center text-light"><strong>TOTAL</strong></h3>
                         <h3 class="text-center text-light" id="total">0.00€</h3>
+                        <button class="btn btn-danger" id="cancelarVenta">Vaciar</button>
                     </li>
 
                     <li class="list-group-item">
@@ -63,12 +63,12 @@
                     </select>
                 </li>
                     <li class="list-group-item">
-                    <label for="pago"><strong>Tipo de pago </strong></label>
-                    <input type="radio" id="efectivo" name="pago" value="efectivo">
-                    <label for="efectivo">EFECTIVO</label>
-                    <input type="radio" id="tarjeta" name="pago" value="tarjeta">
-                    <label for="tarjeta">TARJETA</label>
-                </li>
+                        <label for="pago"><strong>Tipo de pago </strong></label>
+                        <input type="radio" id="efectivo" name="pago" value="efectivo" required>
+                        <label for="efectivo">EFECTIVO</label>
+                        <input type="radio" id="tarjeta" name="pago" value="tarjeta">
+                        <label for="tarjeta">TARJETA</label>
+                    </li>
                 <li class="list-group-item">
                     <label for="clientes"><strong>Cliente</strong></label>
                     <select class="ms-1" id="clientes" name="clientes">
@@ -82,6 +82,9 @@
                     
                     <input type="radio" class="btn-check" name="documento-venta" id="factura" autocomplete="off">
                     <label class="btn btn-outline-info m-1" for="factura">Factura</label>
+                </li>
+                <li class="list-group-item d-flex justify-content-center">
+                    <button class="btn btn-success" id="finalizarVenta">FINALIZAR VENTA</button>
                 </li>
                 </ul>
             </div>

@@ -122,7 +122,8 @@ article {
 
     #items{
         height: 70%;
-        min-height:430px;
+        min-height: 370px;
+        max-height: 370px;
         overflow-y: scroll !important;
     }
 }
@@ -151,7 +152,8 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+-moz-appearance: textfield;
+appearance: textfield;
 }
 
 tbody tr td {
