@@ -152,3 +152,9 @@ botonVolver.addEventListener("click", () => {
 document.querySelector("[name='documento-venta']").addEventListener("change", () => {
     console.log("hola");
 });
+
+article.addEventListener("click", (e) => {
+    if(e.target.classList.contains("card")){
+        console.log(e.target.id);
+    }
+})

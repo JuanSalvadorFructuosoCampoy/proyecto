@@ -48,7 +48,7 @@ inicializarPagina();
 const cerrarSesion = document.getElementById("cerrarSesion");
 cerrarSesion.addEventListener("click", () => {
     sessionStorage.clear();
-    window.location.href = "index.html";
+    window.location.href = "../autenticacion/login.html";
 });
 
 contenedor.addEventListener("click", (e) => {
