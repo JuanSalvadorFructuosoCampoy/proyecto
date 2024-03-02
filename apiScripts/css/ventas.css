@@ -6,6 +6,7 @@
 section{
     bottom:344px;
     right: 10px;
+    overflow-y: scroll !important;
 }
 
 article {
@@ -26,10 +27,12 @@ article {
     section{
         height:700px !important;
         width: 100% !important;
+        overflow-y: scroll !important;
     }
 
     #items{
         height: 150px !important;
+        min-height:150px;
         overflow-y: scroll !important;
     }
     
@@ -62,6 +65,7 @@ article {
         section{
             height:400px !important;
             width:100% !important;
+            overflow-y: scroll !important;
         }
         .position-sm-absolute {
             position: absolute !important;
@@ -81,6 +85,8 @@ article {
         }
         #items{
             height: 50%;
+            min-height:150px;
+            overflow-y: scroll !important;
         }
 
     }
@@ -89,6 +95,7 @@ article {
 
     section{
         height: 100% !important;
+        overflow-y: scroll !important;
         position: fixed;
         top: 0;
         bottom: 0;
@@ -96,6 +103,8 @@ article {
     }
     #items{
         height: 70%;
+        min-height:200px;
+        overflow-y: scroll !important;
     }
 
 
@@ -104,6 +113,7 @@ article {
 @media (min-width: 992px) { /* Pantallas lg y superiores */
     section{
         height: 100% !important;
+        overflow-y: scroll !important;
         position: fixed;
         top: 0;
         bottom: 0;
@@ -112,6 +122,8 @@ article {
 
     #items{
         height: 70%;
+        min-height:480px;
+        overflow-y: scroll !important;
     }
 }
 

@@ -77,7 +77,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","col-12","col-sm-2","col-md-5","col-lg-6","m-1","text-center","border","bg-light","rounded-3","p-3");
+            tarjeta.classList.add("card","col","col-12","col-sm-2","col-md-5","col-lg-6","m-1","text-center","border","bg-light","rounded-3","p-3","d-flex","align-items-center");
             tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
             const titulo = document.createElement("div");
@@ -87,6 +87,12 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
             const precio = document.createElement("div")
             precio.textContent = item.precio+"€";
             tarjeta.append(titulo, precio);
+
+            //Evento para seleccionar el item
+            tarjeta.addEventListener("click", (e) => {
+                    console.log(tarjeta);
+                })
+            
         });
 
     })
@@ -149,12 +155,16 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
-document.querySelector("[name='documento-venta']").addEventListener("change", () => {
-    console.log("hola");
-});
+//Botón de seleccionar entre factura o ticket
+let radios = document.getElementsByName('documento-venta');
+// Añade un evento 'change' a cada botón de opción
+for(let i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('change', function() {
+        // Cuando se haga clic en un botón de opción, imprime su id
+        if(this.checked) {
+            console.log(this.id);
+            //CÓDIGO PARA MANDAR EL TIPO DE DOCUMENTO
+        }
+    });
+}
 
-article.addEventListener("click", (e) => {
-    if(e.target.classList.contains("card")){
-        console.log(e.target.id);
-    }
-})
