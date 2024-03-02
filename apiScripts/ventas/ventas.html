@@ -35,13 +35,13 @@
         <section class="border border-dark col-md-5 col-sm-12 col-lg-4">
             <form id="nuevaVenta" class="nuevaVenta">
             <div id="items" class="col-lg-12 col-md-12 col-sm-12 bg-light border border-dark">
-                <table class="table table-dark table-hover">
+                <table class="table table-dark table-hover table-striped">
                     <thead>
-                    <tr class="d-flex">
-                        <td class="flex-grow-1"><strong>Nombre</strong></td>
-                        <td><strong>Cant.</strong></td>
-                        <td><strong>Precio</strong></td>
-                        <td><strong>Cancelar</strong></td>
+                    <tr>
+                        <th id="thNombre"><strong>Nombre</strong></th>
+                        <th id="thCantidad"><strong>Cant.</strong></th>
+                        <th id="thPrecio"><strong>Precio</strong></th>
+                        <th id="thCancelar"><strong>Cancelar</strong></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +52,10 @@
 
             <div class="m-1 p-1">
                 <ul class="list-group">
+                    <li class="list-group-item bg-dark">
+                        <h3 class="text-center text-light">TOTAL:</h3>
+                    </li>
+
                     <li class="list-group-item">
                     <label for="empleados"><strong>Venta realizada por </strong></label>
                     <select id="empleados" name="empleados">
@@ -77,6 +81,7 @@
                     <input type="radio" class="btn-check" name="documento-venta" id="factura" autocomplete="off">
                     <label class="btn btn-outline-info" for="factura">Factura</label>
                 </li>
+                </ul>
             </div>
         </form>
         </section>

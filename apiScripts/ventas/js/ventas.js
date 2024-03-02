@@ -2,6 +2,7 @@ const categorias = document.querySelector("aside")
 const radioProductos = document.querySelector('#productos');
 const radioServicios = document.querySelector('#servicios');
 const article = document.querySelector("article")
+const tbody = document.querySelector("tbody")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
 
@@ -89,9 +90,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
             tarjeta.append(titulo, precio);
 
             //Evento para seleccionar el item
-            tarjeta.addEventListener("click", (e) => {
-                    console.log(tarjeta);
+            tarjeta.addEventListener("click", () => {
+                seleccionarItem(tarjeta);
                 })
+
+
             
         });
 
@@ -166,5 +169,48 @@ for(let i = 0; i < radios.length; i++) {
             //CÓDIGO PARA MANDAR EL TIPO DE DOCUMENTO
         }
     });
+}
+
+function seleccionarItem(tarjeta) {
+    const tr = document.createElement("tr");
+    tbody.appendChild(tr);
+
+    const tdNombre = document.createElement("td");
+    tdNombre.classList.add("white")
+    tdNombre.textContent = tarjeta.childNodes[0].textContent;
+    tr.appendChild(tdNombre);
+
+    
+    const tdCantidad = document.createElement("td");
+    const cantidad = document.createElement("input");
+    cantidad.setAttribute("type", "number");
+    cantidad.setAttribute("min", "1");
+    cantidad.value = 1;
+    tr.appendChild(tdCantidad)
+    tdCantidad.appendChild(cantidad);
+
+    const tdPrecio = document.createElement("td");
+    const precio = document.createElement("input");
+    tdPrecio.classList.add("justify-content-center");
+    precio.setAttribute("type", "number");
+    precio.setAttribute("min", "0");
+    precio.setAttribute("step", "0.01");
+    precio.value = parseFloat(tarjeta.childNodes[1].textContent)
+    tdPrecio.appendChild(precio);
+    tdPrecio.appendChild(document.createTextNode("€"));
+    tr.appendChild(tdPrecio);
+
+    
+    const tdEliminar = document.createElement("td");
+    const botonEliminar = document.createElement("button");
+    botonEliminar.textContent = "X";
+    tdEliminar.classList.add("d-flex","align-items-center", "justify-content-center");
+    botonEliminar.classList.add("btn", "btn-danger");
+    tdEliminar.appendChild(botonEliminar);
+    tr.appendChild(tdEliminar);
+
+    botonEliminar.addEventListener("click", () => {
+        tr.remove();
+    })
 }
 
