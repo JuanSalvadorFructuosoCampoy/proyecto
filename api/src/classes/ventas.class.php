@@ -157,6 +157,8 @@ class User extends Database
 				'details' => 'No hubo cambios'
 			);
 
+			parent::borrarRegistrosVenta($id);
+			
 			Response::result(200, $response);
 			exit;
 		}

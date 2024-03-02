@@ -180,6 +180,12 @@ class Database
 
 		return $this->connection->insert_id;
 	}
+
+	public function borrarRegistrosVenta($id)
+	{
+		$query = "DELETE FROM registro_ventas WHERE id_venta = $id";
+		$this->connection->query($query);
+	}
 }
 
 

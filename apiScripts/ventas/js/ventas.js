@@ -354,7 +354,7 @@ form.addEventListener("submit", (e) => {
                 }
             })
     }
-
+//Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         headers: {
             "api-key": sessionStorage.getItem("token"),
@@ -371,6 +371,8 @@ form.addEventListener("submit", (e) => {
                             precio: item.childNodes[2].childNodes[0].value,
                             id_cliente: clientes.value != "0" ? cliente : null
                         }
+                        
+                //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
                 fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
                     method: "POST",
                     headers: {
