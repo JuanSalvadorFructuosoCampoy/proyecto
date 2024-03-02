@@ -24,8 +24,14 @@ article {
         overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
     }
     section{
-        height:300px !important;
+        height:700px !important;
+        width: 100% !important;
     }
+    #items{
+        height: 150px !important;
+        overflow-y: scroll !important;
+    }
+    
 
         .position-xs-fixed{
             position: fixed !important;
@@ -54,7 +60,8 @@ article {
             overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
         }
         section{
-            height:300px !important;
+            height:400px !important;
+            width:100% !important;
         }
         .position-sm-absolute {
             position: absolute !important;
@@ -72,8 +79,8 @@ article {
         .end-xs-0 {
             right: 0 !important;
         }
-        section div{
-            height: 100%;
+        #items{
+            height: 50%;
         }
 
     }
@@ -81,19 +88,26 @@ article {
 @media (min-width: 768px) and (max-width: 991.98px) { /* Pantallas md */
 
     section{
-        height: 100vh !important;
+        height: 150% !important;
         position: absolute;
         bottom: 0;
         right: 0;
+    }
+    #items{
+        height: 70%;
     }
 }
 
 @media (min-width: 992px) { /* Pantallas lg y superiores */
     section{
-        height: 100vh !important;
+        height: 150% !important;
         position: absolute;
         bottom: 0;
         right: 0;
+    }
+
+    #items{
+        height: 70%;
     }
 }
 
@@ -107,6 +121,4 @@ section{
     height: 40px;
 }
 
-section div{
-    height: 50%;
-}
+

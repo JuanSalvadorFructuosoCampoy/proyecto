@@ -32,11 +32,40 @@
         <article class="col-12 col-md-7 col-sm-12 col-lg-9 row flex-row">
         </article>
         <section class="border border-dark col-md-5 col-sm-12 col-lg-4">
-            <div id="items" class="col-lg-12 col-md-12 col-sm-12 col-12 bg-light border border-dark">
+            
+            <div id="items" class="col-lg-12 col-md-12 col-sm-12 bg-light border border-dark">
                 <table class="table table-dark table-hover"></table>
             </div>
-            <select id="empleados">
-            </select>
+            <div class="m-1 p-1">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                    <label for="empleados"><strong>Venta realizada por </strong></label>
+                    <select id="empleados" name="empleados">
+                    </select>
+                </li>
+                    <li class="list-group-item">
+                    <label for="pago"><strong>Tipo de pago </strong></label>
+                    <input type="radio" id="efectivo" name="pago" value="efectivo">
+                    <label for="efectivo">EFECTIVO</label>
+                    <input type="radio" id="tarjeta" name="pago" value="tarjeta">
+                    <label for="tarjeta">TARJETA</label>
+                </li>
+                <li class="list-group-item">
+                    <label for="clientes"><strong>Cliente </strong></label>
+                    <select id="clientes" name="clientes">
+                    </select>
+                </li>
+                <li class="list-group-item">
+                    <div id="documento-venta" class="btn-group">
+                        <input type="radio" class="btn-check" name="tipo-documento" id="ticket" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-info" for="tipo-documento">Ticket</label>
+        
+                        <input type="radio" class="btn-check" name="tipo-documento" id="factura" autocomplete="off">
+                        <label class="btn btn-outline-info" for="tipo-documento">Factura</label>
+                    </div>
+                </li>
+            </div>
         </section>
     </div>
 
