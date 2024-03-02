@@ -122,7 +122,7 @@ article {
 
     #items{
         height: 70%;
-        min-height:480px;
+        min-height:430px;
         overflow-y: scroll !important;
     }
 }
@@ -138,7 +138,8 @@ section{
 }
 
 input[type='number']{
-    width: 2em;
+    width: 3em;
+    text-align: center;
 } 
 
 /* Chrome, Safari, Edge, Opera */

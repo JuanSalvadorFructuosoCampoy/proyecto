@@ -52,8 +52,9 @@
 
             <div class="m-1 p-1">
                 <ul class="list-group">
-                    <li class="list-group-item bg-dark">
-                        <h3 class="text-center text-light">TOTAL:</h3>
+                    <li class="d-flex justify-content-around list-group-item bg-dark">
+                        <h3 class="text-center text-light"><strong>TOTAL</strong></h3>
+                        <h3 class="text-center text-light" id="total">0.00€</h3>
                     </li>
 
                     <li class="list-group-item">
@@ -68,18 +69,19 @@
                     <input type="radio" id="tarjeta" name="pago" value="tarjeta">
                     <label for="tarjeta">TARJETA</label>
                 </li>
-                <li class="list-group-item" style="display: flex; justify-content: center; align-items: center;">
+                <li class="list-group-item">
                     <label for="clientes"><strong>Cliente</strong></label>
                     <select class="ms-1" id="clientes" name="clientes">
                     </select>
                     <button type="button" class="btn btn-warning ms-1">Nuevo cliente</button>
                 </li>
-                <li class="list-group-item">
+
+                <li class="list-group-item d-flex justify-content-center">
                     <input type="radio" class="btn-check" name="documento-venta" id="ticket" autocomplete="off" checked>
-                    <label class="btn btn-outline-info" for="ticket">Ticket</label>
+                    <label class="btn btn-outline-info m-1" for="ticket">Ticket</label>
                     
                     <input type="radio" class="btn-check" name="documento-venta" id="factura" autocomplete="off">
-                    <label class="btn btn-outline-info" for="factura">Factura</label>
+                    <label class="btn btn-outline-info m-1" for="factura">Factura</label>
                 </li>
                 </ul>
             </div>

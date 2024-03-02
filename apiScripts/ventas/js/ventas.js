@@ -11,9 +11,9 @@ const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
 barraBusqueda.setAttribute("placeholder", "Buscar item");
-barraBusqueda.classList.add("form-control","w-50");
+barraBusqueda.classList.add("form-control", "w-50");
 const contenedorBusqueda = document.createElement("div");
-contenedorBusqueda.classList.add("d-flex", "justify-content-start","m-1");
+contenedorBusqueda.classList.add("d-flex", "justify-content-start", "m-1");
 contenedorBusqueda.appendChild(barraBusqueda);
 document.body.insertBefore(contenedorBusqueda, contenedorFluid);
 barraBusqueda.focus();
@@ -37,14 +37,14 @@ barraBusqueda.addEventListener("input", () => {
     });
 });
 
-if(sessionStorage.getItem("tipo")){//Si hay algo en el sessionStorage, se lo asigna a la variable url
-hacerFetch(sessionStorage.getItem("tipo"))
-    if(sessionStorage.getItem("tipo") == "productos"){//Si el tipo es productos, se selecciona el radio de productos
+if (sessionStorage.getItem("tipo")) {//Si hay algo en el sessionStorage, se lo asigna a la variable url
+    hacerFetch(sessionStorage.getItem("tipo"))
+    if (sessionStorage.getItem("tipo") == "productos") {//Si el tipo es productos, se selecciona el radio de productos
         radioProductos.checked = true
-    }else if(sessionStorage.getItem("tipo") == "servicios"){//Si el tipo es servicios, se selecciona el radio de servicios
+    } else if (sessionStorage.getItem("tipo") == "servicios") {//Si el tipo es servicios, se selecciona el radio de servicios
         radioServicios.checked = true
     }
-}else{
+} else {
     hacerFetch(url)
 }
 
@@ -53,52 +53,52 @@ document.querySelector("aside").addEventListener("change", () => {
     if (radioProductos.checked) {
         sessionStorage.setItem("tipo", "productos")
         radioProductos.checked = true
-        
+
     } else if (radioServicios.checked) {
         sessionStorage.setItem("tipo", "servicios")
         radioServicios.checked = true
     }
-    
+
     hacerFetch(sessionStorage.getItem("tipo"))
 })
 
-function hacerFetch(url){
+function hacerFetch(url) {
     article.innerHTML = ""
-fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
-    headers: {
-        "api-key": sessionStorage.getItem("token")
-    }
-})
-    .then(response => response.json())
-    .then(data => {
-        const contenedor = document.createElement('div');
-        article.appendChild(contenedor);
-        const list = document.createElement("li");
-        list.classList.add("row", "row-cols-md-2", "row-cols-lg-6","row-cols-xl-6");
-        contenedor.appendChild(list);
-        data[url].forEach(item => {
-            const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","col-12","col-sm-2","col-md-5","col-lg-6","m-1","text-center","border","bg-light","rounded-3","p-3","d-flex","align-items-center");
-            tarjeta.setAttribute("id", item.id);
-            list.appendChild(tarjeta);
-            const titulo = document.createElement("div");
-            const strong = document.createElement("strong");
-            strong.textContent = item.nombre;
-            titulo.appendChild(strong);
-            const precio = document.createElement("div")
-            precio.textContent = item.precio+"€";
-            tarjeta.append(titulo, precio);
+    fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
+        headers: {
+            "api-key": sessionStorage.getItem("token")
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const contenedor = document.createElement('div');
+            article.appendChild(contenedor);
+            const list = document.createElement("li");
+            list.classList.add("row", "row-cols-md-2", "row-cols-lg-6", "row-cols-xl-6");
+            contenedor.appendChild(list);
+            data[url].forEach(item => {
+                const tarjeta = document.createElement("div")
+                tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-5", "col-lg-6", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
+                tarjeta.setAttribute("id", item.id);
+                list.appendChild(tarjeta);
+                const titulo = document.createElement("div");
+                const strong = document.createElement("strong");
+                strong.textContent = item.nombre;
+                titulo.appendChild(strong);
+                const precio = document.createElement("div")
+                precio.textContent = item.precio + "€";
+                tarjeta.append(titulo, precio);
 
-            //Evento para seleccionar el item
-            tarjeta.addEventListener("click", () => {
-                seleccionarItem(tarjeta);
+                //Evento para seleccionar el item
+                tarjeta.addEventListener("click", () => {
+                    seleccionarItem(tarjeta);
                 })
 
 
-            
-        });
 
-    })
+            });
+
+        })
 }
 
 //Desplegable de empleados
@@ -110,17 +110,17 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
 })
     .then(response => response.json())
     .then(data => {
-            data.empleados.forEach(element => {
+        data.empleados.forEach(element => {
 
-                const option = document.createElement("option")
-                option.textContent = element.nombre
-                option.value = element.id
-                if(option.value == sessionStorage.getItem("id")){
-                    option.selected = true
-                }
-                empleados.appendChild(option)
-                    })
-                });
+            const option = document.createElement("option")
+            option.textContent = element.nombre
+            option.value = element.id
+            if (option.value == sessionStorage.getItem("id")) {
+                option.selected = true
+            }
+            empleados.appendChild(option)
+        })
+    });
 
 
 //Desplegable de clientes
@@ -138,20 +138,20 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         clientes.appendChild(sinClientes)
         sinClientes.selected = true
 
-            data.clientes.forEach(element => {
+        data.clientes.forEach(element => {
 
-                const option = document.createElement("option")
-                option.textContent = element.nombre
-                option.value = element.id
+            const option = document.createElement("option")
+            option.textContent = element.nombre
+            option.value = element.id
 
-                clientes.appendChild(option)
-                    })
-                });
+            clientes.appendChild(option)
+        })
+    });
 
 //Botón de volver
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver"
-botonVolver.classList.add("btn", "btn-primary","position-sm-absolute","fixed-height","top-sm-50", "start-sm-0", "position-xs-absolute", "position-fixed", "top-xs-0", "end-xs-0", "m-3","top-xs-0","end-xs-0", "m-3","bottom-0")
+botonVolver.classList.add("btn", "btn-primary", "position-sm-absolute", "fixed-height", "top-sm-50", "start-sm-0", "position-xs-absolute", "position-fixed", "top-xs-0", "end-xs-0", "m-3", "top-xs-0", "end-xs-0", "m-3", "bottom-0")
 botonVolver.setAttribute("id", "volver")
 document.body.appendChild(botonVolver)
 botonVolver.addEventListener("click", () => {
@@ -161,10 +161,10 @@ botonVolver.addEventListener("click", () => {
 //Botón de seleccionar entre factura o ticket
 let radios = document.getElementsByName('documento-venta');
 // Añade un evento 'change' a cada botón de opción
-for(let i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('change', function() {
+for (let i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('change', function () {
         // Cuando se haga clic en un botón de opción, imprime su id
-        if(this.checked) {
+        if (this.checked) {
             console.log(this.id);
             //CÓDIGO PARA MANDAR EL TIPO DE DOCUMENTO
         }
@@ -172,15 +172,25 @@ for(let i = 0; i < radios.length; i++) {
 }
 
 function seleccionarItem(tarjeta) {
+
+    //Si el id de la tarjeta coincide con el de una fila, encontrado es true
+    const encontrado = Array.from(tbody.getElementsByTagName("tr")).find(tr => tr.dataset.id == tarjeta.id);
+        if (encontrado) {
+            const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
+            cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
+            calcularPrecio();
+        }else{
+    
     const tr = document.createElement("tr");
     tbody.appendChild(tr);
-
+    tr.dataset.id = tarjeta.id;
     const tdNombre = document.createElement("td");
     tdNombre.classList.add("white")
     tdNombre.textContent = tarjeta.childNodes[0].textContent;
     tr.appendChild(tdNombre);
 
-    
+
+
     const tdCantidad = document.createElement("td");
     const cantidad = document.createElement("input");
     cantidad.setAttribute("type", "number");
@@ -188,6 +198,19 @@ function seleccionarItem(tarjeta) {
     cantidad.value = 1;
     tr.appendChild(tdCantidad)
     tdCantidad.appendChild(cantidad);
+    tdCantidad.addEventListener("input", () => {
+        if(cantidad.value < 1 || cantidad.value == null || cantidad.value == ""){
+            cantidad.value = 1;
+        }
+        calcularPrecio();
+    })
+
+    tdCantidad.addEventListener("keypress", (e) => {
+        if(e.key == "Enter"){
+            e.preventDefault();
+        }
+        calcularPrecio();
+    })
 
     const tdPrecio = document.createElement("td");
     const precio = document.createElement("input");
@@ -199,18 +222,55 @@ function seleccionarItem(tarjeta) {
     tdPrecio.appendChild(precio);
     tdPrecio.appendChild(document.createTextNode("€"));
     tr.appendChild(tdPrecio);
+    tdPrecio.addEventListener("input", () => {
+        if(precio.value < 1 || precio.value == null || precio.value == ""){
+            precio.value = 1;
+        }
+        calcularPrecio();
+    })
 
-    
+    tdPrecio.addEventListener("keypress", (e) => {
+        if(e.key == "Enter"){
+            e.preventDefault();
+        }
+        calcularPrecio();
+    })
+
+
     const tdEliminar = document.createElement("td");
     const botonEliminar = document.createElement("button");
     botonEliminar.textContent = "X";
-    tdEliminar.classList.add("d-flex","align-items-center", "justify-content-center");
+    tdEliminar.classList.add("d-flex", "align-items-center", "justify-content-center");
     botonEliminar.classList.add("btn", "btn-danger");
     tdEliminar.appendChild(botonEliminar);
     tr.appendChild(tdEliminar);
 
     botonEliminar.addEventListener("click", () => {
         tr.remove();
+        calcularPrecio();
     })
+
+    calcularPrecio();
 }
+}
+
+
+function calcularPrecio() {
+    const precios = tbody.querySelectorAll("td:nth-child(3) input");
+    let total = 0;
+    precios.forEach(precio => {
+        total += parseFloat(precio.value) * parseInt(precio.parentElement.previousElementSibling.querySelector("input").value);
+    })
+    total = total.toFixed(2); //Sólo dos cifras decimales
+    document.getElementById("total").textContent = total + "€";
+    document.getElementById("total").setAttribute("value", total);
+}
+
+document.querySelector("input").addEventListener("keypress", (e) => {
+    if(e.key == "Enter"){
+        e.preventDefault();
+    }
+})
+
+
 
