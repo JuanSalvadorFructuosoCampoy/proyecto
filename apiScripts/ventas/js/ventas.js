@@ -127,15 +127,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         sinClientes.textContent = "NO DEFINIDO"
         sinClientes.value = "0"
         clientes.appendChild(sinClientes)
+        sinClientes.selected = true
 
             data.clientes.forEach(element => {
 
                 const option = document.createElement("option")
                 option.textContent = element.nombre
                 option.value = element.id
-                if(option.value == sessionStorage.getItem("id")){
-                    option.selected = true
-                }
+
                 clientes.appendChild(option)
                     })
                 });
@@ -150,13 +149,6 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
-document.querySelector("#documento-venta").addEventListener("change", () => {
-    if (radioProductos.checked) {
-        sessionStorage.setItem("tipo", "productos")
-        radioProductos.checked = true
-        
-    } else if (radioServicios.checked) {
-        sessionStorage.setItem("tipo", "servicios")
-        radioServicios.checked = true
-    }
-})
+document.querySelector("[name='documento-venta']").addEventListener("change", () => {
+    console.log("hola");
+});

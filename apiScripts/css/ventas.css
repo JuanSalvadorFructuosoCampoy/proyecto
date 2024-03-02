@@ -27,12 +27,12 @@ article {
         height:700px !important;
         width: 100% !important;
     }
+
     #items{
         height: 150px !important;
         overflow-y: scroll !important;
     }
     
-
         .position-xs-fixed{
             position: fixed !important;
         }
@@ -88,20 +88,24 @@ article {
 @media (min-width: 768px) and (max-width: 991.98px) { /* Pantallas md */
 
     section{
-        height: 150% !important;
-        position: absolute;
+        height: 100% !important;
+        position: fixed;
+        top: 0;
         bottom: 0;
         right: 0;
     }
     #items{
         height: 70%;
     }
+
+
 }
 
 @media (min-width: 992px) { /* Pantallas lg y superiores */
     section{
-        height: 150% !important;
-        position: absolute;
+        height: 100% !important;
+        position: fixed;
+        top: 0;
         bottom: 0;
         right: 0;
     }
