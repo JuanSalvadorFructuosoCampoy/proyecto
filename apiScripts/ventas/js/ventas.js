@@ -5,6 +5,7 @@ const article = document.querySelector("article")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
 
+//Barra de búsqueda
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
@@ -46,6 +47,7 @@ hacerFetch(sessionStorage.getItem("tipo"))
     hacerFetch(url)
 }
 
+//Cambia el tipo de item que se muestra: productos o servicios
 document.querySelector("aside").addEventListener("change", () => {
     if (radioProductos.checked) {
         sessionStorage.setItem("tipo", "productos")
@@ -72,7 +74,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         article.appendChild(contenedor);
         const list = document.createElement("li");
         list.classList.add("row", "row-cols-md-2", "row-cols-lg-5","row-cols-xl-5");
-        list.classList.add("justify-content-center", "justify-content-sm-center");
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
@@ -91,6 +92,28 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
     })
 }
 
+//Desplegable de empleados
+const empleados = document.getElementById("empleados")
+fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
+    headers: {
+        "api-key": sessionStorage.getItem("token")
+    }
+})
+    .then(response => response.json())
+    .then(data => {
+            data.empleados.forEach(element => {
+
+                const option = document.createElement("option")
+                option.textContent = element.nombre
+                option.value = element.id
+                if(option.value == sessionStorage.getItem("id")){
+                    option.selected = true
+                }
+                empleados.appendChild(option)
+                    })
+                });
+
+//Botón de volver
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver"
 botonVolver.classList.add("btn", "btn-primary","position-sm-absolute","fixed-height","top-sm-50", "start-sm-0", "position-xs-absolute", "position-fixed", "top-xs-0", "end-xs-0", "m-3","top-xs-0","end-xs-0", "m-3","bottom-0")

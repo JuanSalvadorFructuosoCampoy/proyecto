@@ -60,6 +60,22 @@ article {
             position: absolute !important;
         }
 
+        .bottom-xs-0 {
+            bottom: 0 !important;
+        }
+        .start-xs-0 {
+            left: 0 !important;
+        }
+        .top-xs-0 {
+            top: 0 !important;
+        }
+        .end-xs-0 {
+            right: 0 !important;
+        }
+        section div{
+            height: 100%;
+        }
+
     }
 
 @media (min-width: 768px) and (max-width: 991.98px) { /* Pantallas md */
@@ -89,4 +105,8 @@ section{
 }
 .fixed-height {
     height: 40px;
+}
+
+section div{
+    height: 50%;
 }
