@@ -21,10 +21,10 @@ barraBusqueda.addEventListener("input", () => {
     const tarjetas = document.querySelectorAll(".card");
     tarjetas.forEach(tarjeta => {
         const celdas = tarjeta.getElementsByTagName("div");
-        let coincide = false;
-        for (let j = 0; j < celdas.length && !coincide; j++) {
-            const celda = celdas[j];
-            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {
+        let coincide = false; //Si coincide es true, se muestra la tarjeta
+        for (let j = 0; j < celdas.length && !coincide; j++) { //Recorre las celdas de la tarjeta
+            const celda = celdas[j]; //Cada celda
+            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda, coincide es true
                 coincide = true;
             }
         }
@@ -73,11 +73,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
         const contenedor = document.createElement('div');
         article.appendChild(contenedor);
         const list = document.createElement("li");
-        list.classList.add("row", "row-cols-md-2", "row-cols-lg-5","row-cols-xl-5");
+        list.classList.add("row", "row-cols-md-2", "row-cols-lg-6","row-cols-xl-6");
         contenedor.appendChild(list);
         data[url].forEach(item => {
             const tarjeta = document.createElement("div")
-            tarjeta.classList.add("card","col","col-12","col-sm-2","col-md-5","col-lg-5","m-1","text-center","border","bg-light","rounded-3","p-3");
+            tarjeta.classList.add("card","col","col-12","col-sm-2","col-md-5","col-lg-6","m-1","text-center","border","bg-light","rounded-3","p-3");
             tarjeta.setAttribute("id", item.id);
             list.appendChild(tarjeta);
             const titulo = document.createElement("div");
