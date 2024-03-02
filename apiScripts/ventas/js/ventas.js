@@ -6,6 +6,38 @@ const tbody = document.querySelector("tbody")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
 
+//Barra de búsqueda
+const barraBusqueda = document.createElement("input");
+barraBusqueda.setAttribute("id", "busqueda");
+barraBusqueda.setAttribute("type", "text");
+barraBusqueda.setAttribute("placeholder", "Buscar item");
+barraBusqueda.classList.add("form-control", "w-50");
+const contenedorBusqueda = document.createElement("div");
+contenedorBusqueda.classList.add("d-flex", "justify-content-start", "m-1");
+contenedorBusqueda.appendChild(barraBusqueda);
+document.body.insertBefore(contenedorBusqueda, contenedorFluid);
+barraBusqueda.focus();
+barraBusqueda.addEventListener("input", () => {
+    const texto = barraBusqueda.value.toLowerCase();
+    const tarjetas = document.querySelectorAll(".card");
+    tarjetas.forEach(tarjeta => {
+        const celdas = tarjeta.getElementsByTagName("div");
+        let coincide = false; //Si coincide es true, se muestra la tarjeta
+        for (let j = 0; j < celdas.length && !coincide; j++) { //Recorre las celdas de la tarjeta
+            const celda = celdas[j]; //Cada celda
+            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda, coincide es true
+                coincide = true;
+                console.log(celda.innerHTML.toLowerCase())
+            }
+        }
+        if (coincide) {
+            tarjeta.classList.remove("d-none")
+        } else {
+            tarjeta.classList.add("d-none")
+        }
+    });
+});
+
 if (sessionStorage.getItem("tipo")) {//Si hay algo en el sessionStorage, se lo asigna a la variable url
     hacerFetch(sessionStorage.getItem("tipo"))
     if (sessionStorage.getItem("tipo") == "productos") {//Si el tipo es productos, se selecciona el radio de productos
@@ -144,83 +176,83 @@ function seleccionarItem(tarjeta) {
 
     //Si el id de la tarjeta coincide con el de una fila, encontrado es true
     const encontrado = Array.from(tbody.getElementsByTagName("tr")).find(tr => tr.dataset.id == tarjeta.id);
-        if (encontrado) {
-            const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
-            cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
+    if (encontrado) {
+        const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
+        cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
+        calcularPrecio();
+    } else {
+
+        const tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        tr.dataset.id = tarjeta.id;
+        const tdNombre = document.createElement("td");
+        tdNombre.classList.add("white")
+        tdNombre.textContent = tarjeta.childNodes[0].textContent;
+        tr.appendChild(tdNombre);
+
+
+
+        const tdCantidad = document.createElement("td");
+        const cantidad = document.createElement("input");
+        cantidad.setAttribute("type", "number");
+        cantidad.setAttribute("min", "1");
+        cantidad.value = 1;
+        tr.appendChild(tdCantidad)
+        tdCantidad.appendChild(cantidad);
+        tdCantidad.addEventListener("input", () => {
+            if (cantidad.value < 1 || cantidad.value == null || cantidad.value == "") {
+                cantidad.value = 1;
+            }
             calcularPrecio();
-        }else{
-    
-    const tr = document.createElement("tr");
-    tbody.appendChild(tr);
-    tr.dataset.id = tarjeta.id;
-    const tdNombre = document.createElement("td");
-    tdNombre.classList.add("white")
-    tdNombre.textContent = tarjeta.childNodes[0].textContent;
-    tr.appendChild(tdNombre);
+        })
+
+        tdCantidad.addEventListener("keypress", (e) => {
+            if (e.key == "Enter") {
+                e.preventDefault();
+            }
+            calcularPrecio();
+        })
+
+        const tdPrecio = document.createElement("td");
+        const precio = document.createElement("input");
+        tdPrecio.classList.add("justify-content-center");
+        precio.setAttribute("type", "number");
+        precio.setAttribute("min", "0");
+        precio.setAttribute("step", "0.01");
+        precio.value = parseFloat(tarjeta.childNodes[1].textContent)
+        tdPrecio.appendChild(precio);
+        tdPrecio.appendChild(document.createTextNode("€"));
+        tr.appendChild(tdPrecio);
+        tdPrecio.addEventListener("input", () => {
+            if (precio.value < 1 || precio.value == null || precio.value == "") {
+                precio.value = 1;
+            }
+            calcularPrecio();
+        })
+
+        tdPrecio.addEventListener("keypress", (e) => {
+            if (e.key == "Enter") {
+                e.preventDefault();
+            }
+            calcularPrecio();
+        })
 
 
+        const tdEliminar = document.createElement("td");
+        const botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "X";
+        tdEliminar.classList.add("d-flex", "align-items-center", "justify-content-center");
+        botonEliminar.classList.add("btn", "btn-danger");
+        tdEliminar.appendChild(botonEliminar);
+        tr.appendChild(tdEliminar);
 
-    const tdCantidad = document.createElement("td");
-    const cantidad = document.createElement("input");
-    cantidad.setAttribute("type", "number");
-    cantidad.setAttribute("min", "1");
-    cantidad.value = 1;
-    tr.appendChild(tdCantidad)
-    tdCantidad.appendChild(cantidad);
-    tdCantidad.addEventListener("input", () => {
-        if(cantidad.value < 1 || cantidad.value == null || cantidad.value == ""){
-            cantidad.value = 1;
-        }
+        botonEliminar.addEventListener("click", () => {
+            tr.remove();
+            calcularPrecio();
+        })
+
         calcularPrecio();
-    })
-
-    tdCantidad.addEventListener("keypress", (e) => {
-        if(e.key == "Enter"){
-            e.preventDefault();
-        }
-        calcularPrecio();
-    })
-
-    const tdPrecio = document.createElement("td");
-    const precio = document.createElement("input");
-    tdPrecio.classList.add("justify-content-center");
-    precio.setAttribute("type", "number");
-    precio.setAttribute("min", "0");
-    precio.setAttribute("step", "0.01");
-    precio.value = parseFloat(tarjeta.childNodes[1].textContent)
-    tdPrecio.appendChild(precio);
-    tdPrecio.appendChild(document.createTextNode("€"));
-    tr.appendChild(tdPrecio);
-    tdPrecio.addEventListener("input", () => {
-        if(precio.value < 1 || precio.value == null || precio.value == ""){
-            precio.value = 1;
-        }
-        calcularPrecio();
-    })
-
-    tdPrecio.addEventListener("keypress", (e) => {
-        if(e.key == "Enter"){
-            e.preventDefault();
-        }
-        calcularPrecio();
-    })
-
-
-    const tdEliminar = document.createElement("td");
-    const botonEliminar = document.createElement("button");
-    botonEliminar.textContent = "X";
-    tdEliminar.classList.add("d-flex", "align-items-center", "justify-content-center");
-    botonEliminar.classList.add("btn", "btn-danger");
-    tdEliminar.appendChild(botonEliminar);
-    tr.appendChild(tdEliminar);
-
-    botonEliminar.addEventListener("click", () => {
-        tr.remove();
-        calcularPrecio();
-    })
-
-    calcularPrecio();
-}
+    }
 }
 
 
@@ -236,7 +268,7 @@ function calcularPrecio() {
 }
 
 document.querySelector("input").addEventListener("keypress", (e) => {
-    if(e.key == "Enter"){
+    if (e.key == "Enter") {
         e.preventDefault();
     }
 })
@@ -257,127 +289,101 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const items = tbody.querySelectorAll("tr");
-    if (items.length == 0) {
-        alert("La lista de items está vacía");
-        return;
-    }
-
-    const radios = document.querySelectorAll("input[name='documento-venta']");
-    let selectedValue;
-    radios.forEach((radio) => {
-        if (radio.checked) {
-            selectedValue = radio.id;
+        if (items.length == 0) {
+            alert("La lista de items está vacía");
+            return;
         }
-    });
 
-    console.log(selectedValue);
-    if(selectedValue == "factura" && clientes.value == "0"){
-        alert("No se puede emitir una factura sin un cliente")
-        return
+        const radios = document.querySelectorAll("input[name='documento-venta']");
+        let selectedValue;
+        radios.forEach((radio) => {
+            if (radio.checked) {
+                selectedValue = radio.id;
+            }
+        });
 
-    }else if(selectedValue == "ticket" && clientes.value != "0"){
-        alert("No se puede emitir un ticket a un cliente")
-        return
+        console.log(selectedValue);
+        if(selectedValue == "factura" && clientes.value == "0"){
+            alert("No se puede emitir una factura sin un cliente")
+            return
 
-    }else{
+        }else if(selectedValue == "ticket" && clientes.value != "0"){
+            alert("No se puede emitir un ticket a un cliente")
+            return
 
-    const fechaActual = new Date();
-    const year = fechaActual.getFullYear();
-    const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
-    const day = String(fechaActual.getDate()).padStart(2, '0');
-    const fechaFormateada = `${year}-${month}-${day}`;
-    const tipoPago = document.querySelectorAll("input[name='pago']");
-    let valorPago;
-    tipoPago.forEach((radio) => {
-        if (radio.checked) {
-            valorPago = radio.id;
+        }else{
+
+        const fechaActual = new Date();
+        const year = fechaActual.getFullYear();
+        const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+        const day = String(fechaActual.getDate()).padStart(2, '0');
+        const fechaFormateada = `${year}-${month}-${day}`;
+        const tipoPago = document.querySelectorAll("input[name='pago']");
+        let valorPago;
+        tipoPago.forEach((radio) => {
+            if (radio.checked) {
+                valorPago = radio.id;
+            }
+        });
+
+        const venta = {
+            fecha: fechaFormateada,
+            total: parseFloat(document.getElementById("total").getAttribute("value")),
+            empleado: empleados.value,
+            tipo: valorPago,
         }
-    });
 
-    const venta = {
-        fecha: fechaFormateada,
-        total: parseFloat(document.getElementById("total").getAttribute("value")),
-        empleado: empleados.value,
-        tipo: valorPago,
+        if (clientes.value != "0") {
+            venta.cliente = clientes.value;
+        }
+    //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
+        fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
+            method: "POST",
+            headers: {
+                "api-key": sessionStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(venta)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    vaciarTabla();
+                }
+            })
     }
 
-    if (clientes.value != "0") {
-        venta.cliente = clientes.value;
-    }
-//Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
-        method: "POST",
         headers: {
             "api-key": sessionStorage.getItem("token"),
-            "Content-Type": "application/json"
         },
-        body: JSON.stringify(venta)
     })
         .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                vaciarTabla();
-            }
+            idVentaNueva = data.ventas[data.ventas.length - 1].id
+            items.forEach(item => {
+                let itemVenta = {
+                            id: data.ventas[data.ventas.length - 1].id,
+                            id_item : item.dataset.id,
+                            cantidad: item.childNodes[1].childNodes[0].value,
+                            precio: item.childNodes[2].childNodes[0].value,
+                            id_cliente: clientes.value != "0" ? cliente : null
+                        }
+                fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
+                    method: "POST",
+                    headers: {
+                        "api-key": sessionStorage.getItem("token"),
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(itemVenta)
+                })
         })
-}
+        })
 
-
-// fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`),{
-// method: "POST",
-// headers: {
-//     "api-key": sessionStorage.getItem("token"),
-//     "Content-Type": "application/json"
-// },
-// }
-// const items = [];
-// const filas = tbody.querySelectorAll("tr");
-// filas.forEach(fila => {
-//     const item = {
-//         id: fila.dataset.id,
-//         cantidad: fila.querySelector("td:nth-child(2) input").value,
-//         precio: fila.querySelector("td:nth-child(3) input").value
-//     }
-//     items.push(item);
-// })
-
-// const ventaItems = {
-//     venta: data.id,
-//     items: items
-// }
 })
 
-//Barra de búsqueda
-const barraBusqueda = document.createElement("input");
-barraBusqueda.setAttribute("id", "busqueda");
-barraBusqueda.setAttribute("type", "text");
-barraBusqueda.setAttribute("placeholder", "Buscar item");
-barraBusqueda.classList.add("form-control", "w-50");
-const contenedorBusqueda = document.createElement("div");
-contenedorBusqueda.classList.add("d-flex", "justify-content-start", "m-1");
-contenedorBusqueda.appendChild(barraBusqueda);
-document.body.insertBefore(contenedorBusqueda, contenedorFluid);
-barraBusqueda.focus();
-barraBusqueda.addEventListener("input", () => {
-    const texto = barraBusqueda.value.toLowerCase();
-    const tarjetas = document.querySelectorAll(".card");
-    tarjetas.forEach(tarjeta => {
-        const celdas = tarjeta.getElementsByTagName("div");
-        let coincide = false; //Si coincide es true, se muestra la tarjeta
-        for (let j = 0; j < celdas.length && !coincide; j++) { //Recorre las celdas de la tarjeta
-            const celda = celdas[j]; //Cada celda
-            if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda, coincide es true
-                coincide = true;
-                console.log(celda.innerHTML.toLowerCase())
-            }
-        }
-        if (coincide) {
-            tarjeta.classList.remove("d-none") 
-        } else {
-            tarjeta.classList.add("d-none") 
-        }
-    });
-});
+
 
 

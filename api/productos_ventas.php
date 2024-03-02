@@ -1,16 +1,16 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con registros de la tabla clientes
- *	La clase "clientes.class.php" es la clase del modelo, que representa a un jugador de la tabla
+ *	Script que se usa en los endpoints para trabajar con registros de la tabla productos
+ *	La clase "productos.class.php" es la clase del modelo, que representa a un jugador de la tabla
 */
 
-require 'src/classes/clientes.class.php';//Se incluye el archivo de la clase del modelo
+require 'src/classes/productos_ventas.class.php';//Se incluye el archivo de la clase del modelo
 require '../autenticacion/src/auth.class.php';//Se incluye el archivo de la clase de autentificación
 
 $auth = new Authentication(); // Se crea un objeto de la clase Authentication
 $auth->verify();// Se verifica si el usuario está autenticado
 
-$cliente = new User();// Se crea un objeto de la clase User
+$producto = new User();// Se crea un objeto de la clase User
 
 /**
  * Se mira el tipo de petición que ha llegado a la API y dependiendo de ello se realiza una u otra accción
@@ -22,11 +22,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
 		$params = $_GET;
 
-		$clientes = $cliente->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		$productos = $producto->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
 		//$consultas = $user->verUsos($id);// Se llama al método verUsos() del modelo para ver los usos de la API
 		$response = array(
 			'result' => 'ok',
-			'clientes' => $clientes, 
+			'productos' => $productos, 
 		);
 
 		Response::result(200, $response);
@@ -50,7 +50,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 
 
-		$insert_id = $cliente->insert($params);
+		$insert_id = $producto->insert($params);
 
 		$response = array(
 			'result' => 'ok',
@@ -76,7 +76,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			exit;
 		}
 
-		$cliente->update($_GET['id'], $params);
+		$producto->update($_GET['id'], $params);
 
 		$response = array(
 			'result' => 'ok'
@@ -90,7 +90,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
 	
 	
-			$cliente->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
+			$producto->patch($_GET['id'], $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
 	
 			$response = 'ok';
 	
@@ -111,7 +111,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			exit;
 		}
 
-		$cliente->delete($_GET['id']);
+		$producto->delete($_GET['id']);
 
 		$response = array(
 			'result' => 'ok'

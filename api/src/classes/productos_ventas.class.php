@@ -27,6 +27,7 @@ class User extends Database
 	 * Array con los campos de la tabla que se pueden proporcionar para insertar registros
 	 */
 	private $allowedConditions_insert = array(
+		'id',
 		'id_item',
 		'id_cliente',
 		'cantidad',
