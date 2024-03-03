@@ -562,8 +562,6 @@ function mostrarVentanaCambio(mensaje) {
         });
     });
 }
-
-
 //Nuevo cliente con ventana emergente
 const nuevoCliente = document.getElementById("nuevoCliente");
 nuevoCliente.addEventListener("click", (e) => {
@@ -694,4 +692,3 @@ nuevoCliente.addEventListener("click", (e) => {
     }
 
 })
-
