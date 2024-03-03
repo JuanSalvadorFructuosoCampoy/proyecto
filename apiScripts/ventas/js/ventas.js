@@ -361,12 +361,10 @@ form.addEventListener("submit", async (e) => {
 
         if (valorPago == "efectivo") {
             const confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
-
             if (!confirmarVenta) {
                 return;
             }
         }
-
 
         const venta = {
             fecha: fechaFormateada,
@@ -447,21 +445,16 @@ form.addEventListener("submit", async (e) => {
                                         stock: producto.stock - item.childNodes[1].childNodes[0].value
                                     })
                                 })
+                                .then(() => {
+                                    hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
+            
+                                })
                             }
-                        })
+                        }) 
                     })
             })
-
-        })
-        .then(() => {
-            hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
-    
-})
-    
-})
-
-
-
+      })  
+     })
 
 function calcularPrecio() {
     const precios = tbody.querySelectorAll("td:nth-child(3) input");
