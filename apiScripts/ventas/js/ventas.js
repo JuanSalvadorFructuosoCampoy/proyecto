@@ -142,7 +142,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
 
 
 //Desplegable de clientes
+function desplegableClientes(idNuevoCliente){
 const clientes = document.getElementById("clientes")
+clientes.innerHTML = ""
 fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -159,12 +161,17 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         data.clientes.forEach(element => {
 
             const option = document.createElement("option")
-            option.textContent = element.nombre
+            option.textContent = element.nombre+" "+element.apellido1+" "+element.apellido2
             option.value = element.id
-
+            if(option.value == idNuevoCliente){
+                option.selected = true
+                sinClientes.selected = false
+            }
             clientes.appendChild(option)
         })
     });
+}
+desplegableClientes()
 
 //Botón de volver
 const botonVolver = document.createElement("button")
@@ -445,16 +452,16 @@ form.addEventListener("submit", async (e) => {
                                         stock: producto.stock - item.childNodes[1].childNodes[0].value
                                     })
                                 })
-                                .then(() => {
-                                    hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
-            
-                                })
+                                    .then(() => {
+                                        hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
+
+                                    })
                             }
-                        }) 
+                        })
                     })
             })
-      })  
-     })
+        })
+})
 
 function calcularPrecio() {
     const precios = tbody.querySelectorAll("td:nth-child(3) input");
@@ -480,7 +487,6 @@ function mostrarVentanaError(mensaje) {
 }
 
 function mostrarVentanaCambio(mensaje) {
-
     return new Promise((resolve, reject) => {
 
         document.getElementById("ventanaCambio").innerHTML = "";
@@ -557,4 +563,135 @@ function mostrarVentanaCambio(mensaje) {
     });
 }
 
+
+//Nuevo cliente con ventana emergente
+const nuevoCliente = document.getElementById("nuevoCliente");
+nuevoCliente.addEventListener("click", (e) => {
+    e.preventDefault();
+    const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");
+    ventanaNuevoCliente.classList.remove("d-none");
+    ventanaNuevoCliente.classList.add("p-1");
+
+    //Script de nuevoCliente
+    const formularioNuevoCliente = document.getElementsByTagName('form')[1];
+    const errorMessageElementTelefono = document.createElement('p');
+    formularioNuevoCliente.querySelector('#telefono').insertAdjacentElement('afterend', errorMessageElementTelefono);
+    const errorMessageElementIdFiscal = document.createElement('p');
+    formularioNuevoCliente.querySelector('#id_fiscal').insertAdjacentElement('afterend', errorMessageElementIdFiscal);
+    formularioNuevoCliente.querySelector('#id_fiscal').focus();
+    const enviarNuevoCliente = document.getElementById('enviarNuevoCliente');
+    enviarNuevoCliente.addEventListener('click', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
+        e.preventDefault();
+
+        const mensajesError = formularioNuevoCliente.querySelectorAll('.text-danger');
+        mensajesError.forEach(mensaje => mensaje.remove());
+        let nombre = formularioNuevoCliente.querySelector('#nombre').value.trim();
+        let id_fiscal = formularioNuevoCliente.querySelector('#id_fiscal').value.trim();
+        let apellido1 = formularioNuevoCliente.querySelector('#apellido1').value.trim();
+        let apellido2 = formularioNuevoCliente.querySelector('#apellido2').value.trim();
+        let telefono = formularioNuevoCliente.querySelector('#telefono').value.trim();
+        let direccion = formularioNuevoCliente.querySelector('#direccion').value.trim();
+
+        // Validar contraseña
+        const telefonoRegex = /^\d{9}$|^\d{3}\s\d{2}\s\d{2}\s\d{2}$|^\d{3}\s\d{3}\s\d{3}$/;
+        if (!telefonoRegex.test(telefono)) {
+            errorMessageElementTelefono.textContent = ""
+            let errorMessage = "Error en el teléfono. Solamente acepta números y espacios";
+            errorMessageElementTelefono.textContent = errorMessage;
+            errorMessageElementTelefono.classList.add("text-danger")
+            return;
+        }
+        telefono = telefono.replaceAll(" ", "");
+        id_fiscal = id_fiscal.toUpperCase(); // Reemplazar las minúsculas por mayúsculas
+        id_fiscal = id_fiscal.replaceAll(" ", ""); // Eliminar espacios
+        id_fiscal = id_fiscal.replaceAll("-", ""); // Eliminar guiones
+
+        if (!validateDNI(id_fiscal)) {
+            let errorMessage = "Error en el ID fiscal. El formato no es válido";
+            errorMessageElementIdFiscal.textContent = ""
+            errorMessageElementIdFiscal.textContent = errorMessage;
+            errorMessageElementIdFiscal.classList.add("text-danger")
+
+            return;
+        }
+
+        const datosInput = {
+            nombre: nombre,
+            id_fiscal: id_fiscal,
+            apellido1: apellido1,
+            apellido2: apellido2,
+            telefono: telefono,
+            direccion: direccion
+        }
+
+        const jsonDatos = JSON.stringify(datosInput)
+        fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "api-key": sessionStorage.getItem("token")
+            },
+            body: jsonDatos
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Éxito:', data);
+                const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");
+                ventanaNuevoCliente.classList.add("d-none");
+                formularioNuevoCliente.querySelector('#nombre').value = ""
+                formularioNuevoCliente.querySelector('#id_fiscal').value = ""
+                formularioNuevoCliente.querySelector('#apellido1').value = ""
+                formularioNuevoCliente.querySelector('#apellido2').value = ""
+                formularioNuevoCliente.querySelector('#telefono').value = ""
+                formularioNuevoCliente.querySelector('#direccion').value = ""
+                desplegableClientes(data.insert_id)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+
+    const cancelarNuevoCliente = document.getElementById('cancelarNuevoCliente');
+    cancelarNuevoCliente.addEventListener('click', () => {
+        const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");
+        ventanaNuevoCliente.classList.add("d-none");
+       formularioNuevoCliente.querySelector('#nombre').value = ""
+        formularioNuevoCliente.querySelector('#id_fiscal').value = ""
+        formularioNuevoCliente.querySelector('#apellido1').value = ""
+       formularioNuevoCliente.querySelector('#apellido2').value = ""
+        formularioNuevoCliente.querySelector('#telefono').value = ""
+        formularioNuevoCliente.querySelector('#direccion').value = ""
+    });
+
+    // Comprueba si es un DNI correcto (entre 5 y 8 letras seguidas de la letra que corresponda).
+    // Acepta NIEs (Extranjeros con X, Y o Z al principio)
+    function validateDNI(dni) {
+        var numero, let, letra;
+        var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
+
+        dni = dni.toUpperCase();
+
+        if (expresion_regular_dni.test(dni) === true) {
+            numero = dni.substr(0, dni.length - 1);
+            numero = numero.replace('X', 0);
+            numero = numero.replace('Y', 1);
+            numero = numero.replace('Z', 2);
+            let = dni.substr(dni.length - 1, 1);
+            numero = numero % 23;
+            letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
+            letra = letra.substring(numero, numero + 1);
+            if (letra != let) {
+                //alert('Dni erroneo, la letra del NIF no se corresponde');
+                return false;
+            } else {
+                //alert('Dni correcto');
+                return true;
+            }
+        } else {
+            //alert('Dni erroneo, formato no válido');
+            return false;
+        }
+    }
+
+})
 

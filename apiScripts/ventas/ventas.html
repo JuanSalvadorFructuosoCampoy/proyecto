@@ -73,7 +73,7 @@
                     <label for="clientes"><strong>Cliente</strong></label>
                     <select class="ms-1" id="clientes" name="clientes">
                     </select>
-                    <button type="button" class="btn btn-warning ms-1">Nuevo cliente</button>
+                    <button type="button" id="nuevoCliente" class="btn btn-warning ms-1">Nuevo cliente</button>
                 </li>
 
                 <li class="list-group-item d-flex justify-content-center">
@@ -93,6 +93,42 @@
     </div>
     <div id="ventanaError" class="flex-column"></div>
     <div id="ventanaCambio"class="flex-column"></div>
+    <div id="ventanaNuevoCliente" class="flex-column d-none">
+        <img src="../../images/imagenFondo.png" alt="imagen fondo" class="opacity-25 position-absolute top-50 start-50 translate-middle" style="z-index: -1;">
+        <h2 class="text-center"><strong>NUEVO CLIENTE</strong></h2>
+        <div class="row d-flex justify-content-center align-items-center max-vh-100">
+            <div class="col-8">
+        <form id="formNuevoEmpleado" class="formNuevoEmpleado">
+            <div class="mb-3">
+                <label for="id_fiscal" class="form-label"><strong>ID fiscal</strong></label>
+                <input type="text" class="form-control" id="id_fiscal" name="id_fiscal" required>
+            </div>
+            <div class="mb-3">
+                <label for="nombre" class="form-label"><strong>Nombre</strong></label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellido1" class="form-label"><strong>Primer apellido</strong></label>
+                <input type="text" class="form-control" id="apellido1" name="apellido1" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellido2" class="form-label"><strong>Segundo apellido</strong></label>
+                <input type="text" class="form-control" id="apellido2" name="apellido2">
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label"><strong>Teléfono de contacto</strong></label>
+                <input type="text" class="form-control" id="telefono" name="telefono" required>
+            </div>
+            <div class="mb-3">
+                <label for="direccion" class="form-label"><strong>Dirección</strong></label>
+                <input type="text" class="form-control" id="direccion" name="direccion" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="enviarNuevoCliente">Añadir cliente</button>
+            <button type="button" class="btn btn-secondary" id="cancelarNuevoCliente">Cancelar</button>
+        </form>
+            </div>
+        </div>    
+    </div>
 </body>
 
 </html>
