@@ -83,16 +83,17 @@ function hacerFetch(url) {
                 tarjeta.setAttribute("id", item.id);
 
                 //Guardamos el stock del producto en el dataset de la tarjeta
-                if(url == "productos"){
+                if (url == "productos") {
+
                     tarjeta.dataset.stock = item.stock;
                 }
 
                 //Si el stock es 0, la tarjeta se pone en rojo
-                if(url == "productos" && item.stock <= 0 ){
+                if (url == "productos" && item.stock <= 0) {
                     tarjeta.classList.add("bg-danger")
                     tarjeta.classList.remove("bg-light")
                     //Si el stock es menor de 5, la tarjeta se pone en amarillo
-                } else if (url == "productos" && item.stock < 5){
+                } else if (url == "productos" && item.stock < 5) {
                     tarjeta.classList.add("bg-warning")
                     tarjeta.classList.remove("bg-light")
                 }
@@ -175,23 +176,10 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
-//Botón de seleccionar entre factura o ticket
-let radios = document.getElementsByName('documento-venta');
-// Añade un evento 'change' a cada botón de opción
-for (let i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('change', function () {
-        // Cuando se haga clic en un botón de opción, imprime su id
-        if (this.checked) {
-            console.log(this.id);
-            //CÓDIGO PARA MANDAR EL TIPO DE DOCUMENTO
-        }
-    });
-}
-
 function seleccionarItem(tarjeta) {
-    if(tarjeta.classList.contains("bg-danger")){
-       mostrarVentanaError("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
-       return;
+    if (tarjeta.classList.contains("bg-danger")) {
+        mostrarVentanaError("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
+        return;
     }
 
     //Si el id de la tarjeta coincide con el de una fila, encontrado es true
@@ -299,60 +287,60 @@ function vaciarTabla() {
 const form = document.querySelector("form");
 
 //Evento para enviar el formulario de la venta
-form.addEventListener("submit",async (e) => {
+form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
     const items = tbody.querySelectorAll("tr");
-        //Si no hay items, se muestra un mensaje de error
-        if (items.length == 0) {
-            mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
-            return;
+    //Si no hay items, se muestra un mensaje de error
+    if (items.length == 0) {
+        mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
+        return;
+    }
+
+    let inputsCantidad = tbody.querySelectorAll("td:nth-child(2) input");
+    let inputsPrecio = tbody.querySelectorAll("td:nth-child(3) input");
+
+    let valoresNoValidos = false;
+
+    //Comprobamos que los valores de cantidad y precio sean válidos
+    inputsCantidad.forEach(input => {
+        if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
+            valoresNoValidos = true;
         }
+    });
 
-        let inputsCantidad = tbody.querySelectorAll("td:nth-child(2) input");
-        let inputsPrecio = tbody.querySelectorAll("td:nth-child(3) input");
-
-        let valoresNoValidos = false;
-
-        //Comprobamos que los valores de cantidad y precio sean válidos
-        inputsCantidad.forEach(input => {
-            if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
-                valoresNoValidos = true;
-            }
-        });
-
-        inputsPrecio.forEach(input => {
-            if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null){
-                valoresNoValidos = true;
-            }
-        });
-
-        //Si hay valores no válidos, se muestra un mensaje de error
-        if (valoresNoValidos) {
-            mostrarVentanaError("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
-            return;
+    inputsPrecio.forEach(input => {
+        if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
+            valoresNoValidos = true;
         }
+    });
 
-        const radios = document.querySelectorAll("input[name='documento-venta']");
-        let selectedValue;
-        radios.forEach((radio) => {
-            if (radio.checked) {
-                selectedValue = radio.id;
-            }
-        });
+    //Si hay valores no válidos, se muestra un mensaje de error
+    if (valoresNoValidos) {
+        mostrarVentanaError("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
+        return;
+    }
 
-        //Si se intenta hacer una factura sin cliente o un ticket con cliente, se muestra un mensaje de error
-        if(selectedValue == "factura" && clientes.value == "0"){
+    const radios = document.querySelectorAll("input[name='documento-venta']");
+    let selectedValue;
+    radios.forEach((radio) => {
+        if (radio.checked) {
+            selectedValue = radio.id;
+        }
+    });
+
+    //Si se intenta hacer una factura sin cliente o un ticket con cliente, se muestra un mensaje de error
+    if (selectedValue == "factura" && clientes.value == "0") {
         mostrarVentanaError("NO SE PUEDE EMITIR UNA FACTURA SIN CLIENTE")
         return;
 
         //Si se intenta hacer un ticket con cliente, se muestra un mensaje de error
-        }else if(selectedValue == "ticket" && clientes.value != "0"){
-            mostrarVentanaError("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
-            return;
+    } else if (selectedValue == "ticket" && clientes.value != "0") {
+        mostrarVentanaError("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
+        return;
 
-        }else{
+    } else {
 
         //Si todo es correcto, se inserta la venta en la base de datos
         const fechaActual = new Date();
@@ -370,14 +358,14 @@ form.addEventListener("submit",async (e) => {
                 valorPago = radio.id;
             }
         });
-      
-        if(valorPago == "efectivo"){
-            const confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
-            
-            if(!confirmarVenta){
-                return;
-            }else{
 
+        if (valorPago == "efectivo") {
+            const confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
+
+            if (!confirmarVenta) {
+                return;
+            }
+        }
 
 
         const venta = {
@@ -391,7 +379,7 @@ form.addEventListener("submit",async (e) => {
             venta.cliente = clientes.value;
         }
 
-    //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
+        //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             method: "POST",
             headers: {
@@ -410,7 +398,7 @@ form.addEventListener("submit",async (e) => {
             })
     }
 
-//Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
+    //Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         headers: {
             "api-key": sessionStorage.getItem("token"),
@@ -421,13 +409,13 @@ form.addEventListener("submit",async (e) => {
             idVentaNueva = data.ventas[data.ventas.length - 1].id
             items.forEach(item => {
                 let itemVenta = {
-                            id: data.ventas[data.ventas.length - 1].id,
-                            id_item : item.dataset.id,
-                            cantidad: item.childNodes[1].childNodes[0].value,
-                            precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
-                            id_cliente: clientes.value != "0" ? cliente : null
-                        }
-                
+                    id: data.ventas[data.ventas.length - 1].id,
+                    id_item: item.dataset.id,
+                    cantidad: item.childNodes[1].childNodes[0].value,
+                    precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
+                    id_cliente: clientes.value != "0" ? cliente : null
+                }
+
                 //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
                 fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
                     method: "POST",
@@ -462,11 +450,18 @@ form.addEventListener("submit",async (e) => {
                             }
                         })
                     })
+            })
+
         })
-        })
-               }
-        } 
+        .then(() => {
+            hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
+    
 })
+    
+})
+
+
+
 
 function calcularPrecio() {
     const precios = tbody.querySelectorAll("td:nth-child(3) input");
@@ -475,14 +470,14 @@ function calcularPrecio() {
         total += parseFloat(precio.value) * parseInt(precio.parentElement.previousElementSibling.querySelector("input").value);
     })
     total = total.toFixed(2); //Sólo dos cifras decimales
-    if(total == "NaN"){
+    if (total == "NaN") {
         total = 0;
     }
     document.getElementById("total").textContent = total + "€";
     document.getElementById("total").setAttribute("value", total);
 }
 
-function mostrarVentanaError(mensaje){
+function mostrarVentanaError(mensaje) {
     document.getElementById("ventanaError").style.display = "block";
     document.getElementById("ventanaError").textContent = mensaje;
     setTimeout(() => {
@@ -491,13 +486,13 @@ function mostrarVentanaError(mensaje){
     return
 }
 
-function mostrarVentanaCambio(mensaje){
+function mostrarVentanaCambio(mensaje) {
 
     return new Promise((resolve, reject) => {
 
         document.getElementById("ventanaCambio").innerHTML = "";
         document.getElementById("ventanaCambio").classList.remove("d-none");
-        document.getElementById("ventanaCambio").classList.add("align-items-center", "justify-content-center","d-flex")
+        document.getElementById("ventanaCambio").classList.add("align-items-center", "justify-content-center", "d-flex")
         const p = document.createElement("P")
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
@@ -520,7 +515,7 @@ function mostrarVentanaCambio(mensaje){
         const inputCambio = document.createElement("input")
         inputCambio.setAttribute("disabled", "true");
         inputCambio.style.width = "6em";
-        inputCambio.setAttribute("aria-describedby","inputGroup-sizing-lg")
+        inputCambio.setAttribute("aria-describedby", "inputGroup-sizing-lg")
         inputCambio.classList.add("form-control", "w-50");
         document.getElementById("ventanaCambio").appendChild(inputCambio);
 
@@ -528,15 +523,15 @@ function mostrarVentanaCambio(mensaje){
         inputDineroIntroducido.addEventListener("input", () => {
             const total = parseFloat(document.getElementById("total").getAttribute("value"));
             const dineroIntroducido = parseFloat(inputDineroIntroducido.value);
-            inputDineroIntroducido.setAttribute("aria-describedby","inputGroup-sizing-lg")
+            inputDineroIntroducido.setAttribute("aria-describedby", "inputGroup-sizing-lg")
             const cambio = dineroIntroducido - total;
             inputCambio.value = cambio.toFixed(2) + "€";
-            if(cambio >= 0){
+            if (cambio >= 0) {
                 botonConfirmar.removeAttribute("disabled");
-            }else{
+            } else {
                 botonConfirmar.setAttribute("disabled", "true");
             }
-            if(cambio == null || cambio == "NaN" || inputCambio.value == "NaN€"){
+            if (cambio == null || cambio == "NaN" || inputCambio.value == "NaN€") {
                 inputCambio.value = "";
             }
         });
@@ -544,14 +539,14 @@ function mostrarVentanaCambio(mensaje){
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
-        
+
         botonConfirmar.setAttribute("disabled", "true");
 
         document.getElementById("ventanaCambio").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
-            
+
             resolve(true);
         });
 
@@ -564,7 +559,7 @@ function mostrarVentanaCambio(mensaje){
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
             resolve(false);
-            
+
         });
     });
 }
