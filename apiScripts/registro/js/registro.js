@@ -85,7 +85,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 td2.textContent = `${dia}-${mes}-${anio}`;
                 
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${element.empleado}`)
-                .then(data => td3.textContent = data.empleados[0].nombre)
+                .then(data => {
+                    if(data.empleados[0]){
+                    td3.textContent = data.empleados[0].nombre
+                    }else{
+                        td3.textContent = "NO DEFINIDO"
+                    }
+                })
 
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.cliente}`)
                     .then(data => {

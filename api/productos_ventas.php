@@ -23,6 +23,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		$params = $_GET;
 
 		$productos = $producto->get($params);// Se llama al método get() del modelo y se le pasan los parámetros recibidos por GET en la petición
+		
+		if (count($productos) == 0) {
+			$response = array(
+				'result' => 'error',
+				'details' => 'No se encontraron productos'
+			);
+
+			Response::result(404, $response);
+			exit;
+		}
+
 		$response = array(
 			'result' => 'ok',
 			'productos' => $productos, 

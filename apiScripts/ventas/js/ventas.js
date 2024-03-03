@@ -81,8 +81,13 @@ function hacerFetch(url) {
                 const tarjeta = document.createElement("div")
                 tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-5", "col-lg-6", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
                 tarjeta.setAttribute("id", item.id);
-                //Si el stock es 0, la tarjeta se pone en rojo
 
+                //Guardamos el stock del producto en el dataset de la tarjeta
+                if(url == "productos"){
+                    tarjeta.dataset.stock = item.stock;
+                }
+
+                //Si el stock es 0, la tarjeta se pone en rojo
                 if(url == "productos" && item.stock == 0){
                     tarjeta.classList.add("bg-danger")
                     tarjeta.classList.remove("bg-light")
@@ -210,6 +215,7 @@ function seleccionarItem(tarjeta) {
         const tdCantidad = document.createElement("td");
         const cantidad = document.createElement("input");
         cantidad.setAttribute("type", "number");
+        cantidad.setAttribute("max", tarjeta.dataset.stock) //El máximo de la cantidad es el stock del producto
         cantidad.setAttribute("min", "0");
         cantidad.classList.add("cantidad")
         cantidad.value = 1;

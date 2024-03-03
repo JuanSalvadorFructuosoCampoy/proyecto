@@ -107,6 +107,11 @@ article {
         overflow-y: scroll !important;
     }
 
+    tbody tr td {
+        font-size:small;
+    }
+    
+
 
 }
 

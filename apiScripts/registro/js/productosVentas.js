@@ -62,7 +62,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
 
     .then(response => response.json())
     .then(data => {
-
+        if(data.productos){
             data['productos'].forEach(element => {
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
@@ -71,21 +71,40 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
                 td1.textContent = element.id;
-
+                
                 //Si es un producto, hacemos el fetch a los productos. Si es un servicio, lo hacemos a los servicios
-                if(element.id_item.charAt(0) == "P"){
+                if(element.id_item.charAt(0) == "P" ){
                     hacerFetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id=${element.id_item}`)
-                    .then(data => td2.textContent = data.productos[0].nombre)
+                    .then(data => {
+                        if(data.productos[0]){
+                        td2.textContent = data.productos[0].nombre
+                        }else{
+                            td2.textContent = "NO DEFINIDO"
+                        }
+                    })
                 }else{
                     hacerFetch(`${window.location.protocol}//${window.location.host}/api/servicios.php?id=${element.id_item}`)
-                    .then(data => td2.textContent = data.servicios[0].nombre)
+                    .then(data => {
+                        if(data.servicios[0]){
+                        td2.textContent = data.servicios[0].nombre
+                        }else{
+                            td2.textContent = "NO DEFINIDO"
+                        }
+                    })
                 }
+            
 
                 if (element.id_cliente == 0) {
                     td3.textContent = "NO DEFINIDO";
                 } else {
                     hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.id_cliente}`)
-                .then(data => td3.textContent = data.clientes[0].nombre+" "+data.clientes[0].apellido1+" "+data.clientes[0].apellido2)
+                .then(data => {
+                    if(data.clientes[0]){
+                    td3.textContent = data.clientes[0].nombre+" "+data.clientes[0].apellido1+" "+data.clientes[0].apellido2
+                }else{
+                    td3.textContent = "NO DEFINIDO"
+                }
+            })
                 }
 
                 td4.textContent = element.cantidad;
@@ -104,7 +123,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 tbody.appendChild(tr);
 
             });
-        
+    }else{
+        const h2 = document.createElement("h2");
+        const strong = document.createElement("strong");
+        strong.textContent = "NO HAY PRODUCTOS O SERVICIOS REGISTRADOS PARA ESTA VENTA"
+        h2.appendChild(strong);
+        h2.classList.add("text-center", "mt-5");
+        document.body.appendChild(h2);
+    }
     });
 
 

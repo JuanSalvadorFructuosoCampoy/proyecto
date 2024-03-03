@@ -138,9 +138,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                     window.location.href = `password.html?id=${id}`
                 })
 
-                botonBorrar.addEventListener("click", (e) => {
+                //La función es asíncrona para que espere a que el usuario confirme que quiere borrar el empleado
+                botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = confirm("¿Estás seguro de que quieres borrar este empleado?");
+                    const confirmDelete = await mostrarVentanaError("¿Estás seguro de que quieres borrar este empleado? Si tiene alguna venta asociada, no se borrará.");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
                             method: 'DELETE',
@@ -227,5 +228,41 @@ th7.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
+
+function mostrarVentanaError(mensaje){
+    return new Promise((resolve, reject) => {
+        document.getElementById("ventanaError").innerHTML = "";
+        document.getElementById("ventanaError").classList.remove("d-none");
+        document.getElementById("ventanaError").classList.add("d-block");
+        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center","d-flex")
+        const p = document.createElement("P")
+        p.classList.add("text-center", "m-2")
+        p.textContent = mensaje;
+        document.getElementById("ventanaError").append(p);
+        const botonConfirmar = document.createElement("button");
+        botonConfirmar.textContent = "Confirmar";
+        botonConfirmar.classList.add("btn", "btn-success", "m-2");
+
+        document.getElementById("ventanaError").appendChild(botonConfirmar);
+        botonConfirmar.addEventListener("click", () => {
+            document.getElementById("ventanaError").classList.remove("d-block");
+            console.log("Evento de botón confirmar");
+            document.getElementById("ventanaError").classList.add("d-none");
+            resolve(true);
+        });
+
+        const botonCancelar = document.createElement("button");
+        botonCancelar.textContent = "Cancelar";
+        botonCancelar.classList.add("btn", "btn-danger", "m-2");
+        document.getElementById("ventanaError").appendChild(botonCancelar);
+        botonCancelar.addEventListener("click", () => {
+            document.getElementById("ventanaError").classList.remove("d-block");
+            console.log("Evento de botón error")
+            document.getElementById("ventanaError").classList.add("d-none");
+            resolve(false);
+        });
+    });
+}
+
 
 
