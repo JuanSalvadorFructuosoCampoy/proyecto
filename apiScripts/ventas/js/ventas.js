@@ -372,12 +372,13 @@ form.addEventListener("submit",async (e) => {
         });
       
         if(valorPago == "efectivo"){
-
-            let confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
+            const confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
+            
             if(!confirmarVenta){
                 return;
-            }
-        }
+            }else{
+
+
 
         const venta = {
             fecha: fechaFormateada,
@@ -463,6 +464,8 @@ form.addEventListener("submit",async (e) => {
                     })
         })
         })
+               }
+        } 
 })
 
 function calcularPrecio() {
@@ -491,11 +494,11 @@ function mostrarVentanaError(mensaje){
 function mostrarVentanaCambio(mensaje){
 
     return new Promise((resolve, reject) => {
+
         document.getElementById("ventanaCambio").innerHTML = "";
-        document.getElementById("ventanaCambio").style.display = "block";
+        document.getElementById("ventanaCambio").classList.remove("d-none");
         document.getElementById("ventanaCambio").classList.add("align-items-center", "justify-content-center","d-flex")
         const p = document.createElement("P")
-
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
         document.getElementById("ventanaCambio").append(p);
@@ -504,6 +507,7 @@ function mostrarVentanaCambio(mensaje){
         inputDineroIntroducido.setAttribute("placeholder", "Pagado");
         inputDineroIntroducido.classList.add("form-control");
         inputDineroIntroducido.style.width = "6em";
+
         document.getElementById("ventanaCambio").appendChild(inputDineroIntroducido);
         inputDineroIntroducido.focus();
 
@@ -519,6 +523,7 @@ function mostrarVentanaCambio(mensaje){
         inputCambio.setAttribute("aria-describedby","inputGroup-sizing-lg")
         inputCambio.classList.add("form-control", "w-50");
         document.getElementById("ventanaCambio").appendChild(inputCambio);
+
 
         inputDineroIntroducido.addEventListener("input", () => {
             const total = parseFloat(document.getElementById("total").getAttribute("value"));
@@ -539,15 +544,14 @@ function mostrarVentanaCambio(mensaje){
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
-        console.log(inputCambio.value)
+        
         botonConfirmar.setAttribute("disabled", "true");
-        
-        
+
         document.getElementById("ventanaCambio").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
-            document.getElementById("ventanaCambio").innerHTML = ""; // Limpia el contenido de la ventana
+            
             resolve(true);
         });
 
@@ -555,11 +559,12 @@ function mostrarVentanaCambio(mensaje){
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");
         document.getElementById("ventanaCambio").appendChild(botonCancelar);
+
         botonCancelar.addEventListener("click", () => {
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
-            document.getElementById("ventanaCambio").innerHTML = ""; // Limpia el contenido de la ventana
             resolve(false);
+            
         });
     });
 }

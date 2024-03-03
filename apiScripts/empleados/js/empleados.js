@@ -257,7 +257,6 @@ function mostrarVentanaError(mensaje){
         document.getElementById("ventanaError").appendChild(botonCancelar);
         botonCancelar.addEventListener("click", () => {
             document.getElementById("ventanaError").classList.remove("d-block");
-            console.log("Evento de botón error")
             document.getElementById("ventanaError").classList.add("d-none");
             resolve(false);
         });
