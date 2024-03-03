@@ -298,10 +298,13 @@ function vaciarTabla() {
 
 const form = document.querySelector("form");
 
-form.addEventListener("submit", (e) => {
+//Evento para enviar el formulario de la venta
+form.addEventListener("submit",async (e) => {
+
     e.preventDefault();
 
     const items = tbody.querySelectorAll("tr");
+        //Si no hay items, se muestra un mensaje de error
         if (items.length == 0) {
             mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
             return;
@@ -312,6 +315,7 @@ form.addEventListener("submit", (e) => {
 
         let valoresNoValidos = false;
 
+        //Comprobamos que los valores de cantidad y precio sean válidos
         inputsCantidad.forEach(input => {
             if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
                 valoresNoValidos = true;
@@ -324,6 +328,7 @@ form.addEventListener("submit", (e) => {
             }
         });
 
+        //Si hay valores no válidos, se muestra un mensaje de error
         if (valoresNoValidos) {
             mostrarVentanaError("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
             return;
@@ -337,28 +342,42 @@ form.addEventListener("submit", (e) => {
             }
         });
 
+        //Si se intenta hacer una factura sin cliente o un ticket con cliente, se muestra un mensaje de error
         if(selectedValue == "factura" && clientes.value == "0"){
         mostrarVentanaError("NO SE PUEDE EMITIR UNA FACTURA SIN CLIENTE")
         return;
 
+        //Si se intenta hacer un ticket con cliente, se muestra un mensaje de error
         }else if(selectedValue == "ticket" && clientes.value != "0"){
             mostrarVentanaError("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
             return;
 
         }else{
 
+        //Si todo es correcto, se inserta la venta en la base de datos
         const fechaActual = new Date();
         const year = fechaActual.getFullYear();
         const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
         const day = String(fechaActual.getDate()).padStart(2, '0');
         const fechaFormateada = `${year}-${month}-${day}`;
-        const tipoPago = document.querySelectorAll("input[name='pago']");
+
+        //Recogemos el tipo de pago: efectivo o tarjeta
+        const tipoPago = document.querySelectorAll("input[name='pago']");//Recogemos el tipo de pago
         let valorPago;
+
         tipoPago.forEach((radio) => {
             if (radio.checked) {
                 valorPago = radio.id;
             }
         });
+      
+        if(valorPago == "efectivo"){
+
+            let confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
+            if(!confirmarVenta){
+                return;
+            }
+        }
 
         const venta = {
             fecha: fechaFormateada,
@@ -444,19 +463,7 @@ form.addEventListener("submit", (e) => {
                     })
         })
         })
-
-
-hacerFetch(sessionStorage.getItem("tipo"))
 })
-
-function mostrarVentanaError(mensaje){
-        document.getElementById("ventanaError").style.display = "block";
-        document.getElementById("ventanaError").textContent = mensaje;
-        setTimeout(() => {
-            document.getElementById("ventanaError").style.display = "none";
-        }, 3000);
-        return
-}
 
 function calcularPrecio() {
     const precios = tbody.querySelectorAll("td:nth-child(3) input");
@@ -472,6 +479,89 @@ function calcularPrecio() {
     document.getElementById("total").setAttribute("value", total);
 }
 
+function mostrarVentanaError(mensaje){
+    document.getElementById("ventanaError").style.display = "block";
+    document.getElementById("ventanaError").textContent = mensaje;
+    setTimeout(() => {
+        document.getElementById("ventanaError").style.display = "none";
+    }, 3000);
+    return
+}
 
+function mostrarVentanaCambio(mensaje){
+
+    return new Promise((resolve, reject) => {
+        document.getElementById("ventanaCambio").innerHTML = "";
+        document.getElementById("ventanaCambio").style.display = "block";
+        document.getElementById("ventanaCambio").classList.add("align-items-center", "justify-content-center","d-flex")
+        const p = document.createElement("P")
+
+        p.classList.add("text-center", "m-2")
+        p.textContent = mensaje;
+        document.getElementById("ventanaCambio").append(p);
+        const inputDineroIntroducido = document.createElement("input");
+        inputDineroIntroducido.setAttribute("type", "number");
+        inputDineroIntroducido.setAttribute("placeholder", "Pagado");
+        inputDineroIntroducido.classList.add("form-control");
+        inputDineroIntroducido.style.width = "6em";
+        document.getElementById("ventanaCambio").appendChild(inputDineroIntroducido);
+        inputDineroIntroducido.focus();
+
+        const cambio = document.createElement("p");
+        cambio.setAttribute("id", "cambio");
+        cambio.textContent = "CAMBIO";
+        cambio.classList.add("text-center", "m-2");
+        document.getElementById("ventanaCambio").appendChild(cambio);
+
+        const inputCambio = document.createElement("input")
+        inputCambio.setAttribute("disabled", "true");
+        inputCambio.style.width = "6em";
+        inputCambio.setAttribute("aria-describedby","inputGroup-sizing-lg")
+        inputCambio.classList.add("form-control", "w-50");
+        document.getElementById("ventanaCambio").appendChild(inputCambio);
+
+        inputDineroIntroducido.addEventListener("input", () => {
+            const total = parseFloat(document.getElementById("total").getAttribute("value"));
+            const dineroIntroducido = parseFloat(inputDineroIntroducido.value);
+            inputDineroIntroducido.setAttribute("aria-describedby","inputGroup-sizing-lg")
+            const cambio = dineroIntroducido - total;
+            inputCambio.value = cambio.toFixed(2) + "€";
+            if(cambio >= 0){
+                botonConfirmar.removeAttribute("disabled");
+            }else{
+                botonConfirmar.setAttribute("disabled", "true");
+            }
+            if(cambio == null || cambio == "NaN" || inputCambio.value == "NaN€"){
+                inputCambio.value = "";
+            }
+        });
+
+        const botonConfirmar = document.createElement("button");
+        botonConfirmar.textContent = "Confirmar";
+        botonConfirmar.classList.add("btn", "btn-success", "m-2");
+        console.log(inputCambio.value)
+        botonConfirmar.setAttribute("disabled", "true");
+        
+        
+        document.getElementById("ventanaCambio").appendChild(botonConfirmar);
+        botonConfirmar.addEventListener("click", () => {
+            document.getElementById("ventanaCambio").classList.remove("d-block");
+            document.getElementById("ventanaCambio").classList.add("d-none");
+            document.getElementById("ventanaCambio").innerHTML = ""; // Limpia el contenido de la ventana
+            resolve(true);
+        });
+
+        const botonCancelar = document.createElement("button");
+        botonCancelar.textContent = "Cancelar";
+        botonCancelar.classList.add("btn", "btn-danger", "m-2");
+        document.getElementById("ventanaCambio").appendChild(botonCancelar);
+        botonCancelar.addEventListener("click", () => {
+            document.getElementById("ventanaCambio").classList.remove("d-block");
+            document.getElementById("ventanaCambio").classList.add("d-none");
+            document.getElementById("ventanaCambio").innerHTML = ""; // Limpia el contenido de la ventana
+            resolve(false);
+        });
+    });
+}
 
 
