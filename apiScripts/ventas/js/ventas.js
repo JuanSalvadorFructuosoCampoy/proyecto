@@ -81,6 +81,17 @@ function hacerFetch(url) {
                 const tarjeta = document.createElement("div")
                 tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-5", "col-lg-6", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
                 tarjeta.setAttribute("id", item.id);
+                //Si el stock es 0, la tarjeta se pone en rojo
+
+                if(url == "productos" && item.stock == 0){
+                    tarjeta.classList.add("bg-danger")
+                    tarjeta.classList.remove("bg-light")
+                    //Si el stock es menor de 5, la tarjeta se pone en amarillo
+                } else if (url == "productos" && item.stock < 5){
+                    tarjeta.classList.add("bg-warning")
+                    tarjeta.classList.remove("bg-light")
+                }
+
                 list.appendChild(tarjeta);
                 const titulo = document.createElement("div");
                 const strong = document.createElement("strong");
@@ -173,6 +184,10 @@ for (let i = 0; i < radios.length; i++) {
 }
 
 function seleccionarItem(tarjeta) {
+    if(tarjeta.classList.contains("bg-danger")){
+       mostrarVentanaError("No se puede seleccionar un item sin stock");
+       return;
+    }
 
     //Si el id de la tarjeta coincide con el de una fila, encontrado es true
     const encontrado = Array.from(tbody.getElementsByTagName("tr")).find(tr => tr.dataset.id == tarjeta.id);
@@ -195,13 +210,14 @@ function seleccionarItem(tarjeta) {
         const tdCantidad = document.createElement("td");
         const cantidad = document.createElement("input");
         cantidad.setAttribute("type", "number");
-        cantidad.setAttribute("min", "1");
+        cantidad.setAttribute("min", "0");
+        cantidad.classList.add("cantidad")
         cantidad.value = 1;
         tr.appendChild(tdCantidad)
         tdCantidad.appendChild(cantidad);
         tdCantidad.addEventListener("input", () => {
-            if (cantidad.value < 1 || cantidad.value == null || cantidad.value == "") {
-                cantidad.value = 1;
+            if (cantidad.value < 0) {
+                cantidad.value = 0;
             }
             calcularPrecio();
         })
@@ -216,6 +232,7 @@ function seleccionarItem(tarjeta) {
         const tdPrecio = document.createElement("td");
         const precio = document.createElement("input");
         tdPrecio.classList.add("justify-content-center");
+        precio.classList.add("precio")
         precio.setAttribute("type", "number");
         precio.setAttribute("min", "0");
         precio.setAttribute("step", "0.01");
@@ -224,11 +241,12 @@ function seleccionarItem(tarjeta) {
         tdPrecio.appendChild(document.createTextNode("€"));
         tr.appendChild(tdPrecio);
         tdPrecio.addEventListener("input", () => {
-            if (precio.value < 1 || precio.value == null || precio.value == "") {
-                precio.value = 1;
+            if (precio.value < 0) {
+                precio.value = 0;
             }
             calcularPrecio();
         })
+
 
         tdPrecio.addEventListener("keypress", (e) => {
             if (e.key == "Enter") {
@@ -256,17 +274,6 @@ function seleccionarItem(tarjeta) {
 }
 
 
-function calcularPrecio() {
-    const precios = tbody.querySelectorAll("td:nth-child(3) input");
-    let total = 0;
-    precios.forEach(precio => {
-        total += parseFloat(precio.value) * parseInt(precio.parentElement.previousElementSibling.querySelector("input").value);
-    })
-    total = total.toFixed(2); //Sólo dos cifras decimales
-    document.getElementById("total").textContent = total + "€";
-    document.getElementById("total").setAttribute("value", total);
-}
-
 document.querySelector("input").addEventListener("keypress", (e) => {
     if (e.key == "Enter") {
         e.preventDefault();
@@ -290,7 +297,31 @@ form.addEventListener("submit", (e) => {
 
     const items = tbody.querySelectorAll("tr");
         if (items.length == 0) {
-            alert("La lista de items está vacía");
+            mostrarVentanaError("No se puede realizar una venta sin productos o servicios")
+            return;
+        }
+
+        let inputsCantidad = tbody.querySelectorAll("td:nth-child(2) input");
+        let inputsPrecio = tbody.querySelectorAll("td:nth-child(3) input");
+
+        let valoresNoValidos = false;
+
+        inputsCantidad.forEach(input => {
+            if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
+                valoresNoValidos = true;
+                console.log("Valores no válidos en la cantidad")
+            }
+        });
+
+        inputsPrecio.forEach(input => {
+            if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null){
+                valoresNoValidos = true;
+                console.log("Valores no válidos en el precio")
+            }
+        });
+
+        if (valoresNoValidos) {
+            mostrarVentanaError("Hay valores nulos en el precio o en la cantidad de algún producto");
             return;
         }
 
@@ -302,14 +333,13 @@ form.addEventListener("submit", (e) => {
             }
         });
 
-        console.log(selectedValue);
         if(selectedValue == "factura" && clientes.value == "0"){
-            alert("No se puede emitir una factura sin un cliente")
-            return
+        mostrarVentanaError("No se puede emitir una factura sin cliente")
+        return;
 
         }else if(selectedValue == "ticket" && clientes.value != "0"){
-            alert("No se puede emitir un ticket a un cliente")
-            return
+            mostrarVentanaError("No se puede emitir un ticket con cliente")
+            return;
 
         }else{
 
@@ -336,6 +366,7 @@ form.addEventListener("submit", (e) => {
         if (clientes.value != "0") {
             venta.cliente = clientes.value;
         }
+
     //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             method: "POST",
@@ -354,6 +385,7 @@ form.addEventListener("submit", (e) => {
                 }
             })
     }
+
 //Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         headers: {
@@ -368,7 +400,7 @@ form.addEventListener("submit", (e) => {
                             id: data.ventas[data.ventas.length - 1].id,
                             id_item : item.dataset.id,
                             cantidad: item.childNodes[1].childNodes[0].value,
-                            precio: item.childNodes[2].childNodes[0].value,
+                            precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
                             id_cliente: clientes.value != "0" ? cliente : null
                         }
                 //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
@@ -384,6 +416,26 @@ form.addEventListener("submit", (e) => {
         })
 
 })
+
+function mostrarVentanaError(mensaje){
+        document.getElementById("ventanaError").style.display = "block";
+        document.getElementById("ventanaError").textContent = mensaje;
+        setTimeout(() => {
+            document.getElementById("ventanaError").style.display = "none";
+        }, 3000);
+        return
+}
+
+function calcularPrecio() {
+    const precios = tbody.querySelectorAll("td:nth-child(3) input");
+    let total = 0;
+    precios.forEach(precio => {
+        total += parseFloat(precio.value) * parseInt(precio.parentElement.previousElementSibling.querySelector("input").value);
+    })
+    total = total.toFixed(2); //Sólo dos cifras decimales
+    document.getElementById("total").textContent = total + "€";
+    document.getElementById("total").setAttribute("value", total);
+}
 
 
 
