@@ -350,7 +350,7 @@ form.addEventListener("submit", async (e) => {
         const year = fechaActual.getFullYear();
         const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
         const day = String(fechaActual.getDate()).padStart(2, '0');
-        const fechaFormateada = `${day}-${month}-${year}`;
+        const fechaFormateada = `${year}-${month}-${day}`;
 
         //Recogemos el tipo de pago: efectivo o tarjeta
         const tipoPago = document.querySelectorAll("input[name='pago']");//Recogemos el tipo de pago
@@ -412,7 +412,7 @@ form.addEventListener("submit", async (e) => {
                         id_item: item.dataset.id,
                         cantidad: item.childNodes[1].childNodes[0].value,
                         precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
-                        id_cliente: clientes.value != "0" ? cliente : null
+                        id_cliente: clientes.value != "0" ? clientes.value : null
                     }
 
                     //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
@@ -512,7 +512,59 @@ form.addEventListener("submit", async (e) => {
 
                     });
             } else if (selectedValue == "factura") {
-    
+                fetch("../../../templates/factura.html")
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    //Convertimos el texto HTML en un documento HTML
+                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                    const fechaActual = new Date();
+                    const year = fechaActual.getFullYear();
+                    const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+                    const day = String(fechaActual.getDate()).padStart(2, '0');
+                    const hour = String(fechaActual.getHours()).padStart(2, '0');
+                    const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+                    const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
+                    console.log("Primer hijo de fecha:",htmlDoc.querySelector("#fecha").childNodes[0])
+                    htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
+                //     htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
+                //     const tbody = document.querySelector("tbody");
+                //     const items = tbody.querySelectorAll("tr");
+                //     items.forEach(item => {
+                //         const tr = document.createElement("tr");
+                //         htmlDoc.querySelector("tbody").appendChild(tr);
+
+                //         const tdCantidad = document.createElement("td");
+                //         tdCantidad.classList.add("cantidad");
+                //         tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
+                //         tr.appendChild(tdCantidad);
+
+                //         const tdNombre = document.createElement("td");
+                //         tdNombre.classList.add("producto");
+                //         tdNombre.textContent = item.childNodes[0].textContent;
+                //         tr.appendChild(tdNombre);
+
+                //         const tdPrecio = document.createElement("td");
+                //         tdPrecio.classList.add("precio");
+                //         tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
+                //         tr.appendChild(tdPrecio);
+                //     });
+
+                //     const total = document.getElementById("total").textContent;
+                //     htmlDoc.querySelector("#total").textContent = total;
+                //     const cabezaHTML = htmlDoc.querySelector("head")
+                //     const link = document.createElement("link");
+                //     link.setAttribute("rel", "stylesheet");
+                //     link.setAttribute("href", "../../../templates/ticket.css");
+                //     cabezaHTML.appendChild(link);
+
+                //     htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+
+                //     const ticketWindow = window.open("", "_blank");
+                //     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                //     ticketWindow.print();
+
+                 });
             }
     }
 })
