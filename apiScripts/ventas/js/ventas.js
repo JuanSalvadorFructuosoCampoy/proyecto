@@ -159,6 +159,10 @@ function desplegableClientes(idNuevoCliente) {
                 const option = document.createElement("option")
                 option.textContent = element.nombre + " " + element.apellido1 + " " + element.apellido2
                 option.value = element.id
+                option.dataset.telefono = element.telefono
+                option.dataset.direccion = element.direccion
+                option.dataset.idfiscal = element.id_fiscal
+
                 if (option.value == idNuevoCliente) {
                     option.selected = true
                     sinClientes.selected = false
@@ -379,7 +383,127 @@ form.addEventListener("submit", async (e) => {
         if (clientes.value != "0") {
             venta.cliente = clientes.value;
         }
+        //Si se ha seleccionado un ticket, se muestra el ticket en una ventana nueva
+        if (selectedValue == "ticket") {
+            fetch("../../../templates/ticket.html")
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    //Convertimos el texto HTML en un documento HTML
+                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                    htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
 
+                    const fechaActual = new Date();
+                    const year = fechaActual.getFullYear();
+                    const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+                    const day = String(fechaActual.getDate()).padStart(2, '0');
+                    const hour = String(fechaActual.getHours()).padStart(2, '0');
+                    const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+                    const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
+                    htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
+                    htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
+                    const tbody = document.querySelector("tbody");
+                    const items = tbody.querySelectorAll("tr");
+                    items.forEach(item => {
+                        const tr = document.createElement("tr");
+                        htmlDoc.querySelector("tbody").appendChild(tr);
+
+                        const tdCantidad = document.createElement("td");
+                        tdCantidad.classList.add("cantidad");
+                        tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
+                        tr.appendChild(tdCantidad);
+
+                        const tdNombre = document.createElement("td");
+                        tdNombre.classList.add("producto");
+                        tdNombre.textContent = item.childNodes[0].textContent;
+                        tr.appendChild(tdNombre);
+
+                        const tdPrecio = document.createElement("td");
+                        tdPrecio.classList.add("precio");
+                        tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
+                        tr.appendChild(tdPrecio);
+                    });
+
+                    const total = document.getElementById("total").textContent;
+                    htmlDoc.querySelector("#total").textContent = total;
+
+                    const ticketWindow = window.open("", "_blank");
+                    ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                    ticketWindow.print();
+
+                });
+        } else {
+            fetch("../../../templates/factura.html")
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                //Convertimos el texto HTML en un documento HTML
+                const htmlDoc = parser.parseFromString(data, 'text/html');
+                htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+                let clienteFactura = document.querySelector("#clientes").options[document.querySelector("#clientes").selectedIndex];
+                    let textoDireccion = document.createTextNode(clienteFactura.dataset.direccion);
+                    htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion,htmlDoc.querySelector("#direccionCliente").childNodes[1])
+
+                    let textoIdFiscal = document.createTextNode(clienteFactura.dataset.idfiscal);
+                    htmlDoc.querySelector("#idfiscal").insertBefore(textoIdFiscal,htmlDoc.querySelector("#idfiscal").childNodes[1])
+
+                    let textoTelefono = document.createTextNode(clienteFactura.dataset.telefono);
+                    htmlDoc.querySelector("#telefono").insertBefore(textoTelefono,htmlDoc.querySelector("#telefono").childNodes[1])
+
+                
+                const fechaActual = new Date();
+                const year = fechaActual.getFullYear();
+                const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+                const day = String(fechaActual.getDate()).padStart(2, '0');
+                const hour = String(fechaActual.getHours()).padStart(2, '0');
+                const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+                const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
+                let textoFecha = document.createTextNode(fechaFormateada);
+                htmlDoc.querySelector("#fecha").insertBefore(textoFecha,htmlDoc.querySelector("#fecha").childNodes[1])
+
+                let textoCliente = document.createTextNode(clientes.options[clientes.selectedIndex].textContent);
+                htmlDoc.querySelector("#nombreCliente").insertBefore(textoCliente,htmlDoc.querySelector("#nombreCliente").childNodes[1])
+
+                const tbody = document.querySelector("tbody");
+                const items = tbody.querySelectorAll("tr");
+               items.forEach(item => {
+                    const tr = document.createElement("tr");
+                    htmlDoc.querySelector("tbody").appendChild(tr);
+                    
+                   const tdNombre = document.createElement("td");
+                   tdNombre.classList.add("desc");
+                   tdNombre.textContent = item.childNodes[0].textContent;
+                   tr.appendChild(tdNombre);
+
+                   const tdPrecio = document.createElement("td");
+                   tdPrecio.classList.add("unit");
+                tdPrecio.textContent = (item.childNodes[2].childNodes[0].value / 1.21).toFixed(2) + "€";
+                   tr.appendChild(tdPrecio);
+
+                    const tdCantidad = document.createElement("td");
+                    tdCantidad.classList.add("qty");
+                    tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
+                    tr.appendChild(tdCantidad);
+
+                    const tdPrecioSubTotal = document.createElement("td");
+                    tdPrecioSubTotal.classList.add("total");
+                    tdPrecioSubTotal.textContent = (item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value / 1.21).toFixed(2) + "€";
+                    tr.appendChild(tdPrecioSubTotal);
+
+               });
+
+               const total = document.getElementById("total").textContent;
+               htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(total) / 1.21).toFixed(2) + "€";
+               htmlDoc.querySelector("#totalFactura").textContent = total; 
+
+                
+                const ticketWindow = window.open("", "_blank");
+                ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                ticketWindow.print();
+
+
+             });
+        }//Final impresion tickets y facturas        
         //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             method: "POST",
@@ -397,6 +521,7 @@ form.addEventListener("submit", async (e) => {
                     vaciarTabla();
                 }
             })
+            
         //Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             headers: {
@@ -450,122 +575,17 @@ form.addEventListener("submit", async (e) => {
                                             hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
 
                                         })
+                                        
                                 }
+                                
                             })
+                            
                         })
+                        
                 })
                 
             })
 
-            //Si se ha seleccionado un ticket, se muestra el ticket en una ventana nueva
-            if (selectedValue == "ticket") {
-                fetch("../../../templates/ticket.html")
-                    .then(response => response.text())
-                    .then(data => {
-                        const parser = new DOMParser();
-                        //Convertimos el texto HTML en un documento HTML
-                        const htmlDoc = parser.parseFromString(data, 'text/html');
-                        const fechaActual = new Date();
-                        const year = fechaActual.getFullYear();
-                        const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
-                        const day = String(fechaActual.getDate()).padStart(2, '0');
-                        const hour = String(fechaActual.getHours()).padStart(2, '0');
-                        const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
-                        const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
-                        htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
-                        htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
-                        const tbody = document.querySelector("tbody");
-                        const items = tbody.querySelectorAll("tr");
-                        items.forEach(item => {
-                            const tr = document.createElement("tr");
-                            htmlDoc.querySelector("tbody").appendChild(tr);
-
-                            const tdCantidad = document.createElement("td");
-                            tdCantidad.classList.add("cantidad");
-                            tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
-                            tr.appendChild(tdCantidad);
-
-                            const tdNombre = document.createElement("td");
-                            tdNombre.classList.add("producto");
-                            tdNombre.textContent = item.childNodes[0].textContent;
-                            tr.appendChild(tdNombre);
-
-                            const tdPrecio = document.createElement("td");
-                            tdPrecio.classList.add("precio");
-                            tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
-                            tr.appendChild(tdPrecio);
-                        });
-
-                        const total = document.getElementById("total").textContent;
-                        htmlDoc.querySelector("#total").textContent = total;
-                        const cabezaHTML = htmlDoc.querySelector("head")
-                        const link = document.createElement("link");
-                        link.setAttribute("rel", "stylesheet");
-                        link.setAttribute("href", "../../../templates/ticket.css");
-                        cabezaHTML.appendChild(link);
-
-                        htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
-
-                        const ticketWindow = window.open("", "_blank");
-                        ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
-                        ticketWindow.print();
-
-                    });
-            } else if (selectedValue == "factura") {
-                fetch("../../../templates/factura.html")
-                .then(response => response.text())
-                .then(data => {
-                    const parser = new DOMParser();
-                    //Convertimos el texto HTML en un documento HTML
-                    const htmlDoc = parser.parseFromString(data, 'text/html');
-                    const fechaActual = new Date();
-                    const year = fechaActual.getFullYear();
-                    const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
-                    const day = String(fechaActual.getDate()).padStart(2, '0');
-                    const hour = String(fechaActual.getHours()).padStart(2, '0');
-                    const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
-                    const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
-                    console.log("Primer hijo de fecha:",htmlDoc.querySelector("#fecha").childNodes[0])
-                    htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
-                //     htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
-                //     const tbody = document.querySelector("tbody");
-                //     const items = tbody.querySelectorAll("tr");
-                //     items.forEach(item => {
-                //         const tr = document.createElement("tr");
-                //         htmlDoc.querySelector("tbody").appendChild(tr);
-
-                //         const tdCantidad = document.createElement("td");
-                //         tdCantidad.classList.add("cantidad");
-                //         tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
-                //         tr.appendChild(tdCantidad);
-
-                //         const tdNombre = document.createElement("td");
-                //         tdNombre.classList.add("producto");
-                //         tdNombre.textContent = item.childNodes[0].textContent;
-                //         tr.appendChild(tdNombre);
-
-                //         const tdPrecio = document.createElement("td");
-                //         tdPrecio.classList.add("precio");
-                //         tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
-                //         tr.appendChild(tdPrecio);
-                //     });
-
-                //     const total = document.getElementById("total").textContent;
-                //     htmlDoc.querySelector("#total").textContent = total;
-                //     const cabezaHTML = htmlDoc.querySelector("head")
-                //     const link = document.createElement("link");
-                //     link.setAttribute("rel", "stylesheet");
-                //     link.setAttribute("href", "../../../templates/ticket.css");
-                //     cabezaHTML.appendChild(link);
-
-                //     htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
-
-                //     const ticketWindow = window.open("", "_blank");
-                //     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
-                //     ticketWindow.print();
-
-                 });
-            }
     }
 })
 
