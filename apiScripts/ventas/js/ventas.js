@@ -88,7 +88,7 @@ function hacerFetch(url) {
                 }
 
                 //Si el stock es 0, la tarjeta se pone en rojo
-                if(url == "productos" && item.stock == 0){
+                if(url == "productos" && item.stock <= 0 ){
                     tarjeta.classList.add("bg-danger")
                     tarjeta.classList.remove("bg-light")
                     //Si el stock es menor de 5, la tarjeta se pone en amarillo
@@ -190,7 +190,7 @@ for (let i = 0; i < radios.length; i++) {
 
 function seleccionarItem(tarjeta) {
     if(tarjeta.classList.contains("bg-danger")){
-       mostrarVentanaError("No se puede seleccionar un item sin stock");
+       mostrarVentanaError("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
        return;
     }
 
@@ -303,7 +303,7 @@ form.addEventListener("submit", (e) => {
 
     const items = tbody.querySelectorAll("tr");
         if (items.length == 0) {
-            mostrarVentanaError("No se puede realizar una venta sin productos o servicios")
+            mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
             return;
         }
 
@@ -315,19 +315,17 @@ form.addEventListener("submit", (e) => {
         inputsCantidad.forEach(input => {
             if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null) {
                 valoresNoValidos = true;
-                console.log("Valores no válidos en la cantidad")
             }
         });
 
         inputsPrecio.forEach(input => {
             if (input.value == "" || input.value == "0" || input.value < 0 || isNaN(input.value) || input.value == null){
                 valoresNoValidos = true;
-                console.log("Valores no válidos en el precio")
             }
         });
 
         if (valoresNoValidos) {
-            mostrarVentanaError("Hay valores nulos en el precio o en la cantidad de algún producto");
+            mostrarVentanaError("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
             return;
         }
 
@@ -340,11 +338,11 @@ form.addEventListener("submit", (e) => {
         });
 
         if(selectedValue == "factura" && clientes.value == "0"){
-        mostrarVentanaError("No se puede emitir una factura sin cliente")
+        mostrarVentanaError("NO SE PUEDE EMITIR UNA FACTURA SIN CLIENTE")
         return;
 
         }else if(selectedValue == "ticket" && clientes.value != "0"){
-            mostrarVentanaError("No se puede emitir un ticket con cliente")
+            mostrarVentanaError("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
             return;
 
         }else{
@@ -409,6 +407,7 @@ form.addEventListener("submit", (e) => {
                             precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
                             id_cliente: clientes.value != "0" ? cliente : null
                         }
+                
                 //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
                 fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
                     method: "POST",
@@ -418,9 +417,36 @@ form.addEventListener("submit", (e) => {
                     },
                     body: JSON.stringify(itemVenta)
                 })
+
+                //Actualizamos el stock de los productos
+                fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
+                    headers: {
+                        "api-key": sessionStorage.getItem("token")
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        data.productos.forEach(producto => {
+                            if (producto.id == item.dataset.id) {
+                                fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
+                                    method: "PATCH",
+                                    headers: {
+                                        "api-key": sessionStorage.getItem("token"),
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        id: item.dataset.id,
+                                        stock: producto.stock - item.childNodes[1].childNodes[0].value
+                                    })
+                                })
+                            }
+                        })
+                    })
         })
         })
 
+
+hacerFetch(sessionStorage.getItem("tipo"))
 })
 
 function mostrarVentanaError(mensaje){
@@ -439,6 +465,9 @@ function calcularPrecio() {
         total += parseFloat(precio.value) * parseInt(precio.parentElement.previousElementSibling.querySelector("input").value);
     })
     total = total.toFixed(2); //Sólo dos cifras decimales
+    if(total == "NaN"){
+        total = 0;
+    }
     document.getElementById("total").textContent = total + "€";
     document.getElementById("total").setAttribute("value", total);
 }

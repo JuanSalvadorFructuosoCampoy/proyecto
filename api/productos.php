@@ -90,6 +90,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
 	
 			$id = "'".$_GET['id']."'";
+
+			//Si el id no se ha pasado por GET, se recoge del array de parámetros
+			if($id == "''"){
+				$id = "'".$params['id']."'";//Se recoge el id del array de parámetros
+				unset($params['id']);//Se elimina el id del array de parámetros
+			}
+			
+
 			$producto->patch($id, $params);//Se llama al método patch() del modelo, pasándole como parámetros el id del jugador y el array $params
 	
 			$response = 'ok';
