@@ -111,11 +111,7 @@ function hacerFetch(url) {
                 tarjeta.addEventListener("click", () => {
                     seleccionarItem(tarjeta);
                 })
-
-
-
             });
-
         })
 }
 
@@ -142,34 +138,34 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
 
 
 //Desplegable de clientes
-function desplegableClientes(idNuevoCliente){
-const clientes = document.getElementById("clientes")
-clientes.innerHTML = ""
-fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
-    headers: {
-        "api-key": sessionStorage.getItem("token")
-    }
-})
-    .then(response => response.json())
-    .then(data => {
-        const sinClientes = document.createElement("option")
-        sinClientes.textContent = "NO DEFINIDO"
-        sinClientes.value = "0"
-        clientes.appendChild(sinClientes)
-        sinClientes.selected = true
+function desplegableClientes(idNuevoCliente) {
+    const clientes = document.getElementById("clientes")
+    clientes.innerHTML = ""
+    fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
+        headers: {
+            "api-key": sessionStorage.getItem("token")
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const sinClientes = document.createElement("option")
+            sinClientes.textContent = "NO DEFINIDO"
+            sinClientes.value = "0"
+            clientes.appendChild(sinClientes)
+            sinClientes.selected = true
 
-        data.clientes.forEach(element => {
+            data.clientes.forEach(element => {
 
-            const option = document.createElement("option")
-            option.textContent = element.nombre+" "+element.apellido1+" "+element.apellido2
-            option.value = element.id
-            if(option.value == idNuevoCliente){
-                option.selected = true
-                sinClientes.selected = false
-            }
-            clientes.appendChild(option)
-        })
-    });
+                const option = document.createElement("option")
+                option.textContent = element.nombre + " " + element.apellido1 + " " + element.apellido2
+                option.value = element.id
+                if (option.value == idNuevoCliente) {
+                    option.selected = true
+                    sinClientes.selected = false
+                }
+                clientes.appendChild(option)
+            })
+        });
 }
 desplegableClientes()
 
@@ -354,7 +350,7 @@ form.addEventListener("submit", async (e) => {
         const year = fechaActual.getFullYear();
         const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
         const day = String(fechaActual.getDate()).padStart(2, '0');
-        const fechaFormateada = `${year}-${month}-${day}`;
+        const fechaFormateada = `${day}-${month}-${year}`;
 
         //Recogemos el tipo de pago: efectivo o tarjeta
         const tipoPago = document.querySelectorAll("input[name='pago']");//Recogemos el tipo de pago
@@ -401,66 +397,123 @@ form.addEventListener("submit", async (e) => {
                     vaciarTabla();
                 }
             })
-    }
-
-    //Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
-    fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
-        headers: {
-            "api-key": sessionStorage.getItem("token"),
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            idVentaNueva = data.ventas[data.ventas.length - 1].id
-            items.forEach(item => {
-                let itemVenta = {
-                    id: data.ventas[data.ventas.length - 1].id,
-                    id_item: item.dataset.id,
-                    cantidad: item.childNodes[1].childNodes[0].value,
-                    precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
-                    id_cliente: clientes.value != "0" ? cliente : null
-                }
-
-                //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
-                fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
-                    method: "POST",
-                    headers: {
-                        "api-key": sessionStorage.getItem("token"),
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(itemVenta)
-                })
-
-                //Actualizamos el stock de los productos
-                fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
-                    headers: {
-                        "api-key": sessionStorage.getItem("token")
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        data.productos.forEach(producto => {
-                            if (producto.id == item.dataset.id) {
-                                fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
-                                    method: "PATCH",
-                                    headers: {
-                                        "api-key": sessionStorage.getItem("token"),
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: JSON.stringify({
-                                        id: item.dataset.id,
-                                        stock: producto.stock - item.childNodes[1].childNodes[0].value
-                                    })
-                                })
-                                    .then(() => {
-                                        hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
-
-                                    })
-                            }
-                        })
-                    })
-            })
+        //Recogemos el id de la última venta para poder insertar los items de la venta en la tabla productos_ventas
+        fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
+            headers: {
+                "api-key": sessionStorage.getItem("token"),
+            },
         })
+            .then(response => response.json())
+            .then(data => {
+                idVentaNueva = data.ventas[data.ventas.length - 1].id
+                items.forEach(item => {
+                    let itemVenta = {
+                        id: data.ventas[data.ventas.length - 1].id,
+                        id_item: item.dataset.id,
+                        cantidad: item.childNodes[1].childNodes[0].value,
+                        precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
+                        id_cliente: clientes.value != "0" ? cliente : null
+                    }
+
+                    //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente
+                    fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas.php`, {
+                        method: "POST",
+                        headers: {
+                            "api-key": sessionStorage.getItem("token"),
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(itemVenta)
+                    })
+                    
+                    //Actualizamos el stock de los productos
+                    fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
+                        headers: {
+                            "api-key": sessionStorage.getItem("token")
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            data.productos.forEach(producto => {
+                                if (producto.id == item.dataset.id) {
+                                    fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
+                                        method: "PATCH",
+                                        headers: {
+                                            "api-key": sessionStorage.getItem("token"),
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            id: item.dataset.id,
+                                            stock: producto.stock - item.childNodes[1].childNodes[0].value
+                                        })
+                                    })
+                                        .then(() => {
+                                            hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
+
+                                        })
+                                }
+                            })
+                        })
+                })
+                
+            })
+
+            //Si se ha seleccionado un ticket, se muestra el ticket en una ventana nueva
+            if (selectedValue == "ticket") {
+                fetch("../../../templates/ticket.html")
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        //Convertimos el texto HTML en un documento HTML
+                        const htmlDoc = parser.parseFromString(data, 'text/html');
+                        const fechaActual = new Date();
+                        const year = fechaActual.getFullYear();
+                        const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+                        const day = String(fechaActual.getDate()).padStart(2, '0');
+                        const hour = String(fechaActual.getHours()).padStart(2, '0');
+                        const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+                        const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
+                        htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
+                        htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
+                        const tbody = document.querySelector("tbody");
+                        const items = tbody.querySelectorAll("tr");
+                        items.forEach(item => {
+                            const tr = document.createElement("tr");
+                            htmlDoc.querySelector("tbody").appendChild(tr);
+
+                            const tdCantidad = document.createElement("td");
+                            tdCantidad.classList.add("cantidad");
+                            tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
+                            tr.appendChild(tdCantidad);
+
+                            const tdNombre = document.createElement("td");
+                            tdNombre.classList.add("producto");
+                            tdNombre.textContent = item.childNodes[0].textContent;
+                            tr.appendChild(tdNombre);
+
+                            const tdPrecio = document.createElement("td");
+                            tdPrecio.classList.add("precio");
+                            tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
+                            tr.appendChild(tdPrecio);
+                        });
+
+                        const total = document.getElementById("total").textContent;
+                        htmlDoc.querySelector("#total").textContent = total;
+                        const cabezaHTML = htmlDoc.querySelector("head")
+                        const link = document.createElement("link");
+                        link.setAttribute("rel", "stylesheet");
+                        link.setAttribute("href", "../../../templates/ticket.css");
+                        cabezaHTML.appendChild(link);
+
+                        htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+
+                        const ticketWindow = window.open("", "_blank");
+                        ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+
+                    });
+            } else if (selectedValue == "factura") {
+    
+            }
+    }
 })
 
 function calcularPrecio() {
@@ -653,10 +706,10 @@ nuevoCliente.addEventListener("click", (e) => {
     cancelarNuevoCliente.addEventListener('click', () => {
         const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");
         ventanaNuevoCliente.classList.add("d-none");
-       formularioNuevoCliente.querySelector('#nombre').value = ""
+        formularioNuevoCliente.querySelector('#nombre').value = ""
         formularioNuevoCliente.querySelector('#id_fiscal').value = ""
         formularioNuevoCliente.querySelector('#apellido1').value = ""
-       formularioNuevoCliente.querySelector('#apellido2').value = ""
+        formularioNuevoCliente.querySelector('#apellido2').value = ""
         formularioNuevoCliente.querySelector('#telefono').value = ""
         formularioNuevoCliente.querySelector('#direccion').value = ""
     });
