@@ -429,7 +429,9 @@ form.addEventListener("submit", async (e) => {
 
                     const ticketWindow = window.open("", "_blank");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                    window.location.reload();
                     ticketWindow.print();
+
 
                 });
         } else {
@@ -499,6 +501,7 @@ form.addEventListener("submit", async (e) => {
                 
                 const ticketWindow = window.open("", "_blank");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                window.location.reload();
                 ticketWindow.print();
 
 
