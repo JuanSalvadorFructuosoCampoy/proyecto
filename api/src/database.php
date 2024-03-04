@@ -168,6 +168,21 @@ class Database
 
 		return $this->connection->insert_id;
 	}
+
+	public function getCierreCajaDB($fecha){
+		$fechaDefinida = $fecha['fecha'];
+		$query = "SELECT SUM(total) FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta'";
+		$query2 = "SELECT SUM(total) FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo'";
+
+		$results = $this->connection->query($query);
+		$results2 = $this->connection->query($query2);
+
+		$total = array();
+		$total['tarjeta'] = $results->fetch_row()[0];
+		$total['efectivo'] = $results2->fetch_row()[0];
+
+		return $total;
+	}
 }
 
 
