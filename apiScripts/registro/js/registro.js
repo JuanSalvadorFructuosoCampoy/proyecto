@@ -110,9 +110,15 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Detalle";
-                botonFicha.classList.add("btn", "btn-warning","btn-sm", "m-1");
+                botonFicha.classList.add("btn", "btn-warning","btn-sm");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
                 td7.appendChild(botonFicha);
+
+                const botonReimprimir = document.createElement("button");
+                botonReimprimir.textContent = "Reimprimir";
+                botonReimprimir.classList.add("btn", "btn-success","btn-sm","m-1");
+                botonReimprimir.setAttribute("id", `botonReimprimir${element.id}`);
+                td7.appendChild(botonReimprimir);
 
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
@@ -152,8 +158,77 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                         });
                     }
                 });
-            })
-        }
+
+                botonReimprimir.addEventListener("click", (e) => {
+                    const id = e.target.parentNode.parentNode.firstChild.textContent;
+                    fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`, {
+                        headers: {
+                            "api-key": sessionStorage.getItem("token")
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(datosVenta => {
+                        console.log(datosVenta['ventas'][0].cliente);
+                        if(datosVenta['ventas'][0].cliente){
+                            fetch("../../../templates/ticket.html")
+                .then(response => response.text())
+                .then(dataHTML => {
+                    // console.log(dataHTML)
+                    // const parser = new DOMParser();
+                    // //Convertimos el texto HTML en un documento HTML
+                    // const htmlDoc = parser.parseFromString(data, 'text/html');
+                    // htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+                    // const fechaDocumento = data.fecha;
+                    // const year = fechaDocumento.getFullYear();
+                    // const month = String(fechaDocumento.getMonth() + 1).padStart(2, '0');
+                    // const day = String(fechaDocumento.getDate()).padStart(2, '0');
+                    // const hour = String(fechaDocumento.getHours()).padStart(2, '0');
+                    // const minutes = String(fechaDocumento.getMinutes()).padStart(2, '0');
+                    // const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
+                    // htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
+                    // htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
+                    // const tbody = document.querySelector("tbody");
+                    // const items = tbody.querySelectorAll("tr");
+                    
+                    //     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`)
+                    
+                    // items.forEach(item => {
+                    //     const tr = document.createElement("tr");
+                    //     htmlDoc.querySelector("tbody").appendChild(tr);
+
+                    //     const tdCantidad = document.createElement("td");
+                    //     tdCantidad.classList.add("cantidad");
+                    //     tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
+                    //     tr.appendChild(tdCantidad);
+
+                    //     const tdNombre = document.createElement("td");
+                    //     tdNombre.classList.add("producto");
+                    //     tdNombre.textContent = item.childNodes[0].textContent;
+                    //     tr.appendChild(tdNombre);
+
+                    //     const tdPrecio = document.createElement("td");
+                    //     tdPrecio.classList.add("precio");
+                    //     tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
+                    //     tr.appendChild(tdPrecio);
+                    // });
+
+                    // const total = document.getElementById("total").textContent;
+                    // htmlDoc.querySelector("#total").textContent = total;
+
+                    // const ticketWindow = window.open("", "Documento de venta");
+                    // ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                    // ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
+                    // ticketWindow.print();
+                    // window.location.reload();
+
+                });//Fin del fetch del ticket
+                        }else{
+                            fetch
+                        }
+                    })//Fin del fetch de la venta a reimprimir
+                });//Fin del evento de reimprimir
+            })//Fin del forEach de las ventas
+        }//Fin del else de la tabla
 
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
