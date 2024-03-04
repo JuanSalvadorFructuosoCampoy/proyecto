@@ -85,44 +85,40 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const hora = fecha.getHours().toString().padStart(2, '0');
                 const minutos = fecha.getMinutes().toString().padStart(2, '0');
                 td2.textContent = `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
-                
+
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${element.empleado}`)
-                .then(data => {
-                    if(data.empleados[0]){
-                    td3.textContent = data.empleados[0].nombre
-                    }else{
-                        td3.textContent = "NO DEFINIDO"
-                    }
-                })
+                    .then(data => {
+                        if (data.empleados[0]) {
+                            td3.textContent = data.empleados[0].nombre
+                        } else {
+                            td3.textContent = "NO DEFINIDO"
+                        }
+                    })
 
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.cliente}`)
                     .then(data => {
                         if (data.clientes.length > 0) {
                             td4.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1;
+                            td4.dataset.id = data.clientes[0].id;
                         } else {
                             td4.textContent = "NO DEFINIDO";
+
                         }
                     });
-                
+
                 td5.textContent = element.tipo;
 
                 td6.textContent = element.total + "€";
-                
+
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Detalle";
-                botonFicha.classList.add("btn", "btn-warning","btn-sm");
+                botonFicha.classList.add("btn", "btn-warning", "btn-sm","m-1");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
                 td7.appendChild(botonFicha);
 
-                const botonReimprimir = document.createElement("button");
-                botonReimprimir.textContent = "Reimprimir";
-                botonReimprimir.classList.add("btn", "btn-success","btn-sm","m-1");
-                botonReimprimir.setAttribute("id", `botonReimprimir${element.id}`);
-                td7.appendChild(botonReimprimir);
-
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td7.appendChild(botonBorrar);
 
@@ -137,7 +133,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
                 botonFicha.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    window.location.href = `productos_ventas.html?id=${id}`
+                    const fecha = e.target.parentNode.parentNode.childNodes[1].textContent;
+                    const empleado = e.target.parentNode.parentNode.childNodes[2].textContent;
+                    const cliente = e.target.parentNode.parentNode.childNodes[3].dataset.id;
+                    const total = e.target.parentNode.parentNode.childNodes[5].textContent;
+                    window.location.href = `productos_ventas.html?id=${id}&fecha=${fecha}&empleado=${empleado}&cliente=${cliente}&total=${total}`
                 })
 
                 botonBorrar.addEventListener("click", (e) => {
@@ -145,88 +145,21 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     const confirmDelete = confirm("¿Estás seguro de que quieres borrar esta venta? Se borrarán todos los registros asociados a la misma.");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`, {
-                            method: 'DELETE',    
+                            method: 'DELETE',
                             headers: {
                                 "api-key": sessionStorage.getItem("token")
                             },
                         })
-                        .then(() => {
-                            window.location.reload(); //Recarga la página para que se actualice la tabla
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
+                            .then(() => {
+                                window.location.reload(); //Recarga la página para que se actualice la tabla
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
                     }
                 });
 
-                botonReimprimir.addEventListener("click", (e) => {
-                    const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`, {
-                        headers: {
-                            "api-key": sessionStorage.getItem("token")
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(datosVenta => {
-                        console.log(datosVenta['ventas'][0].cliente);
-                        if(datosVenta['ventas'][0].cliente){
-                            fetch("../../../templates/ticket.html")
-                .then(response => response.text())
-                .then(dataHTML => {
-                    // console.log(dataHTML)
-                    // const parser = new DOMParser();
-                    // //Convertimos el texto HTML en un documento HTML
-                    // const htmlDoc = parser.parseFromString(data, 'text/html');
-                    // htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
-                    // const fechaDocumento = data.fecha;
-                    // const year = fechaDocumento.getFullYear();
-                    // const month = String(fechaDocumento.getMonth() + 1).padStart(2, '0');
-                    // const day = String(fechaDocumento.getDate()).padStart(2, '0');
-                    // const hour = String(fechaDocumento.getHours()).padStart(2, '0');
-                    // const minutes = String(fechaDocumento.getMinutes()).padStart(2, '0');
-                    // const fechaFormateada = `${day}/${month}/${year} - ${hour}:${minutes}`;
-                    // htmlDoc.querySelector("#fecha").textContent = fechaFormateada;
-                    // htmlDoc.querySelector("#empleado").textContent = empleados.options[empleados.selectedIndex].textContent;
-                    // const tbody = document.querySelector("tbody");
-                    // const items = tbody.querySelectorAll("tr");
-                    
-                    //     fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`)
-                    
-                    // items.forEach(item => {
-                    //     const tr = document.createElement("tr");
-                    //     htmlDoc.querySelector("tbody").appendChild(tr);
 
-                    //     const tdCantidad = document.createElement("td");
-                    //     tdCantidad.classList.add("cantidad");
-                    //     tdCantidad.textContent = item.childNodes[1].childNodes[0].value;
-                    //     tr.appendChild(tdCantidad);
-
-                    //     const tdNombre = document.createElement("td");
-                    //     tdNombre.classList.add("producto");
-                    //     tdNombre.textContent = item.childNodes[0].textContent;
-                    //     tr.appendChild(tdNombre);
-
-                    //     const tdPrecio = document.createElement("td");
-                    //     tdPrecio.classList.add("precio");
-                    //     tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
-                    //     tr.appendChild(tdPrecio);
-                    // });
-
-                    // const total = document.getElementById("total").textContent;
-                    // htmlDoc.querySelector("#total").textContent = total;
-
-                    // const ticketWindow = window.open("", "Documento de venta");
-                    // ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
-                    // ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
-                    // ticketWindow.print();
-                    // window.location.reload();
-
-                });//Fin del fetch del ticket
-                        }else{
-                            fetch
-                        }
-                    })//Fin del fetch de la venta a reimprimir
-                });//Fin del evento de reimprimir
             })//Fin del forEach de las ventas
         }//Fin del else de la tabla
 
@@ -237,7 +170,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
-        barraBusqueda.addEventListener("input",()=>{
+        barraBusqueda.addEventListener("input", () => {
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
             for (let i = 0; i < filas.length; i++) {
@@ -255,7 +188,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     filas[i].style.display = "none";
                 }
             }
-        
+
         })
 
     });
@@ -270,7 +203,7 @@ botonVolver.addEventListener("click", () => {
 })
 
 
-async function hacerFetch(url){
+async function hacerFetch(url) {
     try {
         const response = await fetch(url, {
             headers: {
@@ -282,3 +215,17 @@ async function hacerFetch(url){
         console.error(error);
     }
 }
+
+async function fetchItem(url, id) {
+
+    let item = await fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php?id=${id}`, {
+        headers: {
+            "api-key": sessionStorage.getItem("token"),
+        }
+    });
+    let itemData = await item.json();
+    return itemData;
+
+}
+
+

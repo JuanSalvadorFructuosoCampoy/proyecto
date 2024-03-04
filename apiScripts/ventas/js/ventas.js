@@ -437,6 +437,7 @@ form.addEventListener("submit", async (e) => {
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                     ticketWindow.print();
                     window.location.reload();
+                    ticketWindow.document.close();
 
                 });
         } else {
