@@ -193,6 +193,42 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
     });
 
+
+    //Input de tipo fecha para filtrar por fecha los registros de la tabla
+    const fechaInput = document.createElement("input");
+    fechaInput.setAttribute("type", "date");
+    fechaInput.classList.add("form-control", "w-25", "m-auto", "mt-3");
+    document.body.insertBefore(fechaInput, table);
+
+    fechaInput.addEventListener("input", () => {
+        const fechaSeleccionada = fechaInput.value;
+        let anio = fechaSeleccionada.split("-")[0];
+        let mes = fechaSeleccionada.split("-")[1];
+        let dia = fechaSeleccionada.split("-")[2];
+        fechaSeleccionadaFormateada = `${dia}-${mes}-${anio}`;
+
+        const filas = tbody.getElementsByTagName("tr");
+        for (let i = 0; i < filas.length; i++) {
+            const celdas = filas[i].getElementsByTagName("td");
+            let fechaRegistro = celdas[1].textContent.split(" - ")[0];
+            fechaRegistro = fechaRegistro.replaceAll("/", "-")
+
+            if (fechaRegistro !== fechaSeleccionadaFormateada) {
+                filas[i].style.display = "none";
+            } else {
+                filas[i].style.display = "";
+            }
+        }
+        console.log(fechaSeleccionada)
+        if(fechaSeleccionada == ""){
+            for (let i = 0; i < filas.length; i++) {
+                filas[i].style.display = "";
+            }
+        }
+    });
+
+    
+
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
