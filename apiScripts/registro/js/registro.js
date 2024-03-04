@@ -219,7 +219,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 filas[i].style.display = "";
             }
         }
-        console.log(fechaSeleccionada)
+
         if(fechaSeleccionada == ""){
             for (let i = 0; i < filas.length; i++) {
                 filas[i].style.display = "";

@@ -10,8 +10,7 @@ const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 const th5 = document.createElement("th");
-const th6 = document.createElement("th");
-const th7 = document.createElement("th");
+
 
 
 th1.textContent = "Fecha";
@@ -23,6 +22,7 @@ th1.classList.add("p-2", "text-center")
 th2.classList.add("p-2", "text-center")
 th3.classList.add("p-2", "text-center")
 th4.classList.add("p-2", "text-center")
+th4.classList.add("p-2", "text-center")
 
 
 tr.appendChild(th1);
@@ -30,8 +30,8 @@ tr.appendChild(th2);
 tr.appendChild(th3);
 tr.appendChild(th4);
 tr.appendChild(th5);
-tr.appendChild(th6);
-tr.appendChild(th7);
+
+
 
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
@@ -75,18 +75,17 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 const dia = fecha.getDate().toString().padStart(2, '0');
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
                 const anio = fecha.getFullYear().toString();
-                const hora = fecha.getHours().toString().padStart(2, '0');
-                const minutos = fecha.getMinutes().toString().padStart(2, '0');
-                td2.textContent = `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
+                td1.textContent = `${dia}/${mes}/${anio}`;
 
+                td2.textContent = `${parseFloat(element.efectivo).toFixed(2)}€`;
+                td3.textContent = `${parseFloat(element.tarjeta).toFixed(2)}€`;
 
+                const total = (parseFloat(element.efectivo) + parseFloat(element.tarjeta)).toFixed(2);
+                td4.textContent = `${total}€`;
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tr.appendChild(td4);
-                tr.appendChild(td5);
-                tr.appendChild(td6);
-                tr.appendChild(td7);
                 tbody.appendChild(tr);
 
               
@@ -138,20 +137,19 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
         let mes = fechaSeleccionada.split("-")[1];
         let dia = fechaSeleccionada.split("-")[2];
         fechaSeleccionadaFormateada = `${dia}-${mes}-${anio}`;
-
+        console.log("fechaSeleccionadaFormateada",fechaSeleccionadaFormateada)
         const filas = tbody.getElementsByTagName("tr");
         for (let i = 0; i < filas.length; i++) {
             const celdas = filas[i].getElementsByTagName("td");
-            let fechaRegistro = celdas[1].textContent.split(" - ")[0];
+            let fechaRegistro = celdas[0].textContent.split(" - ")[0];
             fechaRegistro = fechaRegistro.replaceAll("/", "-")
-
+            console.log("fechaRegistro",fechaRegistro)
             if (fechaRegistro !== fechaSeleccionadaFormateada) {
                 filas[i].style.display = "none";
             } else {
                 filas[i].style.display = "";
             }
         }
-        console.log(fechaSeleccionada)
         if(fechaSeleccionada == ""){
             for (let i = 0; i < filas.length; i++) {
                 filas[i].style.display = "";
