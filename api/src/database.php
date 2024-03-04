@@ -171,15 +171,21 @@ class Database
 
 	public function getCierreCajaDB($fecha){
 		$fechaDefinida = $fecha['fecha'];
-		$query = "SELECT SUM(total) FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta'";
-		$query2 = "SELECT SUM(total) FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo'";
+		$query = "SELECT DISTINCT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta'";
+		$query2 = "SELECT DISTINCT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo'";
 
 		$results = $this->connection->query($query);
 		$results2 = $this->connection->query($query2);
+		$resultArray = array();
+		$resultArray2 = array();
+		foreach ($results as $value) {
+			$resultArray[] = $value;
+		}
+		foreach ($results2 as $value) {
+			$resultArray2[] = $value;
+		}
+		$total = array($resultArray, $resultArray2);
 
-		$total = array();
-		$total['tarjeta'] = $results->fetch_row()[0];
-		$total['efectivo'] = $results2->fetch_row()[0];
 
 		return $total;
 	}
