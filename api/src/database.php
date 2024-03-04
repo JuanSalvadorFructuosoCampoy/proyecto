@@ -37,6 +37,10 @@ class Database
 				}
 			}
 		}
+		// // Ordenar por fecha y hora de forma descendente
+		// if($table == "ventas"){
+		// 	$query .= " ORDER BY fecha DESC, id DESC";
+		// }
 
 
 

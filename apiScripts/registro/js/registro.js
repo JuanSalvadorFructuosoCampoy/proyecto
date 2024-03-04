@@ -82,7 +82,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const dia = fecha.getDate().toString().padStart(2, '0');
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
                 const anio = fecha.getFullYear().toString();
-                td2.textContent = `${dia}-${mes}-${anio}`;
+                const hora = fecha.getHours().toString().padStart(2, '0');
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                td2.textContent = `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
                 
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${element.empleado}`)
                 .then(data => {
