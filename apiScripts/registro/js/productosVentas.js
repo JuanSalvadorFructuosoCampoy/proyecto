@@ -206,7 +206,7 @@ async function hacerFetch(url) {
 
 botonReimprimir.addEventListener("click", async () => {
 
-    if (clienteURL == "NO DEFINIDO") {
+    if (clienteURL == "undefined") {
         fetch("../../../templates/ticket.html")
             .then(response => response.text())
             .then(ticket => {
@@ -249,8 +249,8 @@ botonReimprimir.addEventListener("click", async () => {
                     trTbody.appendChild(tdPrecio);
 
                 }
-                console.log(htmlDoc.documentElement.outerHTML)
-                const ticketWindow = window.open("", "Documento de venta","width=300, height=200");
+                
+                const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.print();
                 ticketWindow.document.close();
@@ -262,7 +262,7 @@ botonReimprimir.addEventListener("click", async () => {
             }
         })
         let datosCliente = await fetchCliente.json();
-        console.log(datosCliente.clientes[0])
+
         fetch("../../../templates/factura.html")
             .then(response => response.text())
             .then(factura => {
@@ -273,7 +273,6 @@ botonReimprimir.addEventListener("click", async () => {
                 htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
                 
                      let clienteFactura = `${datosCliente.clientes[0].nombre} ${datosCliente.clientes[0].apellido1} ${datosCliente.clientes[0].apellido2}`;
-                     console.log(clienteFactura)
                      let textoDireccion = document.createTextNode(datosCliente.clientes[0].direccion);
                      htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion, htmlDoc.querySelector("#direccionCliente").childNodes[1])
 
@@ -320,7 +319,7 @@ botonReimprimir.addEventListener("click", async () => {
                 htmlDoc.querySelector("#totalFactura").textContent = totalURL;
 
 
-                const ticketWindow = window.open("", "Documento de venta", "");
+                const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                 ticketWindow.print();

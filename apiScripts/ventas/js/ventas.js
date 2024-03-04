@@ -432,12 +432,11 @@ form.addEventListener("submit", async (e) => {
                     const total = document.getElementById("total").textContent;
                     htmlDoc.querySelector("#total").textContent = total;
 
-                    const ticketWindow = window.open("", "Documento de venta");
+                    const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                     ticketWindow.print();
                     window.location.reload();
-                    ticketWindow.document.close();
 
                 });
         } else {
@@ -505,7 +504,7 @@ form.addEventListener("submit", async (e) => {
                     htmlDoc.querySelector("#totalFactura").textContent = total;
 
 
-                    const ticketWindow = window.open("", "Documento de venta");
+                    const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                     ticketWindow.print();
