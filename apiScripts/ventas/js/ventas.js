@@ -357,7 +357,9 @@ form.addEventListener("submit", async (e) => {
         const year = fechaActual.getFullYear();
         const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
         const day = String(fechaActual.getDate()).padStart(2, '0');
-        const fechaFormateada = `${year}-${month}-${day}`;
+        const hour = String(fechaActual.getHours()).padStart(2, '0');
+        const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+        const fechaFormateada = `${year}-${month}-${day} ${hour}:${minutes}`;
 
         //Recogemos el tipo de pago: efectivo o tarjeta
         const tipoPago = document.querySelectorAll("input[name='pago']");//Recogemos el tipo de pago
