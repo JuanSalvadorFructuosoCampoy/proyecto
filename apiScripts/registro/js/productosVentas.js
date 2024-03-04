@@ -114,11 +114,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 td4.textContent = element.cantidad;
                 td5.textContent = element.precio + "€";
 
-                td1.classList.add("p-2", "text-center", "align-middle");
-                td2.classList.add("p-2", "text-center", "align-middle");
-                td3.classList.add("p-2", "text-center", "align-middle");
-                td4.classList.add("p-2", "text-center", "align-middle");
-                td5.classList.add("p-2", "text-center", "align-middle");
+                td1.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td2.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td3.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td4.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td5.classList.add("p-2", "text-center", "align-middle","fs-5");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);

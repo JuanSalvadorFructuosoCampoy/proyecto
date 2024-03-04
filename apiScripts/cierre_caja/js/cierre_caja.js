@@ -9,7 +9,7 @@ const th1 = document.createElement("th");
 const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
-const th5 = document.createElement("th");
+
 
 
 
@@ -22,14 +22,13 @@ th1.classList.add("p-2", "text-center")
 th2.classList.add("p-2", "text-center")
 th3.classList.add("p-2", "text-center")
 th4.classList.add("p-2", "text-center")
-th4.classList.add("p-2", "text-center")
 
 
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
 tr.appendChild(th4);
-tr.appendChild(th5);
+
 
 
 
@@ -60,14 +59,16 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 const td2 = document.createElement("td");
                 const td3 = document.createElement("td");
                 const td4 = document.createElement("td");
+                const td5 = document.createElement("td");
 
 
 
-                td1.classList.add("p-2", "text-center")
-                td2.classList.add("p-2", "text-center")
-                td3.classList.add("p-2", "text-center")
-                td4.classList.add("p-2", "text-center")
-
+                td1.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td3.classList.add("p-2", "text-center", "align-middle","fs-5")
+                td4.classList.add("p-2", "text-center", "align-middle","fs-5")
+                td2.classList.add("p-2", "text-center", "align-middle","fs-5")
+                td5.classList.add("p-2", "text-center", "align-middle","fs-5")
+                
 
                 td1.textContent = element.fecha;
 
@@ -80,20 +81,30 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 td2.textContent = `${parseFloat(element.efectivo).toFixed(2)}€`;
                 td3.textContent = `${parseFloat(element.tarjeta).toFixed(2)}€`;
 
+
                 const total = (parseFloat(element.efectivo) + parseFloat(element.tarjeta)).toFixed(2);
                 td4.textContent = `${total}€`;
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tr.appendChild(td4);
+                tr.appendChild(td5);
                 tbody.appendChild(tr);
 
-              
+                let botonImprimir = document.createElement("button");
+                botonImprimir.textContent = "Imprimir";
+                botonImprimir.classList.add("btn", "btn-success", "m-1");
+                botonImprimir.setAttribute("id", "imprimir");
+                botonImprimir.setAttribute("data-id", element.id);
+                td5.appendChild(botonImprimir);
+                botonImprimir.addEventListener("click", () => {
 
+                })
 
-            })//Fin del forEach de las ventas
+            })//Fin del forEach de los totales diarios
         }//Fin del else de la tabla
 
+        //Input de tipo texto para filtrar por texto los registros de la tabla
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");

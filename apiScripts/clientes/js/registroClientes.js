@@ -86,9 +86,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 td1.textContent = `${dia}-${mes}-${anio}`;
                 td2.textContent = element.evento;
 
-                td1.classList.add("p-2", "text-center", "align-middle"); 
-                td2.classList.add("p-2", "text-center", "align-middle"); 
-                td3.classList.add("p-2", "text-center", "align-middle");
+                td1.classList.add("p-2", "text-center", "align-middle","fs-5"); 
+                td2.classList.add("p-2", "text-center", "align-middle","fs-5"); 
+                td3.classList.add("p-2", "text-center", "align-middle","fs-5");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);

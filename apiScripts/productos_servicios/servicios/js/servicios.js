@@ -50,10 +50,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
                 const td3 = document.createElement("td");
                 const td4 = document.createElement("td");
 
-                td1.classList.add("p-2", "text-center")
-                td2.classList.add("p-2", "text-center")
-                td3.classList.add("p-2", "text-center")
-                td4.classList.add("p-2", "text-center")
+                td1.classList.add("p-2", "text-center","fs-5")
+                td2.classList.add("p-2", "text-center","fs-5")
+                td3.classList.add("p-2", "text-center","fs-5")
+                td4.classList.add("p-2", "text-center","fs-5")
                 let precioServicio 
                 if(element.precio == 0){
                     precioServicio = "No definido";

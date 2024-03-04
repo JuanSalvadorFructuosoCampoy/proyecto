@@ -56,11 +56,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
 
-                td1.classList.add("p-2", "text-center")
-                td2.classList.add("p-2", "text-center")
-                td3.classList.add("p-2", "text-center")
-                td4.classList.add("p-2", "text-center")
-                td5.classList.add("p-2", "text-center")
+                td1.classList.add("p-2", "text-center","fs-5")
+                td2.classList.add("p-2", "text-center","fs-5")
+                td3.classList.add("p-2", "text-center","fs-5")
+                td4.classList.add("p-2", "text-center","fs-5")
+                td5.classList.add("p-2", "text-center","fs-5")
                 let precioProducto 
                 if(element.precio == 0){
                     precioProducto = "No definido";

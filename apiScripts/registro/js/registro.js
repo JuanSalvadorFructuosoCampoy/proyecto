@@ -68,13 +68,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const td7 = document.createElement("td");
 
 
-                td1.classList.add("p-2", "text-center")
-                td2.classList.add("p-2", "text-center")
-                td3.classList.add("p-2", "text-center")
-                td4.classList.add("p-2", "text-center")
-                td5.classList.add("p-2", "text-center")
-                td6.classList.add("p-2", "text-center")
-                td7.classList.add("p-2", "text-center")
+                td1.classList.add("p-2", "text-center","fs-5")
+                td2.classList.add("p-2", "text-center","fs-5")
+                td3.classList.add("p-2", "text-center","fs-5")
+                td4.classList.add("p-2", "text-center","fs-5")
+                td5.classList.add("p-2", "text-center","fs-5")
+                td6.classList.add("p-2", "text-center","fs-5")
+                td7.classList.add("p-2", "text-center","fs-5")
 
                 td1.textContent = element.id;
 
