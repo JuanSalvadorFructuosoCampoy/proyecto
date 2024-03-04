@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Clase con la lógica para conectarse a la base de datos. 
  * Incluye métodos para recuperar registros, actualizar y borrarlos de cualquier tabla de la base de datos, además de poder filtrar las consultas.
@@ -11,10 +12,11 @@ class Database
 	 */
 	private $results_page = 50;
 
-	public function __construct(){
+	public function __construct()
+	{
 		$this->connection = new mysqli('127.0.0.1', 'root', '', 'peluqueria', '3306');
 
-		if($this->connection->connect_errno){
+		if ($this->connection->connect_errno) {
 			echo 'Error de conexión a la base de datos';
 			exit;
 		}
@@ -27,12 +29,12 @@ class Database
 	{
 		$query = "SELECT * FROM $table";
 
-		if($extra != null){
+		if ($extra != null) {
 			$query .= ' WHERE';
 
 			foreach ($extra as $key => $condition) {
-				$query .= ' '.$key.' = "'.$condition.'"';
-				if($extra[$key] != end($extra)){
+				$query .= ' ' . $key . ' = "' . $condition . '"';
+				if ($extra[$key] != end($extra)) {
 					$query .= " AND ";
 				}
 			}
@@ -58,7 +60,7 @@ class Database
 		$values .= implode('","', array_values($data));
 		$values .= '"';
 
-		$query = "INSERT INTO $table (".$fields.') VALUES ('.$values.')';
+		$query = "INSERT INTO $table (" . $fields . ') VALUES (' . $values . ')';
 		$this->connection->query($query);
 
 		return $this->connection->insert_id;
@@ -69,20 +71,20 @@ class Database
 	 * Hay que indicar el registro mediante un campo que sea clave primaria y que debe llamarse "id"
 	 */
 	public function updateDB($table, $id, $data)
-	{	
+	{
 		$query = "UPDATE $table SET ";
 		foreach ($data as $key => $value) {
 			$query .= "$key = '$value'";
-			if(sizeof($data) > 1 && $key != array_key_last($data)){
+			if (sizeof($data) > 1 && $key != array_key_last($data)) {
 				$query .= " , ";
 			}
 		}
 
-		$query .= ' WHERE id = '.$id;
+		$query .= ' WHERE id = ' . $id;
 
 		$this->connection->query($query);
 
-		if(!$this->connection->affected_rows){
+		if (!$this->connection->affected_rows) {
 			return 0;
 		}
 
@@ -95,29 +97,29 @@ class Database
 	 */
 	public function deleteDB($table, $id)
 	{
-		if($table == "clientes"){
+		if ($table == "clientes") {
 			$query = "DELETE FROM registro_clientes WHERE id_cliente = $id";
 			$this->connection->query($query);
 		}
 
-		if($table == "ventas"){
+		if ($table == "ventas") {
 			$query = "DELETE FROM productos_ventas WHERE id = $id";
 			$this->connection->query($query);
 		}
 		$query = "DELETE FROM $table WHERE id = $id";
 		$this->connection->query($query);
 
-		if(!$this->connection->affected_rows){
+		if (!$this->connection->affected_rows) {
 			return 0;
 		}
 
 		return $this->connection->affected_rows;
 	}
-	
-	public function getRegistro($id_cliente){
+
+	public function getRegistro($id_cliente)
+	{
 		$query = "SELECT * FROM registro_clientes WHERE id_cliente = $id_cliente ORDER BY fecha DESC, id DESC";
-		$results = $this->connection->query
-		($query);
+		$results = $this->connection->query($query);
 		$resultArray = array();
 		foreach ($results as $value) {
 			$resultArray[] = $value;
@@ -125,30 +127,29 @@ class Database
 		return $resultArray;
 	}
 
-	public function getNuevaId($table){
-		if($table == "productos"){
+	public function getNuevaId($table)
+	{
+		if ($table == "productos") {
 			$query = "SELECT MAX(id) AS max_id FROM productos";
 			$result = $this->connection->query($query);
 			$row = $result->fetch_assoc();
 			$maxId = $row['max_id'];
-			if($maxId == null){
+			if ($maxId == null) {
 				return "P1";
 			}
 			$number = intval(substr($maxId, 1)) + 1;
 			return "P" . $number;
-		}
-		elseif($table == "servicios"){
+		} elseif ($table == "servicios") {
 			$query = "SELECT MAX(id) AS max_id FROM servicios";
 			$result = $this->connection->query($query);
 			$row = $result->fetch_assoc();
 			$maxId = $row['max_id'];
-			if($maxId == null){
+			if ($maxId == null) {
 				return "S1";
 			}
 			$number = intval(substr($maxId, 1)) + 1;
 			return "S" . $number;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -163,33 +164,53 @@ class Database
 		$values .= implode('","', array_values($data));
 		$values .= '"';
 
-		$query = "INSERT INTO $table (".$fields.') VALUES ('.$values.')';
+		$query = "INSERT INTO $table (" . $fields . ') VALUES (' . $values . ')';
 		$this->connection->query($query);
 
 		return $this->connection->insert_id;
 	}
 
-	public function getCierreCajaDB($fecha){
-		$fechaDefinida = $fecha['fecha'];
-		$query = "SELECT DISTINCT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta'";
-		$query2 = "SELECT DISTINCT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo FROM ventas WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo'";
+	//Método para recuperar los datos de cierre de caja, si no se pasa fecha, se muestran todos los datos, si se pasa fecha, se muestran los datos de esa fecha
+	public function getCierreCajaDB($fecha)
+	{
+		if (empty($fecha)) {
+		//COALESCE para que si no hay ventas de un tipo, se muestre 0, en vez de NULL
+		$query = "SELECT COALESCE(t.fecha, e.fecha) as fecha, t.tarjeta, e.efectivo
+FROM
+    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta 
+    FROM ventas 
+    WHERE tipo = 'tarjeta' 
+    GROUP BY SUBSTRING(fecha,1,10)) t
+LEFT JOIN
+    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo 
+    FROM ventas 
+    WHERE tipo = 'efectivo' 
+    GROUP BY SUBSTRING(fecha,1,10)) e
+ON t.fecha = e.fecha";
+		} else {
+			$fechaDefinida = $fecha['fecha'];
+
+
+$query = "SELECT COALESCE(t.fecha, e.fecha) as fecha, t.tarjeta, e.efectivo
+FROM
+    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta 
+    FROM ventas 
+    WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta' 
+    GROUP BY SUBSTRING(fecha,1,10)) t
+LEFT JOIN
+    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo 
+    FROM ventas 
+    WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo' 
+    GROUP BY SUBSTRING(fecha,1,10)) e
+ON t.fecha = e.fecha";
+		}
 
 		$results = $this->connection->query($query);
-		$results2 = $this->connection->query($query2);
+
 		$resultArray = array();
-		$resultArray2 = array();
 		foreach ($results as $value) {
 			$resultArray[] = $value;
 		}
-		foreach ($results2 as $value) {
-			$resultArray2[] = $value;
-		}
-		$total = array($resultArray, $resultArray2);
-
-
-		return $total;
+		return $resultArray;
 	}
 }
-
-
-?>
