@@ -63,6 +63,7 @@ document.querySelector("aside").addEventListener("change", () => {
     hacerFetch(sessionStorage.getItem("tipo"))
 })
 
+//Función para hacer fetch en la página de ventas
 function hacerFetch(url) {
     article.innerHTML = ""
     fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php`, {
@@ -183,6 +184,8 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
+
+//Función que selecciona un item
 function seleccionarItem(tarjeta) {
     if (tarjeta.classList.contains("bg-danger")) {
         mostrarVentanaError("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
@@ -272,7 +275,7 @@ function seleccionarItem(tarjeta) {
 
         calcularPrecio();
     }
-}
+}//Fin seleccionarItem
 
 
 document.querySelector("input").addEventListener("keypress", (e) => {
@@ -289,7 +292,7 @@ document.getElementById("cancelarVenta").addEventListener("click", (e) => {
 function vaciarTabla() {
     tbody.innerHTML = "";
     calcularPrecio();
-}
+}//Fin vaciarTabla
 
 const form = document.querySelector("form");
 
@@ -576,24 +579,22 @@ form.addEventListener("submit", async (e) => {
 
                                                     })
 
-                                            }
+                                            }//Fin if producto.id
 
-                                        })
+                                        })//Fin forEach productos
 
-                                    })
+                                    })//Fin fetch productos
 
-                            })
+                            })//Fin forEach items
 
-                        })
+                        })//Fin fetch ventas para recoger el id de la última venta
                     vaciarTabla();
-                }
-            })
+                }//Fin else de if data.error
+            })//Fin fetch ventas para insertar la venta en la base de datos
+    }//Fin else de if selectedValue
+})//Fin evento submit del formulario
 
-
-
-    }
-})
-
+//Función para calcular el precio de la venta
 function calcularPrecio() {
     const precios = tbody.querySelectorAll("td:nth-child(3) input");
     let total = 0;
@@ -606,8 +607,9 @@ function calcularPrecio() {
     }
     document.getElementById("total").textContent = total + "€";
     document.getElementById("total").setAttribute("value", total);
-}
+}//Fin calcularPrecio
 
+//Función que nos muestra la ventana de error
 function mostrarVentanaError(mensaje) {
     document.getElementById("ventanaError").style.display = "block";
     document.getElementById("ventanaError").textContent = mensaje;
@@ -615,8 +617,10 @@ function mostrarVentanaError(mensaje) {
         document.getElementById("ventanaError").style.display = "none";
     }, 3000);
     return
-}
+}//Fin mostrarVentanaError
 
+
+//Función que nos muestra la ventana de cambio de pago en efectivo
 function mostrarVentanaCambio(mensaje) {
     return new Promise((resolve, reject) => {
 
@@ -664,7 +668,7 @@ function mostrarVentanaCambio(mensaje) {
             if (cambio == null || cambio == "NaN" || inputCambio.value == "NaN€") {
                 inputCambio.value = "";
             }
-        });
+        });//Fin inputDineroIntroducido
 
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
@@ -678,7 +682,7 @@ function mostrarVentanaCambio(mensaje) {
             document.getElementById("ventanaCambio").classList.add("d-none");
 
             resolve(true);
-        });
+        });//Fin botonConfirmar
 
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
@@ -690,9 +694,11 @@ function mostrarVentanaCambio(mensaje) {
             document.getElementById("ventanaCambio").classList.add("d-none");
             resolve(false);
 
-        });
-    });
-}
+        });//Fin botonCancelar
+    });//Fin promise
+}//Fin mostrarVentanaCambio
+
+
 //Nuevo cliente con ventana emergente
 const nuevoCliente = document.getElementById("nuevoCliente");
 nuevoCliente.addEventListener("click", (e) => {
@@ -777,8 +783,8 @@ nuevoCliente.addEventListener("click", (e) => {
             })
             .catch((error) => {
                 console.error('Error:', error);
-            });
-    });
+            });//Fin fetch
+    });//Fin enviarNuevoCliente
 
     const cancelarNuevoCliente = document.getElementById('cancelarNuevoCliente');
     cancelarNuevoCliente.addEventListener('click', () => {
@@ -822,4 +828,4 @@ nuevoCliente.addEventListener("click", (e) => {
         }
     }
 
-})
+})//Fin nuevoCliente
