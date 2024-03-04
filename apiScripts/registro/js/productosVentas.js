@@ -214,8 +214,8 @@ botonReimprimir.addEventListener("click", async () => {
                 const parser = new DOMParser();
                 //Convertimos el texto HTML en un documento HTML
                 const htmlDoc = parser.parseFromString(ticket, 'text/html');
-                let textoFecha = document.createTextNode(fechaURL);
                 htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+                let textoFecha = document.createTextNode(fechaURL);
                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
 
                 const total = totalURL;
@@ -253,7 +253,6 @@ botonReimprimir.addEventListener("click", async () => {
                 const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.print();
-                ticketWindow.document.close();
             })
     } else {
         let fetchCliente = await fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${clienteURL}`, {

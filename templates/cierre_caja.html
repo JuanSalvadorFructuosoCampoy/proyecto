@@ -7,7 +7,7 @@
         <style>
             * {
     font-size: 12px;
-    font-family: 'Times New Roman';
+    font-family:'Courier New', Courier, monospace;
 }
 
 td,
@@ -53,6 +53,26 @@ img {
     max-width: inherit;
     width: inherit;
 }
+
+#totalTarjeta{
+
+    font-weight: bold;
+}
+
+#totalEfectivo{
+
+    font-weight: bold;
+}
+
+#total{
+
+    font-weight: bold;
+}
+
+#fecha {
+    font-weight: bold;
+}
+
         </style>
         <body>
             <div class="ticket">
@@ -74,7 +94,10 @@ img {
                         </tr>
                     </thead>
                     <tbody>
-
+                        <tr>
+                            <td id="totalEfectivo"></td>
+                            <td id="totalTarjeta"></td>
+                        </tr>
                     </tbody>
 
                     <tfoot>

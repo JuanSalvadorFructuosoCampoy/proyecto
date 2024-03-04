@@ -91,15 +91,48 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 tr.appendChild(td5);
                 tbody.appendChild(tr);
 
-                let botonImprimir = document.createElement("button");
+                const botonImprimir = document.createElement("button");
                 botonImprimir.textContent = "Imprimir";
                 botonImprimir.classList.add("btn", "btn-success", "m-1");
                 botonImprimir.setAttribute("id", "imprimir");
-                botonImprimir.setAttribute("data-id", element.id);
                 td5.appendChild(botonImprimir);
-                botonImprimir.addEventListener("click", () => {
 
+                botonImprimir.addEventListener("click", async (e) => {
+                    let anio = e.target.parentElement.parentElement.children[0].textContent.split("/")[2];
+                    let mes = e.target.parentElement.parentElement.children[0].textContent.split("/")[1];
+                    let dia = e.target.parentElement.parentElement.children[0].textContent.split("/")[0];
+                    let fecha = `${anio}-${mes}-${dia}`;
+                 let fetchDia =   await fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php?fecha=${fecha}`, {
+                        headers: {
+                            "api-key": sessionStorage.getItem("token")
+                        }
                 })
+                let cierreCaja = await fetchDia.json();
+                console.log(cierreCaja.ventas[0].fecha)
+                console.log(cierreCaja.ventas[0].efectivo)
+                console.log(cierreCaja.ventas[0].tarjeta)
+                fetch(`${window.location.protocol}//${window.location.host}/templates/cierre_caja.html`) 
+                .then(response => response.text())
+                .then(ticket => {
+                //Parseamos el texto HTML en un documento HTML
+                const parser = new DOMParser();
+                //Convertimos el texto HTML en un documento HTML
+                const htmlDoc = parser.parseFromString(ticket, 'text/html');
+                let anioNuevo = cierreCaja.ventas[0].fecha.split("-")[0];
+                let mesNuevo = cierreCaja.ventas[0].fecha.split("-")[1];
+                let diaNuevo = cierreCaja.ventas[0].fecha.split("-")[2];
+                let fechaNueva = `${diaNuevo}/${mesNuevo}/${anioNuevo}`;
+                let textoFecha = document.createTextNode(fechaNueva);
+                htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
+                htmlDoc.querySelector("#totalEfectivo").textContent = `${parseFloat(cierreCaja.ventas[0].efectivo).toFixed(2)}€`;
+                htmlDoc.querySelector("#totalTarjeta").textContent = `${parseFloat(cierreCaja.ventas[0].tarjeta).toFixed(2)}€`;
+                htmlDoc.querySelector("#total").textContent = `${(parseFloat(cierreCaja.ventas[0].efectivo) + parseFloat(cierreCaja.ventas[0].tarjeta)).toFixed(2)}€`;
+                const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
+                ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
+                ticketWindow.print();
+                })
+
+                })//Fin del evento click del botón imprimir
 
             })//Fin del forEach de los totales diarios
         }//Fin del else de la tabla
@@ -193,16 +226,5 @@ async function hacerFetch(url) {
     }
 }
 
-async function fetchItem(url, id) {
-
-    let item = await fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php?id=${id}`, {
-        headers: {
-            "api-key": sessionStorage.getItem("token"),
-        }
-    });
-    let itemData = await item.json();
-    return itemData;
-
-}
 
 
