@@ -191,34 +191,23 @@ class Database
 	{
 		if (empty($fecha)) {
 		//COALESCE para que si no hay ventas de un tipo, se muestre 0, en vez de NULL
-		$query = "SELECT COALESCE(t.fecha, e.fecha) as fecha, t.tarjeta, e.efectivo
-FROM
-    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta 
-    FROM ventas 
-    WHERE tipo = 'tarjeta' 
-    GROUP BY SUBSTRING(fecha,1,10)) t
-LEFT JOIN
-    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo 
-    FROM ventas 
-    WHERE tipo = 'efectivo' 
-    GROUP BY SUBSTRING(fecha,1,10)) e
-ON t.fecha = e.fecha";
+		$query = "SELECT 
+		DATE(fecha) as fecha,
+		SUM(CASE WHEN tipo = 'tarjeta' THEN total ELSE 0 END) as tarjeta,
+		SUM(CASE WHEN tipo = 'efectivo' THEN total ELSE 0 END) as efectivo,
+		SUM(total) as total
+	FROM ventas
+	GROUP BY DATE(fecha)";
 		} else {
 			$fechaDefinida = $fecha['fecha'];
 
-
-$query = "SELECT COALESCE(t.fecha, e.fecha) as fecha, t.tarjeta, e.efectivo
-FROM
-    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as tarjeta 
-    FROM ventas 
-    WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'tarjeta' 
-    GROUP BY SUBSTRING(fecha,1,10)) t
-LEFT JOIN
-    (SELECT SUBSTRING(fecha,1,10) as fecha, SUM(total) as efectivo 
-    FROM ventas 
-    WHERE fecha LIKE '%$fechaDefinida%' AND tipo = 'efectivo' 
-    GROUP BY SUBSTRING(fecha,1,10)) e
-ON t.fecha = e.fecha";
+			$query = "SELECT DATE(fecha) as fecha, 
+            SUM(CASE WHEN tipo = 'tarjeta' THEN total ELSE 0 END) as tarjeta, 
+            SUM(CASE WHEN tipo = 'efectivo' THEN total ELSE 0 END) as efectivo, 
+            SUM(total) as total 
+        FROM ventas 
+        WHERE DATE(fecha) = '$fechaDefinida' 
+        GROUP BY DATE(fecha)";
 		}
 
 		$results = $this->connection->query($query);
