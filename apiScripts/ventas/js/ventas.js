@@ -84,7 +84,7 @@ function hacerFetch(url) {
             contenedor.appendChild(list);
             data[url].forEach(item => {
                 const tarjeta = document.createElement("div")
-                tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-5", "col-lg-6", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
+                tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-3", "col-lg-2", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
                 tarjeta.setAttribute("id", item.id);
 
                 //Guardamos el stock del producto en el dataset de la tarjeta
