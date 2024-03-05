@@ -154,9 +154,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 })
 
                 //Evento para borrar la venta
-                botonBorrar.addEventListener("click", (e) => {
+                botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = mostrarventanaAviso("¿Estás seguro de que quieres borrar esta venta? Se borrarán todos los registros asociados a la misma.");
+                    const confirmDelete = await mostrarventanaAviso("¿Estás seguro de que quieres borrar esta venta? Se borrarán todos los registros asociados a la misma.");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${id}`, {
                             method: 'DELETE',
@@ -247,7 +247,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 //Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
-botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
+botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "start-0", "m-3")
 botonVolver.setAttribute("id", "volver")
 document.body.appendChild(botonVolver)
 botonVolver.addEventListener("click", () => {

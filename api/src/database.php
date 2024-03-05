@@ -141,9 +141,11 @@ class Database
 			$row = $result->fetch_assoc();
 			$maxId = $row['max_id'];
 			if ($maxId == null) {
-				return "P1";
+				return "P0001";
 			}
 			$number = intval(substr($maxId, 1)) + 1;
+			//str_pad para que el número tenga 4 dígitos
+			$number = str_pad($number, 4, '0', STR_PAD_LEFT);
 			return "P" . $number;
 		} elseif ($table == "servicios") {
 			$query = "SELECT MAX(id) AS max_id FROM servicios";
@@ -151,9 +153,11 @@ class Database
 			$row = $result->fetch_assoc();
 			$maxId = $row['max_id'];
 			if ($maxId == null) {
-				return "S1";
+				return "S0001";
 			}
 			$number = intval(substr($maxId, 1)) + 1;
+			//str_pad para que el número tenga 4 dígitos
+			$number = str_pad($number, 4, '0', STR_PAD_LEFT);
 			return "S" . $number;
 		} else {
 			return null;
