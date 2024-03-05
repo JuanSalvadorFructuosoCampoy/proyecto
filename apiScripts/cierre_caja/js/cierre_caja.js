@@ -18,10 +18,10 @@ th2.textContent = "Total en efectivo";
 th3.textContent = "Total en tarjeta";
 th4.textContent = "Total";
 
-th1.classList.add("p-2", "text-center")
-th2.classList.add("p-2", "text-center")
-th3.classList.add("p-2", "text-center")
-th4.classList.add("p-2", "text-center")
+th1.classList.add("p-2", "text-center", "align-middle")
+th2.classList.add("p-2", "text-center", "align-middle")
+th3.classList.add("p-2", "text-center", "align-middle")
+th4.classList.add("p-2", "text-center", "align-middle")
 
 
 tr.appendChild(th1);

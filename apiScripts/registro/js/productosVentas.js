@@ -41,10 +41,10 @@ th1.setAttribute("scope", "col")
 th1.classList.add("p-2", "text-center")
 
 th2.setAttribute("scope", "col")
-th2.classList.add("p-2", "text-center")
-th3.classList.add("p-2", "text-center")
-th4.classList.add("p-2", "text-center")
-th5.classList.add("p-2", "text-center")
+th2.classList.add("p-2", "text-center", "align-middle")
+th3.classList.add("p-2", "text-center", "align-middle")
+th4.classList.add("p-2", "text-center", "align-middle")
+th5.classList.add("p-2", "text-center", "align-middle")
 
 
 tr.appendChild(th1);

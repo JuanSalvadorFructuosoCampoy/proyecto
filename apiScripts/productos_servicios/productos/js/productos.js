@@ -16,11 +16,11 @@ th2.textContent = "Nombre producto";
 th3.textContent = "Precio";
 th4.textContent = "Stock";
 
-th1.classList.add("p-2", "text-center")
-th2.classList.add("p-2", "text-center")
-th3.classList.add("p-2", "text-center")
-th4.classList.add("p-2", "text-center")
-th5.classList.add("p-2", "text-center")
+th1.classList.add("p-2", "text-center", "align-middle");
+th2.classList.add("p-2", "text-center", "align-middle")
+th3.classList.add("p-2", "text-center", "align-middle")
+th4.classList.add("p-2", "text-center", "align-middle")
+th5.classList.add("p-2", "text-center", "align-middle")
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
