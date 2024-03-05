@@ -1,3 +1,6 @@
+/**
+ * Script para la página de ventas, donde se gestionará la venta de productos y servicios
+ */
 const categorias = document.querySelector("aside")
 const radioProductos = document.querySelector('#productos');
 const radioServicios = document.querySelector('#servicios');
@@ -6,7 +9,7 @@ const tbody = document.querySelector("tbody")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
 
-//Barra de búsqueda
+//Barra de búsqueda para filtrar los productos y servicios
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
@@ -38,6 +41,7 @@ barraBusqueda.addEventListener("input", () => {
     });
 });
 
+//Si hay algo en el sessionStorage, se lo asigna a la variable url para que se muestre el tipo de item que se estaba mostrando antes
 if (sessionStorage.getItem("tipo")) {//Si hay algo en el sessionStorage, se lo asigna a la variable url
     hacerFetch(sessionStorage.getItem("tipo"))
     if (sessionStorage.getItem("tipo") == "productos") {//Si el tipo es productos, se selecciona el radio de productos
@@ -85,7 +89,6 @@ function hacerFetch(url) {
 
                 //Guardamos el stock del producto en el dataset de la tarjeta
                 if (url == "productos") {
-
                     tarjeta.dataset.stock = item.stock;
                 }
 
@@ -194,12 +197,13 @@ function seleccionarItem(tarjeta) {
 
     //Si el id de la tarjeta coincide con el de una fila, encontrado es true
     const encontrado = Array.from(tbody.getElementsByTagName("tr")).find(tr => tr.dataset.id == tarjeta.id);
+    //Si el item ya está en la tabla, se suma 1 a la cantidad
     if (encontrado) {
         const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
         cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
         calcularPrecio();
     } else {
-
+        //Si el item no está en la tabla, se añade
         const tr = document.createElement("tr");
         tbody.appendChild(tr);
         tr.dataset.id = tarjeta.id;
@@ -208,8 +212,7 @@ function seleccionarItem(tarjeta) {
         tdNombre.textContent = tarjeta.childNodes[0].textContent;
         tr.appendChild(tdNombre);
 
-
-
+        //Se crea la cantidad del item en la tabla del artículo
         const tdCantidad = document.createElement("td");
         const cantidad = document.createElement("input");
         cantidad.setAttribute("type", "number");
@@ -220,12 +223,15 @@ function seleccionarItem(tarjeta) {
         tr.appendChild(tdCantidad)
         tdCantidad.appendChild(cantidad);
         tdCantidad.addEventListener("input", () => {
+            //Si la cantidad es mayor que el stock, se pone el stock
             if (cantidad.value < 0) {
                 cantidad.value = 0;
             }
+            //Calcula el precio total de la venta
             calcularPrecio();
         })
 
+        //Si se pulsa enter, se evita que se envíe el formulario
         tdCantidad.addEventListener("keypress", (e) => {
             if (e.key == "Enter") {
                 e.preventDefault();
@@ -233,6 +239,7 @@ function seleccionarItem(tarjeta) {
             calcularPrecio();
         })
 
+        //Se crea el precio del item en la tabla del artículo
         const tdPrecio = document.createElement("td");
         const precio = document.createElement("input");
         tdPrecio.classList.add("justify-content-center");
@@ -245,13 +252,15 @@ function seleccionarItem(tarjeta) {
         tdPrecio.appendChild(document.createTextNode("€"));
         tr.appendChild(tdPrecio);
         tdPrecio.addEventListener("input", () => {
+            //Si el precio es menor que 0, se pone 0
             if (precio.value < 0) {
                 precio.value = 0;
             }
+            //Calcula el precio total de la venta
             calcularPrecio();
         })
 
-
+        //Si se pulsa enter, se evita que se envíe el formulario
         tdPrecio.addEventListener("keypress", (e) => {
             if (e.key == "Enter") {
                 e.preventDefault();
@@ -259,7 +268,7 @@ function seleccionarItem(tarjeta) {
             calcularPrecio();
         })
 
-
+        //Se crea el botón de eliminar el item de la tabla del artículo
         const tdEliminar = document.createElement("td");
         const botonEliminar = document.createElement("button");
         botonEliminar.textContent = "X";
@@ -268,27 +277,31 @@ function seleccionarItem(tarjeta) {
         tdEliminar.appendChild(botonEliminar);
         tr.appendChild(tdEliminar);
 
+        //Evento para eliminar el item de la tabla del artículo
         botonEliminar.addEventListener("click", () => {
             tr.remove();
+            //Calcula el precio total de la venta al eliminar el producto
             calcularPrecio();
         })
-
+        //Calcula el precio total de la venta al añadir el producto
         calcularPrecio();
     }
 }//Fin seleccionarItem
 
-
+//Evento para que no se envíe el formulario al pulsar enter
 document.querySelector("input").addEventListener("keypress", (e) => {
     if (e.key == "Enter") {
         e.preventDefault();
     }
 })
 
+//Evento para cancelar la venta
 document.getElementById("cancelarVenta").addEventListener("click", (e) => {
     e.preventDefault();
     vaciarTabla();
 })
 
+//Función para vaciar la tabla de la venta
 function vaciarTabla() {
     tbody.innerHTML = "";
     calcularPrecio();
@@ -298,7 +311,6 @@ const form = document.querySelector("form");
 
 //Evento para enviar el formulario de la venta
 form.addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
     const items = tbody.querySelectorAll("tr");
@@ -307,7 +319,7 @@ form.addEventListener("submit", async (e) => {
         mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
         return;
     }
-
+    //Recogemos los inputs de cantidad y precio
     let inputsCantidad = tbody.querySelectorAll("td:nth-child(2) input");
     let inputsPrecio = tbody.querySelectorAll("td:nth-child(3) input");
 
@@ -332,6 +344,7 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
+    //Recogemos el tipo de documento de venta: factura o ticket
     const radios = document.querySelectorAll("input[name='documento-venta']");
     let selectedValue;
     radios.forEach((radio) => {
@@ -365,12 +378,14 @@ form.addEventListener("submit", async (e) => {
         const tipoPago = document.querySelectorAll("input[name='pago']");//Recogemos el tipo de pago
         let valorPago;
 
+        //Recorremos los radios de tipo de pago y recogemos el valor del que esté seleccionado
         tipoPago.forEach((radio) => {
             if (radio.checked) {
                 valorPago = radio.id;
             }
         });
 
+        //Si el pago es en efectivo, se muestra la ventana de cambio
         if (valorPago == "efectivo") {
             const confirmarVenta = await mostrarVentanaCambio("PAGADO EN EFECTIVO");
             if (!confirmarVenta) {
@@ -384,12 +399,13 @@ form.addEventListener("submit", async (e) => {
             empleado: empleados.value,
             tipo: valorPago,
         }
-
+        //Si se ha seleccionado un cliente, se añade el cliente a la venta
         if (clientes.value != "0") {
             venta.cliente = clientes.value;
         }
         //Si se ha seleccionado un ticket, se muestra el ticket en una ventana nueva
         if (selectedValue == "ticket") {
+            //Impresión de tickets
             fetch("../../../templates/ticket.html")
                 .then(response => response.text())
                 .then(data => {
@@ -398,6 +414,7 @@ form.addEventListener("submit", async (e) => {
                     const htmlDoc = parser.parseFromString(data, 'text/html');
                     htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
 
+                    //Formateamos la fecha actual de la venta
                     const fechaActual = new Date();
                     const year = fechaActual.getFullYear();
                     const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
@@ -410,6 +427,7 @@ form.addEventListener("submit", async (e) => {
                     const tbody = document.querySelector("tbody");
                     const items = tbody.querySelectorAll("tr");
                     items.forEach(item => {
+                        //Añadimos los items de la venta al ticket
                         const tr = document.createElement("tr");
                         htmlDoc.querySelector("tbody").appendChild(tr);
 
@@ -428,11 +446,12 @@ form.addEventListener("submit", async (e) => {
                         tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
                         tr.appendChild(tdPrecio);
                     });
-
+                    //Añadimos el total de la venta al ticket
                     const total = document.getElementById("total").textContent;
                     htmlDoc.querySelector("#total").textContent = total;
 
-                    const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
+                    //Abrimos una ventana nueva con el ticket
+                    const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                     ticketWindow.print();
@@ -440,6 +459,7 @@ form.addEventListener("submit", async (e) => {
 
                 });
         } else {
+            //Impresión de facturas
             fetch("../../../templates/factura.html")
                 .then(response => response.text())
                 .then(data => {
@@ -447,6 +467,7 @@ form.addEventListener("submit", async (e) => {
                     //Convertimos el texto HTML en un documento HTML
                     const htmlDoc = parser.parseFromString(data, 'text/html');
                     htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
+                    //Añadimos los datos del cliente a la factura
                     let clienteFactura = document.querySelector("#clientes").options[document.querySelector("#clientes").selectedIndex];
                     let textoDireccion = document.createTextNode(clienteFactura.dataset.direccion);
                     htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion, htmlDoc.querySelector("#direccionCliente").childNodes[1])
@@ -457,7 +478,7 @@ form.addEventListener("submit", async (e) => {
                     let textoTelefono = document.createTextNode(clienteFactura.dataset.telefono);
                     htmlDoc.querySelector("#telefono").insertBefore(textoTelefono, htmlDoc.querySelector("#telefono").childNodes[1])
 
-
+                    //Formateamos la fecha actual
                     const fechaActual = new Date();
                     const year = fechaActual.getFullYear();
                     const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
@@ -468,12 +489,14 @@ form.addEventListener("submit", async (e) => {
                     let textoFecha = document.createTextNode(fechaFormateada);
                     htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
 
+                    //Añadimos los datos del cliente a la factura
                     let textoCliente = document.createTextNode(clientes.options[clientes.selectedIndex].textContent);
                     htmlDoc.querySelector("#nombreCliente").insertBefore(textoCliente, htmlDoc.querySelector("#nombreCliente").childNodes[1])
 
                     const tbody = document.querySelector("tbody");
                     const items = tbody.querySelectorAll("tr");
                     items.forEach(item => {
+                        //Añadimos los items de la venta a la factura
                         const tr = document.createElement("tr");
                         htmlDoc.querySelector("tbody").appendChild(tr);
 
@@ -499,12 +522,13 @@ form.addEventListener("submit", async (e) => {
 
                     });
 
+                    //Añadimos el total de la venta a la factura
                     const total = document.getElementById("total").textContent;
                     htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(total) / 1.21).toFixed(2) + "€";
                     htmlDoc.querySelector("#totalFactura").textContent = total;
 
-
-                    const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
+                    //Abrimos una ventana nueva con la factura
+                    const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                     ticketWindow.print();
@@ -513,7 +537,7 @@ form.addEventListener("submit", async (e) => {
                 });
         }//Final impresion tickets y facturas   
 
-        //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con
+        //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con tarjeta
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             method: "POST",
             headers: {
@@ -535,8 +559,8 @@ form.addEventListener("submit", async (e) => {
                     })
                         .then(response => response.json())
                         .then(data => {
+                            //Recogemos el id de la última venta
                             idVentaNueva = data.ventas[data.ventas.length - 1].id
-                            console.log('idVentaNueva',idVentaNueva)
                             items.forEach(item => {
                                 let itemVenta = {
                                     id: data.ventas[data.ventas.length - 1].id,
@@ -579,17 +603,11 @@ form.addEventListener("submit", async (e) => {
                                                 })
                                                     .then(() => {
                                                         hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
-
                                                     })
-
                                             }//Fin if producto.id
-
-                                        })//Fin forEach productos
-
+                                        })//Fin forEach producto
                                     })//Fin fetch productos
-
                             })//Fin forEach items
-
                         })//Fin fetch ventas para recoger el id de la última venta
                     vaciarTabla();
                 }//Fin else de if data.error
@@ -621,7 +639,6 @@ function mostrarVentanaError(mensaje) {
     }, 3000);
     return
 }//Fin mostrarVentanaError
-
 
 //Función que nos muestra la ventana de cambio de pago en efectivo
 function mostrarVentanaCambio(mensaje) {
@@ -656,37 +673,38 @@ function mostrarVentanaCambio(mensaje) {
         inputCambio.classList.add("form-control", "w-50");
         document.getElementById("ventanaCambio").appendChild(inputCambio);
 
-
+        //Evento para calcular el cambio
         inputDineroIntroducido.addEventListener("input", () => {
             const total = parseFloat(document.getElementById("total").getAttribute("value"));
             const dineroIntroducido = parseFloat(inputDineroIntroducido.value);
             inputDineroIntroducido.setAttribute("aria-describedby", "inputGroup-sizing-lg")
             const cambio = dineroIntroducido - total;
             inputCambio.value = cambio.toFixed(2) + "€";
+            //Si el cambio es mayor o igual que 0, se habilita el botón de confirmar
             if (cambio >= 0) {
                 botonConfirmar.removeAttribute("disabled");
             } else {
                 botonConfirmar.setAttribute("disabled", "true");
             }
+            //Si el cambio es null o NaN, se pone el input del cambio vacío
             if (cambio == null || cambio == "NaN" || inputCambio.value == "NaN€") {
                 inputCambio.value = "";
             }
         });//Fin inputDineroIntroducido
 
+        //Botón de confirmar el pago
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
-
         botonConfirmar.setAttribute("disabled", "true");
-
         document.getElementById("ventanaCambio").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
-
             resolve(true);
         });//Fin botonConfirmar
 
+        //Botón de cancelar el pago
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");
@@ -696,9 +714,8 @@ function mostrarVentanaCambio(mensaje) {
             document.getElementById("ventanaCambio").classList.remove("d-block");
             document.getElementById("ventanaCambio").classList.add("d-none");
             resolve(false);
-
         });//Fin botonCancelar
-    });//Fin promise
+    });//Fin promise de mostrarVentanaCambio para que se resuelva o se rechace la promesa de la función
 }//Fin mostrarVentanaCambio
 
 
@@ -788,7 +805,8 @@ nuevoCliente.addEventListener("click", (e) => {
                 console.error('Error:', error);
             });//Fin fetch
     });//Fin enviarNuevoCliente
-
+    
+    //Evento para cancelar el nuevo cliente
     const cancelarNuevoCliente = document.getElementById('cancelarNuevoCliente');
     cancelarNuevoCliente.addEventListener('click', () => {
         const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");

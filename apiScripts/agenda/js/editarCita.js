@@ -1,3 +1,6 @@
+/**
+ * Script para editar una cita
+ */
 const fecha = document.getElementById('fecha');
 const hora = document.getElementById('hora');
 const cita = document.getElementById('cita');
@@ -23,10 +26,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/agenda.php?id=${
         cita.value = data['agendas'][0].cita;
     });
 
-
+//Enfocar el campo de fecha al cargar la página
 fecha.focus()
-const form = document.querySelector('form');
 
+//Creamos el formulario
+const form = document.querySelector('form');
 const fechaActual = new Date();
 const year = fechaActual.getFullYear();
 const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
@@ -36,6 +40,9 @@ const fechaFormateada = `${year}-${month}-${day}`;
 //No se pueden editar citas antes que la fecha actual
 fecha.setAttribute('min', fechaFormateada);
 
+/**
+ * Evento para enviar el formulario
+ */
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fechaValue = fecha.value;

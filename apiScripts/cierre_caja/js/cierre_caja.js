@@ -1,3 +1,8 @@
+/**
+ * Script para mostrar el cierre de caja
+ */
+
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaregistro");
 document.body.append(table)
@@ -10,9 +15,6 @@ const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 
-
-
-
 th1.textContent = "Fecha";
 th2.textContent = "Total en efectivo";
 th3.textContent = "Total en tarjeta";
@@ -23,19 +25,19 @@ th2.classList.add("p-2", "text-center", "align-middle","fs-5")
 th3.classList.add("p-2", "text-center", "align-middle","fs-5")
 th4.classList.add("p-2", "text-center", "align-middle","fs-5")
 
-
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
 tr.appendChild(th4);
 
-
-
-
 thead.appendChild(tr);
+
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
+/**
+ * Fetch para obtener los registros de cierre de caja
+ */
 fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -54,6 +56,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
 
             data.ventas.forEach(element => {
 
+                //Creamos las filas de la tabla
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
@@ -61,17 +64,15 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
 
-
-
                 td1.classList.add("p-2", "text-center", "align-middle","fs-5");
                 td3.classList.add("p-2", "text-center", "align-middle","fs-5")
                 td4.classList.add("p-2", "text-center", "align-middle","fs-5")
                 td2.classList.add("p-2", "text-center", "align-middle","fs-5")
                 td5.classList.add("p-2", "text-center", "align-middle","fs-5")
                 
-
                 td1.textContent = element.fecha;
 
+                //Formateamos la fecha
                 const fecha = new Date(element.fecha);
                 const dia = fecha.getDate().toString().padStart(2, '0');
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
@@ -86,8 +87,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                     td3.textContent = "0€"
                 }
 
-                
-
                 const total = (parseFloat(td2.textContent) + parseFloat(td3.textContent)).toFixed(2);
                 td4.textContent = `${total}€`;
                 tr.appendChild(td1);
@@ -97,12 +96,18 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 tr.appendChild(td5);
                 tbody.appendChild(tr);
 
+                /**
+                 * Botón para imprimir el cierre de caja
+                 */
                 const botonImprimir = document.createElement("button");
                 botonImprimir.textContent = "Imprimir";
                 botonImprimir.classList.add("btn", "btn-success", "m-1");
                 botonImprimir.setAttribute("id", "imprimir");
                 td5.appendChild(botonImprimir);
 
+                /**
+                 * Evento para imprimir el cierre de caja
+                 */
                 botonImprimir.addEventListener("click", async (e) => {
                     let anio = e.target.parentElement.parentElement.children[0].textContent.split("/")[2];
                     let mes = e.target.parentElement.parentElement.children[0].textContent.split("/")[1];
@@ -113,6 +118,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                             "api-key": sessionStorage.getItem("token")
                         }
                 })
+
+                //Obtenemos el cierre de caja del día seleccionado
                 let cierreCaja = await fetchDia.json();
 
                 fetch(`${window.location.protocol}//${window.location.host}/templates/cierre_caja.html`) 
@@ -130,16 +137,19 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
                     console.log(cierreCaja.ventas[0].efectivo)
                 if(cierreCaja.ventas[0].efectivo == null){
+                    //Si no hay ventas en efectivo, mostramos 0€
                     htmlDoc.querySelector("#totalEfectivo").textContent = "0€"
                 }else{
+                    //Si hay ventas en efectivo, mostramos el total
                     htmlDoc.querySelector("#totalEfectivo").textContent = `${parseFloat(cierreCaja.ventas[0].efectivo).toFixed(2)}€`;
                 }
-
+                //Si no hay ventas en tarjeta, mostramos 0€
                 if(cierreCaja.ventas[0].tarjeta == null){
                     htmlDoc.querySelector("#totalTarjeta").textContent = "0€"
                 }else{
                 htmlDoc.querySelector("#totalTarjeta").textContent = `${parseFloat(cierreCaja.ventas[0].tarjeta).toFixed(2)}€`;
             }
+                //Sumamos el total en efectivo y el total en tarjeta
                 htmlDoc.querySelector("#total").textContent = `${(parseFloat(htmlDoc.querySelector("#totalEfectivo").textContent) + parseFloat(htmlDoc.querySelector("#totalTarjeta").textContent)).toFixed(2)}€`;
                 const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
@@ -151,7 +161,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
             })//Fin del forEach de los totales diarios
         }//Fin del else de la tabla
 
-        //Input de tipo texto para filtrar por texto los registros de la tabla
+        /**
+         * Input de tipo texto para buscar registros en la tabla
+         */
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");
@@ -183,7 +195,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
     });
 
 
-    //Input de tipo fecha para filtrar por fecha los registros de la tabla
+    /**
+     * Input de tipo fecha para filtrar los registros de la tabla
+     */
     const fechaInput = document.createElement("input");
     fechaInput.setAttribute("type", "date");
     fechaInput.classList.add("form-control", "w-25", "m-auto", "mt-3");
@@ -216,7 +230,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
     });
 
     
-
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -226,7 +242,9 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
-
+/**
+ * Función para hacer fetch
+ */
 async function hacerFetch(url) {
     try {
         const response = await fetch(url, {
@@ -239,6 +257,3 @@ async function hacerFetch(url) {
         console.error(error);
     }
 }
-
-
-

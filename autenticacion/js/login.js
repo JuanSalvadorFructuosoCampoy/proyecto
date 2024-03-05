@@ -1,3 +1,6 @@
+/**
+ * Script para la autenticación de usuarios en el sistema
+ */
 // Limpiar el almacenamiento local
 sessionStorage.clear();
 // Seleccionar elementos del DOM
@@ -11,6 +14,7 @@ const password = document.getElementById("password");
 const botonEnviar = document.getElementById("enviar");
 // Poner el foco en el campo de usuario al cargar la página
 usuario.focus();
+
 // Crear elementos de error para el campo de usuario y contraseña
 const errorUser = document.createElement("div");
 errorUser.textContent = "El usuario no puede estar vacío";

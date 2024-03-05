@@ -80,8 +80,7 @@ class Authentication extends AuthModel
 	public function verify()//Método para verificar si el token es válido
     {
         if(!isset($_SERVER['HTTP_API_KEY'])){//Si no se ha mandado el token, entonces manda un mensaje de error diciendo que no tiene autorización para usar la API
-    //EL TOKEN DEBE GUARDARSE COMO UNA VARIABLE DE SESIÓN O COMO UNA COOKIE A LA HORA DE IMPLEMENTARLO EN UNA APLICACIÓN REAL.
-	//EN POSTMAN, DEBEMOS SELECCIONAR LA OPCIÓN "HEADERS", PONER api-key EN LA PRIMERA COLUMNA Y EL TOKEN EN LA SEGUNDA
+
             $response = array(
                 'result' => 'error',
                 'details' => 'Usted no tiene los permisos para esta solicitud'

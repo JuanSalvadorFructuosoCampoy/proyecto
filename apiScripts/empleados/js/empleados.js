@@ -1,9 +1,14 @@
+/**
+ * Script para mostrar los empleados en la base de datos
+ */
 const table = document.createElement("table");
 table.setAttribute("id", "tablaempleados");
 document.body.append(table)
 table.classList.add("table", "table-bordered", "table-hover");
 const thead = document.createElement("thead");
 document.getElementById("tablaempleados").appendChild(thead);
+
+//Variable para controlar el estado del checkbox de activo
 var switchActivo
 const tr = document.createElement("tr");
 const th1 = document.createElement("th");
@@ -21,13 +26,13 @@ th4.textContent = "Segundo apellido";
 th5.textContent = "Rol";
 th6.textContent = "Activo";
 
-th1.classList.add("p-2", "text-center", "align-middle","fs-5")
-th2.classList.add("p-2", "text-center", "align-middle","fs-5")
-th3.classList.add("p-2", "text-center", "align-middle","fs-5")
-th4.classList.add("p-2", "text-center", "align-middle","fs-5")
-th5.classList.add("p-2", "text-center", "align-middle","fs-5")
-th6.classList.add("p-2", "text-center", "align-middle","fs-5")
-th7.classList.add("p-2", "text-center", "align-middle","fs-5")
+th1.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th2.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th3.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th4.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th5.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th6.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th7.classList.add("p-2", "text-center", "align-middle", "fs-5")
 
 tr.appendChild(th1);
 tr.appendChild(th2);
@@ -41,6 +46,7 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaempleados").appendChild(tbody);
 
+//Obtenemos los datos de los empleados
 fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -67,13 +73,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 const td6 = document.createElement("td");
                 const td7 = document.createElement("td");
 
-                td1.classList.add("p-2", "text-center","fs-5")
-                td2.classList.add("p-2", "text-center","fs-5")
-                td3.classList.add("p-2", "text-center","fs-5")
-                td4.classList.add("p-2", "text-center","fs-5")
-                td5.classList.add("p-2", "text-center","fs-5")
-                td6.classList.add("p-2", "text-center","fs-5")
-                td7.classList.add("p-2", "text-center","fs-5")
+                td1.classList.add("p-2", "text-center", "fs-5")
+                td2.classList.add("p-2", "text-center", "fs-5")
+                td3.classList.add("p-2", "text-center", "fs-5")
+                td4.classList.add("p-2", "text-center", "fs-5")
+                td5.classList.add("p-2", "text-center", "fs-5")
+                td6.classList.add("p-2", "text-center", "fs-5")
+                td7.classList.add("p-2", "text-center", "fs-5")
 
                 td1.textContent = element.id;
                 td2.textContent = element.nombre;
@@ -84,6 +90,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 } else {
                     td5.textContent = "Empleado";
                 }
+                //Creamos el checkbox para activar o desactivar al empleado
                 const divCheck = document.createElement("div");
                 divCheck.classList.add("form-switch");
                 td6.appendChild(divCheck);
@@ -94,22 +101,24 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 checkboxActivo.checked = element.activo == 1; // Si el empleado está activo, el checkbox estará marcado. Compara si el valor de activo es 1 y devolverá true o false
                 divCheck.appendChild(checkboxActivo);
 
-
+                //Creamos el botón para editar al empleado
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info","btn-sm");
+                botonEditar.classList.add("btn", "btn-info", "btn-sm");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td7.appendChild(botonEditar);
 
+                //Creamos el botón para cambiar la contraseña del empleado
                 const botonPassword = document.createElement("button");
                 botonPassword.textContent = "Cambiar contraseña";
-                botonPassword.classList.add("btn", "btn-warning","btn-sm","m-1");
+                botonPassword.classList.add("btn", "btn-warning", "btn-sm", "m-1");
                 botonPassword.setAttribute("id", `botonPassword${element.id}`);
                 td7.appendChild(botonPassword);
-                
+
+                //Creamos el botón para borrar al empleado
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td7.appendChild(botonBorrar);
 
@@ -122,11 +131,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 tr.appendChild(td7);
 
                 tbody.appendChild(tr);
+
+                //Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
                 if (divCheck.parentNode.parentNode.firstChild.textContent == sessionStorage.getItem("id")) {//Si el id del empleado es igual al id del usuario logueado, se deshabilita el checkbox
                     checkboxActivo.disabled = true;
                     botonBorrar.disabled = true;
                 }
 
+                //Eventos de los botones: editar, borrar y cambiar contraseña
                 botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     window.location.href = `editar.html?id=${id}`
@@ -159,6 +171,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 });
             })
         }
+        //Evento para cambiar el estado del empleado
         document.addEventListener("change", (e) => {
             if (e.target.matches(".form-switch input")) {
                 let empleadoActivo;
@@ -182,6 +195,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
         });
     });
 
+//Barra de búsqueda para filtrar empleados
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
@@ -190,6 +204,7 @@ barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 barraBusqueda.focus();
 
+//Evento para filtrar empleados
 barraBusqueda.addEventListener("input", () => {
     const texto = barraBusqueda.value.toLowerCase();
     const filas = tbody.getElementsByTagName("tr");
@@ -211,6 +226,7 @@ barraBusqueda.addEventListener("input", () => {
 
 })
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -220,21 +236,25 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
+//Botón para ir a la página de nuevo empleado
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Nuevo empleado";
-botonNuevo.classList.add("btn", "btn-success","btn-sm");
+botonNuevo.classList.add("btn", "btn-success", "btn-sm");
 botonNuevo.setAttribute("id", "nuevo");
 th7.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
 
-function mostrarVentanaError(mensaje){
+/**
+ * Función para mostrar una ventana de confirmación
+ */
+function mostrarVentanaError(mensaje) {
     return new Promise((resolve, reject) => {
         document.getElementById("ventanaError").innerHTML = "";
         document.getElementById("ventanaError").classList.remove("d-none");
         document.getElementById("ventanaError").classList.add("d-block");
-        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center","d-flex")
+        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center", "d-flex")
         const p = document.createElement("P")
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;

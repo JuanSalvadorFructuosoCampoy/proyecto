@@ -1,3 +1,6 @@
+/**
+ * Script para añadir un nuevo registro de cliente a la base de datos
+ */
 let queryString = window.location.search;
 const form = document.querySelector("form");
 // Crea un objeto URLSearchParams
@@ -9,6 +12,7 @@ let nombreCliente = urlParams.get('nombre_cliente');
 document.getElementById('registro').focus();
 const h2 = document.querySelector('h2');
 h2.childNodes[0].textContent += nombreCliente.toUpperCase();
+
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
@@ -30,6 +34,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
 
     const jsonDatos = JSON.stringify(datosInput)
 
+    //Enviamos los datos a la API para añadir un nuevo registro
     fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php`, {
         method: 'POST',
         headers: {
@@ -48,6 +53,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         });
 });
 
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -57,6 +65,9 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
+/**
+ * Botón para cancelar la creación del registro
+ */
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = `registro.html?id=${idURL}`;

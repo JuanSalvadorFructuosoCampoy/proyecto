@@ -1,9 +1,16 @@
+/**
+ * Script para añadir un nuevo cliente a la base de datos
+ */
 const form = document.getElementsByTagName('form')[0];
 const errorMessageElementTelefono = document.createElement('p');
 document.getElementById('telefono').insertAdjacentElement('afterend', errorMessageElementTelefono);
 const errorMessageElementIdFiscal = document.createElement('p');
 document.getElementById('id_fiscal').insertAdjacentElement('afterend', errorMessageElementIdFiscal);
 document.getElementById('id_fiscal').focus();
+
+/**
+ * Evento para enviar el formulario
+ */
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -67,6 +74,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         });
     });
 
+/**
+ * Botón para cancelar la creación del cliente
+ */
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = "clientes.html";
@@ -101,7 +111,9 @@ function validateDNI(dni) {
         return false;
     }
 }
-
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")

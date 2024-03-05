@@ -1,3 +1,8 @@
+/**
+ * Script para mostrar los registros de ventas en la base de datos
+ */
+
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaregistro");
 document.body.append(table)
@@ -40,6 +45,7 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
+//Obtenemos los registros de ventas de la base de datos
 fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -47,6 +53,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 })
     .then(response => response.json())
     .then(data => {
+        //Si no hay ventas en la base de datos, mostramos un mensaje
         if (data.ventas.length == 0) {
             const h4 = document.createElement("h4");
             const strong = document.createElement("strong");
@@ -55,7 +62,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             h4.appendChild(strong);
             document.body.appendChild(h4);
         } else {
-
             data.ventas.forEach(element => {
 
                 const tr = document.createElement("tr");
@@ -67,7 +73,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const td6 = document.createElement("td");
                 const td7 = document.createElement("td");
 
-
                 td1.classList.add("p-2", "text-center","fs-5")
                 td2.classList.add("p-2", "text-center","fs-5")
                 td3.classList.add("p-2", "text-center","fs-5")
@@ -78,6 +83,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
                 td1.textContent = element.id;
 
+                //Formateamos la fecha actual para que se muestre en el formato dd/mm/yyyy - hh:mm
                 const fecha = new Date(element.fecha);
                 const dia = fecha.getDate().toString().padStart(2, '0');
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
@@ -86,8 +92,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const minutos = fecha.getMinutes().toString().padStart(2, '0');
                 td2.textContent = `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
 
+                //Obtenemos el nombre del empleado y del cliente asociados a la venta
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${element.empleado}`)
                     .then(data => {
+                        //Si el empleado no está definido, mostramos "NO DEFINIDO"
                         if (data.empleados[0]) {
                             td3.textContent = data.empleados[0].nombre
                         } else {
@@ -95,8 +103,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                         }
                     })
 
+                //Obtenemos el nombre del cliente asociado a la venta
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.cliente}`)
                     .then(data => {
+                        //Si el cliente no está definido, mostramos "NO DEFINIDO"
                         if (data.clientes.length > 0) {
                             td4.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1;
                             td4.dataset.id = data.clientes[0].id;
@@ -110,12 +120,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
                 td6.textContent = element.total + "€";
 
+                //Creamos el botón de ficha
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Detalle";
                 botonFicha.classList.add("btn", "btn-warning", "btn-sm","m-1");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
                 td7.appendChild(botonFicha);
 
+                //Creamos el botón de borrar
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
                 botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
@@ -131,6 +143,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 tr.appendChild(td7);
                 tbody.appendChild(tr);
 
+                //Event listener para los botones de ficha y borrar
                 botonFicha.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     const fecha = e.target.parentNode.parentNode.childNodes[1].textContent;
@@ -140,6 +153,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     window.location.href = `productos_ventas.html?id=${id}&fecha=${fecha}&empleado=${empleado}&cliente=${cliente}&total=${total}`
                 })
 
+                //Evento para borrar la venta
                 botonBorrar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     const confirmDelete = confirm("¿Estás seguro de que quieres borrar esta venta? Se borrarán todos los registros asociados a la misma.");
@@ -163,6 +177,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             })//Fin del forEach de las ventas
         }//Fin del else de la tabla
 
+        //Input de tipo texto para filtrar los registros de la tabla
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");
@@ -193,7 +208,6 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
 
     });
 
-
     //Input de tipo fecha para filtrar por fecha los registros de la tabla
     const fechaInput = document.createElement("input");
     fechaInput.setAttribute("type", "date");
@@ -201,6 +215,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     document.body.insertBefore(fechaInput, table);
 
     fechaInput.addEventListener("input", () => {
+        //Formateamos la fecha seleccionada para que coincida con el formato de la tabla
         const fechaSeleccionada = fechaInput.value;
         let anio = fechaSeleccionada.split("-")[0];
         let mes = fechaSeleccionada.split("-")[1];
@@ -220,6 +235,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             }
         }
 
+        //Si no hay fecha seleccionada, mostramos todos los registros
         if(fechaSeleccionada == ""){
             for (let i = 0; i < filas.length; i++) {
                 filas[i].style.display = "";
@@ -228,7 +244,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     });
 
     
-
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -238,7 +254,7 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
-
+//Función asíncrona para hacer fetch a la API
 async function hacerFetch(url) {
     try {
         const response = await fetch(url, {
@@ -252,6 +268,7 @@ async function hacerFetch(url) {
     }
 }
 
+//Función asíncrona para hacer fetch a un item dando el id como parámetro
 async function fetchItem(url, id) {
 
     let item = await fetch(`${window.location.protocol}//${window.location.host}/api/${url}.php?id=${id}`, {

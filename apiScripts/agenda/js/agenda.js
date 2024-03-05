@@ -1,3 +1,8 @@
+/**
+ * Script que muestra la agenda de citas
+ */
+
+//Construcción de la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaagenda");
 document.body.append(table)
@@ -31,7 +36,9 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaagenda").appendChild(tbody);
 
-//Input de tipo fecha para filtrar por fecha los registros de la tabla
+/**
+ * Input de tipo fecha para seleccionar la fecha de la que se quieren ver las citas
+ */
 const fechaInput = document.createElement("input");
 fechaInput.setAttribute("type", "date");
 fechaInput.setAttribute("id", "fechaInput");
@@ -46,7 +53,9 @@ url = `${window.location.protocol}//${window.location.host}/api/agenda.php?fecha
 hacerFetch(url)
 
 
-//Botón para volver al inicio
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -57,7 +66,9 @@ botonVolver.addEventListener("click", () => {
 })
 
 
-
+/**
+ * Evento que se dispara cuando se cambia la fecha en el input de tipo fecha
+ */
 fechaInput.addEventListener("input", () => {
     const fechaSeleccionada = fechaInput.value;
     let anio = fechaSeleccionada.split("-")[0];
@@ -87,7 +98,9 @@ fechaInput.addEventListener("input", () => {
     }
 });
 
-//Barra de búsqueda
+/**
+ * Evento que se dispara cuando se pulsa una tecla en el input de tipo texto
+ */
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
@@ -116,7 +129,9 @@ barraBusqueda.addEventListener("input", () => {
 
 })
 
-//Botón para añadir una nueva cita a la agenda
+/**
+ * Botón para añadir una nueva cita a la agenda
+ */
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Añadir cita";
 botonNuevo.classList.add("btn", "btn-success",);
@@ -126,6 +141,10 @@ botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
 
+
+/**
+ * Función que muestra una ventana de confirmación
+ */
 function mostrarVentanaConfirmar(mensaje){
     return new Promise((resolve, reject) => {
         document.getElementById("ventanaConfirmar").innerHTML = "";
@@ -160,7 +179,9 @@ function mostrarVentanaConfirmar(mensaje){
     });
 }
 
-//Hacer fetch a la API para obtener los registros de las citas
+/**
+ * Función que hace un fetch a la API para obtener los registros de la tabla 
+ */
 function hacerFetch(url){
     fetch(url, {
         headers: {

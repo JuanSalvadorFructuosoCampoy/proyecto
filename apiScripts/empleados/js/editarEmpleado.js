@@ -1,3 +1,6 @@
+/**
+ * Script para editar un empleado
+ */
 const form = document.getElementsByTagName('form')[0];
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
@@ -21,11 +24,12 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
         document.getElementById('apellido1').value = data['empleados'][0].apellido1;
         document.getElementById('apellido2').value = data['empleados'][0].apellido2;
         document.getElementById('rol').value = data['empleados'][0].rol;
-        if(document.getElementsByTagName('option').value == data['empleados'][0].rol){
+        if (document.getElementsByTagName('option').value == data['empleados'][0].rol) {
             document.getElementsByTagName('option').selected = true;
         }
 
     })
+//Evento para enviar el formulario
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -34,7 +38,6 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     const apellido2 = document.getElementById('apellido2').value;
     const rol = document.getElementById('rol').value;
 
-    
     const datosInput = {
         nombre: nombre,
         apellido1: apellido1,
@@ -44,6 +47,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     }
 
     const jsonDatos = JSON.stringify(datosInput)
+    //Enviamos los datos a la API para editar el empleado
     fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${idURL}`, {
         method: 'PATCH',
         headers: {
@@ -59,13 +63,15 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         .catch((error) => {
             console.error('Error:', error);
         });
-    });
+});
 
+//Botón para cancelar
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = "empleados.html";
 });
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")

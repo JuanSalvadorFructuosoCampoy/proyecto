@@ -1,9 +1,16 @@
+/**
+ * Script que se encarga de cargar la tabla de clientes y de gestionar los eventos de los botones de la misma
+ */
+
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaclientes");
 document.body.append(table)
 table.classList.add("table", "table-bordered", "table-hover");
+
 const thead = document.createElement("thead");
 document.getElementById("tablaclientes").appendChild(thead);
+
 const tr = document.createElement("tr");
 const th1 = document.createElement("th");
 const th2 = document.createElement("th");
@@ -13,6 +20,7 @@ const th5 = document.createElement("th");
 const th6 = document.createElement("th");
 const th7 = document.createElement("th");
 const th8 = document.createElement("th");
+
 th1.textContent = "ID";
 th2.textContent = "ID fiscal";
 th3.textContent = "Nombre";
@@ -20,14 +28,16 @@ th4.textContent = "Primer pellido";
 th5.textContent = "Segundo apellido";
 th6.textContent = "Teléfono";
 th7.textContent = "Dirección";
-th1.classList.add("p-2", "text-center", "align-middle","fs-5")
-th2.classList.add("p-2", "text-center", "align-middle","fs-5")
-th3.classList.add("p-2", "text-center", "align-middle","fs-5")
-th4.classList.add("p-2", "text-center", "align-middle","fs-5")
-th5.classList.add("p-2", "text-center", "align-middle","fs-5")
-th6.classList.add("p-2", "text-center", "align-middle","fs-5")
-th7.classList.add("p-2", "text-center", "align-middle","fs-5")
-th8.classList.add("p-2", "text-center", "align-middle","fs-5")
+
+th1.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th2.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th3.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th4.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th5.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th6.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th7.classList.add("p-2", "text-center", "align-middle", "fs-5")
+th8.classList.add("p-2", "text-center", "align-middle", "fs-5")
+
 tr.appendChild(th1);
 tr.appendChild(th2);
 tr.appendChild(th3);
@@ -37,9 +47,13 @@ tr.appendChild(th6);
 tr.appendChild(th7);
 tr.appendChild(th8);
 thead.appendChild(tr);
+
 const tbody = document.createElement("tbody");
 document.getElementById("tablaclientes").appendChild(tbody);
 
+/**
+ * Evento para cargar la tabla de clientes
+ */
 fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -58,7 +72,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         } else {
             console.log("Cargado el script de clientes");
             data.clientes.forEach(element => {
-
+                //Creamos las filas de la tabla
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
@@ -69,14 +83,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 const td7 = document.createElement("td");
                 const td8 = document.createElement("td");
 
-                td1.classList.add("p-2", "text-center","fs-5")
-                td2.classList.add("p-2", "text-center","fs-5")
-                td3.classList.add("p-2", "text-center","fs-5")
-                td4.classList.add("p-2", "text-center","fs-5")
-                td5.classList.add("p-2", "text-center","fs-5")
-                td6.classList.add("p-2", "text-center","fs-5")
-                td7.classList.add("p-2", "text-center","fs-5")
-                td8.classList.add("p-2", "text-center","fs-5")
+                td1.classList.add("p-2", "text-center", "fs-5")
+                td2.classList.add("p-2", "text-center", "fs-5")
+                td3.classList.add("p-2", "text-center", "fs-5")
+                td4.classList.add("p-2", "text-center", "fs-5")
+                td5.classList.add("p-2", "text-center", "fs-5")
+                td6.classList.add("p-2", "text-center", "fs-5")
+                td7.classList.add("p-2", "text-center", "fs-5")
+                td8.classList.add("p-2", "text-center", "fs-5")
 
                 td1.textContent = element.id;
                 td2.textContent = element.id_fiscal;
@@ -85,22 +99,25 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 td5.textContent = element.apellido2;
                 td6.textContent = element.telefono;
                 td7.textContent = element.direccion;
-                
+
+                /**
+                 * Creamos los botones de la tabla: editar, borrar y ver historial
+                 */
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Historial";
-                botonFicha.classList.add("btn", "btn-warning","btn-sm");
+                botonFicha.classList.add("btn", "btn-warning", "btn-sm");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
                 td8.appendChild(botonFicha);
 
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info","btn-sm","m-1");
+                botonEditar.classList.add("btn", "btn-info", "btn-sm", "m-1");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td8.appendChild(botonEditar);
 
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
-                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td8.appendChild(botonBorrar);
 
@@ -114,6 +131,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 tr.appendChild(td8);
                 tbody.appendChild(tr);
 
+                /**
+                 * Eventos de los botones de la tabla: editar, borrar y ver historial
+                 */
                 botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     window.location.href = `editar.html?id=${id}`
@@ -129,22 +149,25 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                     const confirmDelete = await mostrarVentanaError("¿Estás seguro de que quieres borrar este cliente? Se borrarán todos los registros asociados al mismo.")
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${id}`, {
-                            method: 'DELETE',    
+                            method: 'DELETE',
                             headers: {
                                 "api-key": sessionStorage.getItem("token")
                             },
                         })
-                        .then(() => {
-                            window.location.reload(); //Recarga la página para que se actualice la tabla
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
+                            .then(() => {
+                                window.location.reload(); //Recarga la página para que se actualice la tabla
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
                     }
                 });
             })
         }
 
+        /**
+         * Barra de búsqueda de clientes
+         */
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");
@@ -152,7 +175,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
         barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
-        barraBusqueda.addEventListener("input",()=>{
+        barraBusqueda.addEventListener("input", () => {
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
             for (let i = 0; i < filas.length; i++) {
@@ -170,11 +193,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                     filas[i].style.display = "none";
                 }
             }
-        
+
         })
 
     });
 
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -184,21 +210,28 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
+/**
+ * Botón para crear un nuevo cliente
+ 
+ */
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Nuevo cliente";
-botonNuevo.classList.add("btn", "btn-success","btn-sm");
+botonNuevo.classList.add("btn", "btn-success", "btn-sm");
 botonNuevo.setAttribute("id", "nuevo");
 th8.append(botonNuevo);
 botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
 
-function mostrarVentanaError(mensaje){
+/**
+ * Función que muestra una ventana de confirmación para borrar un cliente
+ */
+function mostrarVentanaError(mensaje) {
     return new Promise((resolve, reject) => {
         document.getElementById("ventanaError").innerHTML = "";
         document.getElementById("ventanaError").classList.remove("d-none");
         document.getElementById("ventanaError").classList.add("d-block");
-        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center","d-flex")
+        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center", "d-flex")
         const p = document.createElement("P")
 
         p.classList.add("text-center", "m-2")

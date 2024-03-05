@@ -1,4 +1,8 @@
-// Objetivo: verificar si el usuario está autenticado antes de acceder a la página
+/**
+ * Script para verificar la existencia de un token en el sessionStorage y, por lo tanto, verificar si el usuario está autenticado antes de acceder a la página
+ */
+
+// Función para hacer el fetch al servidor y verificar si el usuario está autenticado
 function hacerFetch() {
     fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?token=${sessionStorage.getItem("token")}`, {
         headers: {

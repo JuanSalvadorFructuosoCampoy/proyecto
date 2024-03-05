@@ -1,6 +1,10 @@
+/**
+ * Script para añadir un empleado
+ */
 const form = document.getElementsByTagName('form')[0];
 document.getElementById('nombre').focus();
 
+//Evento para enviar el formulario
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -39,7 +43,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         document.getElementById('password2').insertAdjacentElement('afterend', errorMessageElement);
         return;
     }
-
+    // Validar que las contraseñas coincidan
     if (password !== password2) {
         let errorMessage = "Las contraseñas no coinciden";
         const errorMessageElement = document.createElement('p');
@@ -50,7 +54,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         document.getElementById('password2').value = "";
         return;
     }
-
+    //Hasheamos la contraseña
     const hashedPassword = await hashInput(password);
     
     const datosInput = {
@@ -81,6 +85,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         });
     });
 
+//Botón para cancelar
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = "empleados.html";
@@ -95,6 +100,7 @@ async function hashInput(input) {
     return hashHex;
 }
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")

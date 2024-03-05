@@ -1,3 +1,6 @@
+/**
+ * Script para cambiar la contraseña de un empleado
+ */
 const form = document.getElementsByTagName('form')[0];
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
@@ -11,6 +14,8 @@ let idURL = urlParams.get('id');
 const h2 = document.querySelector('h2');
 console.log(h2.childNodes[0])
 document.getElementById('password').focus();
+
+//Usamos ese parámetro en el fetch para obtener los datos del empleado
 fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -23,7 +28,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id
 
     })
 
-
+//Evento para enviar el formulario
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -58,7 +63,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         document.getElementById('password2').insertAdjacentElement('afterend', errorMessageElement);
         return;
     }
-
+    // Validar que las contraseñas coincidan
     if (password !== password2) {
         let errorMessage = "Las contraseñas no coinciden";
         const errorMessageElement = document.createElement('p');
@@ -70,12 +75,14 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         return;
     }
 
+    //Hasheamos la contraseña
     const hashedPassword = await hashInput(password);
-    
+
     const datosInput = {
         password: hashedPassword,
     }
 
+    //Enviamos los datos a la API para que se actualice la contraseña del empleado en la base de datos
     const jsonDatos = JSON.stringify(datosInput)
     fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${idURL}`, {
         method: 'PATCH',
@@ -93,8 +100,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         .catch((error) => {
             console.error('Error:', error);
         });
-    });
+});
 
+//Botón para cancelar
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = "empleados.html";
@@ -102,13 +110,14 @@ cancelar.addEventListener('click', () => {
 
 //Esta función se encarga de hashear la contraseña que el usuario introduce en el formulario
 async function hashInput(input) {
-    const msgUint8 = new TextEncoder().encode(input);                                  
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);                
-    const hashArray = Array.from(new Uint8Array(hashBuffer));                     
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); 
+    const msgUint8 = new TextEncoder().encode(input);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")

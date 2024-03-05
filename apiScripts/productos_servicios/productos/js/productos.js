@@ -1,3 +1,8 @@
+/**
+ * Script para mostrar los productos en la base de datos
+ */
+
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaproductos");
 document.body.append(table)
@@ -31,6 +36,7 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaproductos").appendChild(tbody);
 
+//Obtenemos los productos de la base de datos
 fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -48,7 +54,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
             document.body.appendChild(h4);
         } else {
             data.productos.forEach(element => {
-
+                //Creamos las filas de la tabla
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
@@ -73,6 +79,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
                 td3.textContent = precioProducto;
                 td4.textContent = element.stock;
 
+                //Creamos los botones de editar y borrar
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
                 botonEditar.classList.add("btn", "btn-info","btn-sm","m-1");
@@ -92,11 +99,13 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
                 tr.appendChild(td5);
                 tbody.appendChild(tr);
 
+                //Evento para el botón de editar
                 botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     window.location.href = `editar.html?id=${id}`
                 })
 
+                //Evento para el botón de borrar
                 botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     const confirmDelete = await mostrarVentanaError("¿Estás seguro de que quieres borrar este producto?");
@@ -118,6 +127,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
             })
         }
 
+        //Creamos la barra de búsqueda
         const barraBusqueda = document.createElement("input");
         barraBusqueda.setAttribute("id", "busqueda");
         barraBusqueda.setAttribute("type", "text");
@@ -126,6 +136,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
         
+        //Evento para la barra de búsqueda, que filtra los productos de la tabla
         barraBusqueda.addEventListener("input",()=>{
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
@@ -149,6 +160,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
 
     });
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -158,6 +170,7 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../../index.html"
 })
 
+//Botón para volver a la página de productos y servicios
 const botonProdYServ = document.createElement("button")
 botonProdYServ.textContent = "Productos y servicios"
 botonProdYServ.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-0", "m-3")
@@ -167,6 +180,7 @@ botonProdYServ.addEventListener("click", () => {
     window.location.href = "../productos_servicios.html"
 })
 
+//Botón para añadir un nuevo producto
 const botonNuevo = document.createElement("button");
 botonNuevo.textContent = "Nuevo producto";
 botonNuevo.classList.add("btn", "btn-success","btn-sm");
@@ -176,6 +190,7 @@ botonNuevo.addEventListener("click", () => {
     window.location.href = "nuevo.html"
 });
 
+//Función para mostrar una ventana
 function mostrarVentanaError(mensaje){
     return new Promise((resolve, reject) => {
         document.getElementById("ventanaError").innerHTML = "";
@@ -186,10 +201,11 @@ function mostrarVentanaError(mensaje){
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
         document.getElementById("ventanaError").append(p);
+
+        //Botón para confirmar dentro de la ventana
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
-
         document.getElementById("ventanaError").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaError").classList.remove("d-block");
@@ -198,6 +214,7 @@ function mostrarVentanaError(mensaje){
             resolve(true);
         });
 
+        //Botón para cancelar dentro de la ventana
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");

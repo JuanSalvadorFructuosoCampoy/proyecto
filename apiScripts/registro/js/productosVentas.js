@@ -1,3 +1,6 @@
+/**
+ * Script para mostrar los productos y servicios asociados a una venta
+ */
 const form = document.getElementsByTagName('form')[0];
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
@@ -17,7 +20,7 @@ const strong = document.createElement("strong");
 strong.textContent += idURL;
 h2.appendChild(strong);
 
-
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaregistro");
 document.body.append(table)
@@ -97,7 +100,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                         })
                 }
 
-
+                //Si el id_cliente es 0, mostramos "NO DEFINIDO", si no, hacemos el fetch a los clientes
                 if (element.id_cliente == 0) {
                     td3.textContent = "NO DEFINIDO";
                 } else {
@@ -114,11 +117,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 td4.textContent = element.cantidad;
                 td5.textContent = element.precio + "€";
 
-                td1.classList.add("p-2", "text-center", "align-middle","fs-5");
-                td2.classList.add("p-2", "text-center", "align-middle","fs-5");
-                td3.classList.add("p-2", "text-center", "align-middle","fs-5");
-                td4.classList.add("p-2", "text-center", "align-middle","fs-5");
-                td5.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td1.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td2.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td3.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td4.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td5.classList.add("p-2", "text-center", "align-middle", "fs-5");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
@@ -128,6 +131,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
 
             });
         } else {
+            //Si no hay productos o servicios, mostramos un mensaje
             const h2 = document.createElement("h2");
             const strong = document.createElement("strong");
             strong.textContent = "NO HAY PRODUCTOS O SERVICIOS REGISTRADOS PARA ESTA VENTA"
@@ -137,7 +141,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
         }
     });
 
-
+//Botón para volver al registro de ventas
 const botonventas = document.createElement("button")
 botonventas.textContent = "Ventas"
 botonventas.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-0", "m-3")
@@ -147,6 +151,7 @@ botonventas.addEventListener("click", () => {
     window.location.href = "../registro/registro.html"
 })
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -156,13 +161,14 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
+//Botón para reimprimir el documento
 const botonReimprimir = document.createElement("button");
 botonReimprimir.textContent = "Reimprimir documento";
 botonReimprimir.classList.add("btn", "btn-success", "position-fixed", "bottom-0", "start-50", "m-3", "translate-middle-x");
 botonReimprimir.setAttribute("id", `botonReimprimir`);
 document.body.appendChild(botonReimprimir);
 
-
+//Barra de búsqueda para filtrar los productos y servicios
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
@@ -170,6 +176,7 @@ barraBusqueda.setAttribute("placeholder", "Buscar evento");
 barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 
+//Evento para filtrar los productos y servicios
 barraBusqueda.addEventListener("input", () => {
     const texto = barraBusqueda.value.toLowerCase();
     const filas = tbody.getElementsByTagName("tr");
@@ -191,6 +198,7 @@ barraBusqueda.addEventListener("input", () => {
 
 })
 
+//Función asíncrona para hacer el fetch a los productos y servicios
 async function hacerFetch(url) {
     try {
         const response = await fetch(url, {
@@ -204,8 +212,9 @@ async function hacerFetch(url) {
     }
 }
 
+//Evento para imprimir el documento
 botonReimprimir.addEventListener("click", async () => {
-
+    //Si el cliente es "undefined", mostramos el ticket, si no, mostramos la factura
     if (clienteURL == "undefined") {
         fetch("../../../templates/ticket.html")
             .then(response => response.text())
@@ -249,11 +258,12 @@ botonReimprimir.addEventListener("click", async () => {
                     trTbody.appendChild(tdPrecio);
 
                 }
-                
-                const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
+                //Abrimos una ventana nueva con el ticket y lo imprimimos
+                const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.print();
             })
+        //Si el cliente está definido, entonces debemos imprimir una factura en lugar de un ticket
     } else {
         let fetchCliente = await fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${clienteURL}`, {
             headers: {
@@ -270,23 +280,24 @@ botonReimprimir.addEventListener("click", async () => {
                 const htmlDoc = parser.parseFromString(factura, 'text/html');
 
                 htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
-                
-                     let clienteFactura = `${datosCliente.clientes[0].nombre} ${datosCliente.clientes[0].apellido1} ${datosCliente.clientes[0].apellido2}`;
-                     let textoDireccion = document.createTextNode(datosCliente.clientes[0].direccion);
-                     htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion, htmlDoc.querySelector("#direccionCliente").childNodes[1])
 
-                     let textoIdFiscal = document.createTextNode(datosCliente.clientes[0].id_fiscal);
-                     htmlDoc.querySelector("#idfiscal").insertBefore(textoIdFiscal, htmlDoc.querySelector("#idfiscal").childNodes[1])
+                //Creamos los nodos de texto para los datos del cliente
+                let clienteFactura = `${datosCliente.clientes[0].nombre} ${datosCliente.clientes[0].apellido1} ${datosCliente.clientes[0].apellido2}`;
+                let textoDireccion = document.createTextNode(datosCliente.clientes[0].direccion);
+                htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion, htmlDoc.querySelector("#direccionCliente").childNodes[1])
 
-                     let textoTelefono = document.createTextNode(datosCliente.clientes[0].telefono);
-                     htmlDoc.querySelector("#telefono").insertBefore(textoTelefono, htmlDoc.querySelector("#telefono").childNodes[1])
+                let textoIdFiscal = document.createTextNode(datosCliente.clientes[0].id_fiscal);
+                htmlDoc.querySelector("#idfiscal").insertBefore(textoIdFiscal, htmlDoc.querySelector("#idfiscal").childNodes[1])
+
+                let textoTelefono = document.createTextNode(datosCliente.clientes[0].telefono);
+                htmlDoc.querySelector("#telefono").insertBefore(textoTelefono, htmlDoc.querySelector("#telefono").childNodes[1])
 
 
                 let textoFecha = document.createTextNode(fechaURL);
                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
 
-                 let textoCliente = document.createTextNode(clienteFactura);
-                 htmlDoc.querySelector("#nombreCliente").insertBefore(textoCliente, htmlDoc.querySelector("#nombreCliente").childNodes[1])
+                let textoCliente = document.createTextNode(clienteFactura);
+                htmlDoc.querySelector("#nombreCliente").insertBefore(textoCliente, htmlDoc.querySelector("#nombreCliente").childNodes[1])
 
                 const tabla = document.getElementById("tablaregistro");
                 const filas = tabla.getElementsByTagName("tr");
@@ -318,11 +329,11 @@ botonReimprimir.addEventListener("click", async () => {
                 htmlDoc.querySelector("#totalFactura").textContent = totalURL;
 
 
-                const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
+                const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
                 ticketWindow.print();
-                });
+            });
     }
 
 });

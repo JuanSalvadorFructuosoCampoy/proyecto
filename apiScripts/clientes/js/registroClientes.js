@@ -1,3 +1,7 @@
+/**
+ * Script para mostrar los registros de un cliente
+ */
+
 const form = document.getElementsByTagName('form')[0];
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
@@ -10,6 +14,7 @@ let idURL = urlParams.get('id');
 
 const h2 = document.querySelector('h2');
 let nombreCliente = "";
+
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
 fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${idURL}`, {
     headers: {
@@ -23,6 +28,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
         nombreCliente = data['clientes'][0].nombre;
     })
 
+//Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaregistro");
 document.body.append(table)
@@ -38,11 +44,11 @@ th1.textContent = "Fecha";
 th2.textContent = "Evento";
 
 th1.setAttribute("scope", "col")
-th1.classList.add("p-2", "text-center", "col-2", "align-middle","fs-5")
+th1.classList.add("p-2", "text-center", "col-2", "align-middle", "fs-5")
 
 th2.setAttribute("scope", "col")
-th2.classList.add("p-2", "text-center", "col-8", "align-middle","fs-5")
-th3.classList.add("p-2", "text-center", "align-middle","fs-5")
+th2.classList.add("p-2", "text-center", "col-8", "align-middle", "fs-5")
+th3.classList.add("p-2", "text-center", "align-middle", "fs-5")
 
 
 tr.appendChild(th1);
@@ -53,7 +59,7 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
-//Usamos ese parámetro en el fetch para obtener los datos del cliente
+//Usamos el parámetro del URL en el fetch para obtener los datos del cliente
 fetch(`${window.location.protocol}//${window.location.host}/api/registro_clientes.php?id_cliente=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -71,8 +77,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
             document.body.appendChild(h4);
         } else {
             data['registros'].forEach(element => {
-
-
+                //Creamos las filas de la tabla
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
@@ -86,23 +91,25 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 td1.textContent = `${dia}-${mes}-${anio}`;
                 td2.textContent = element.evento;
 
-                td1.classList.add("p-2", "text-center", "align-middle","fs-5"); 
-                td2.classList.add("p-2", "text-center", "align-middle","fs-5"); 
-                td3.classList.add("p-2", "text-center", "align-middle","fs-5");
+                td1.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td2.classList.add("p-2", "text-center", "align-middle", "fs-5");
+                td3.classList.add("p-2", "text-center", "align-middle", "fs-5");
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tbody.appendChild(tr);
 
+                //Establecemos un input oculto que contendrá el id del registro
                 const inputOculto = document.createElement("input")
                 inputOculto.setAttribute("type", "hidden")
                 inputOculto.setAttribute("id", `id${element.id}`)
                 inputOculto.setAttribute("value", element.id)
                 td1.appendChild(inputOculto)
 
+                //Creamos los botones de editar y borrar
                 const botonEditar = document.createElement("button");
                 botonEditar.textContent = "Editar";
-                botonEditar.classList.add("btn", "btn-info", "btn-sm", "m-1","text-center");
+                botonEditar.classList.add("btn", "btn-info", "btn-sm", "m-1", "text-center");
                 botonEditar.setAttribute("id", `botonEditar${element.id}`);
                 td3.appendChild(botonEditar);
 
@@ -112,11 +119,17 @@ fetch(`${window.location.protocol}//${window.location.host}/api/registro_cliente
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
                 td3.appendChild(botonBorrar);
 
+                /**
+                 * Evento para editar un registro
+                 */
                 botonEditar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
                     window.location.href = `editar_registro.html?id=${id}&nombre_cliente=${nombreCliente}&id_cliente=${idURL}`
                 })
 
+                /**
+                 * Evento para borrar un registro
+                 */
                 botonBorrar.addEventListener("click", (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.childNodes[1].value;
                     const confirmDelete = confirm("¿Estás seguro de que quieres borrar este registro?");
@@ -174,7 +187,7 @@ barraBusqueda.setAttribute("placeholder", "Buscar evento");
 barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 
-barraBusqueda.addEventListener("input",()=>{
+barraBusqueda.addEventListener("input", () => {
     const texto = barraBusqueda.value.toLowerCase();
     const filas = tbody.getElementsByTagName("tr");
     for (let i = 0; i < filas.length; i++) {

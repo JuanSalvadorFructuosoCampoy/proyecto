@@ -1,6 +1,12 @@
+/**
+ * Script para crear una nueva cita
+ */
+
 const fecha = document.getElementById('fecha');
 const hora = document.getElementById('hora');
 const cita = document.getElementById('cita');
+
+//Enfocar el campo de fecha al cargar la página
 fecha.focus()
 const form = document.querySelector('form');
 
@@ -13,6 +19,9 @@ const fechaFormateada = `${year}-${month}-${day}`;
 //No se pueden poner citas antes que la fecha actual
 fecha.setAttribute('min', fechaFormateada);
 
+/**
+ * Evento para enviar el formulario
+ */
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fechaValue = fecha.value;
@@ -41,6 +50,9 @@ form.addEventListener('submit', async (e) => {
 
 });
 
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
@@ -50,6 +62,9 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../../index.html"
 })
 
+/**
+ * Botón para cancelar la creación de la cita
+ */
 const botonCancelar = document.getElementById('cancelar');
 botonCancelar.addEventListener('click', () => {
     window.location.href = "agenda.html";

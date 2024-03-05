@@ -1,3 +1,6 @@
+/**
+ * Script para editar un cliente
+ */
 const form = document.getElementsByTagName('form')[0];
 const errorMessageElementTelefono = document.createElement('p');
 document.getElementById('telefono').insertAdjacentElement('afterend', errorMessageElementTelefono);
@@ -14,6 +17,9 @@ let urlParams = new URLSearchParams(queryString);
 let idURL = urlParams.get('id');
 
 //Usamos ese parámetro en el fetch para obtener los datos del cliente
+/**
+ * Obtén los datos del cliente
+ */
 fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${idURL}`, {
     headers: {
         "api-key": sessionStorage.getItem("token")
@@ -30,6 +36,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=
         document.getElementById('direccion').value = data['clientes'][0].direccion;
 
     })
+    /**
+     * Evento para enviar el formulario
+     */
 form.addEventListener('submit', (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -40,6 +49,9 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
     let telefono = document.getElementById('telefono').value.trim();
     let direccion = document.getElementById('direccion').value.trim();
 
+    /**
+     * Validación del teléfono
+     */
     const telefonoRegex = /^\d{9}$|^\d{3}\s\d{2}\s\d{2}\s\d{2}$|^\d{3}\s\d{3}\s\d{3}$/;
     if (!telefonoRegex.test(telefono)) {
         errorMessageElementTelefono.textContent = ""
@@ -54,6 +66,9 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
     id_fiscal = id_fiscal.replaceAll(" ",""); // Eliminar espacios
     id_fiscal = id_fiscal.replaceAll("-",""); // Eliminar guiones
 
+    /**
+     * Validación del ID fiscal
+     */
     if (!validateDNI(id_fiscal)) {
         let errorMessage = "Error en el ID fiscal. El formato no es válido";
         errorMessageElementIdFiscal.textContent = ""
@@ -72,6 +87,7 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
         direccion: direccion
     }
 
+    //Enviamos los datos a la API
     const jsonDatos = JSON.stringify(datosInput)
     fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${idURL}`, {
         method: 'PATCH',
@@ -98,6 +114,9 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
 
 // Comprueba si es un DNI correcto (entre 5 y 8 letras seguidas de la letra que corresponda).
 // Acepta NIEs (Extranjeros con X, Y o Z al principio)
+/**
+ * Función para validar el DNI o NIE de un cliente
+ */
 function validateDNI(dni) {
     var numero, let, letra;
     var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
@@ -125,7 +144,9 @@ function validateDNI(dni) {
         return false;
     }
 }
-
+/**
+ * Botón para volver al inicio
+ */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")

@@ -1,3 +1,6 @@
+/**
+ * Script para editar un producto existente en la base de datos
+ */
 const form = document.getElementsByTagName('form')[0];
 // Obtén la cadena de consulta de la URL
 let queryString = window.location.search;
@@ -18,14 +21,16 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id
     .then(response => response.json())
     .then(data => {
         document.getElementById('nombre').value = data['productos'][0].nombre;
-        if(data['productos'][0].precio == "No definido"){
+        if (data['productos'][0].precio == "No definido") {
             document.getElementById('precio').value = 0;
-        }else{
+        } else {
             document.getElementById('precio').value = data['productos'][0].precio;
         }
         document.getElementById('stock').value = data['productos'][0].stock;
     })
-    document.getElementById('stock').focus();
+document.getElementById('stock').focus();
+
+//Evento para enviar el formulario
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
@@ -33,7 +38,7 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     const precio = document.getElementById('precio').value;
     const stock = document.getElementById('stock').value;
 
-    
+
     const datosInput = {
         nombre: nombre,
         precio: precio,
@@ -56,13 +61,15 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         .catch((error) => {
             console.error('Error:', error);
         });
-    });
+});
 
+//Botón para cancelar
 const cancelar = document.getElementById('cancelar');
 cancelar.addEventListener('click', () => {
     window.location.href = "productos.html";
 });
 
+//Botón para volver al inicio
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
 botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "end-0", "m-3")
