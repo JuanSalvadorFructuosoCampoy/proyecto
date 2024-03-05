@@ -18,10 +18,10 @@ th2.textContent = "Hora";
 th3.textContent = "Cita";
 
 
-th1.classList.add("p-2", "text-center")
-th2.classList.add("p-2", "text-center")
-th3.classList.add("p-2", "text-center", "w-50")
-th4.classList.add("p-2", "text-center")
+th1.classList.add("p-2", "text-center", "align-middle","fs-5")
+th2.classList.add("p-2", "text-center", "align-middle","fs-5")
+th3.classList.add("p-2", "text-center", "w-50", "align-middle","fs-5")
+th4.classList.add("p-2", "text-center", "align-middle","fs-5")
 
 tr.appendChild(th1);
 tr.appendChild(th2);

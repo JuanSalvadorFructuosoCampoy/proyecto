@@ -20,13 +20,13 @@ th4.textContent = "Cliente";
 th5.textContent = "Tipo de pago";
 th6.textContent = "Total";
 
-th1.classList.add("p-2", "text-center", "align-middle")
-th2.classList.add("p-2", "text-center", "align-middle")
-th3.classList.add("p-2", "text-center", "align-middle")
-th4.classList.add("p-2", "text-center", "align-middle")
-th5.classList.add("p-2", "text-center", "align-middle")
-th6.classList.add("p-2", "text-center", "align-middle")
-th7.classList.add("p-2", "text-center", "align-middle")
+th1.classList.add("p-2", "text-center", "align-middle","fs-5")
+th2.classList.add("p-2", "text-center", "align-middle","fs-5")
+th3.classList.add("p-2", "text-center", "align-middle","fs-5")
+th4.classList.add("p-2", "text-center", "align-middle","fs-5")
+th5.classList.add("p-2", "text-center", "align-middle","fs-5")
+th6.classList.add("p-2", "text-center", "align-middle","fs-5")
+th7.classList.add("p-2", "text-center", "align-middle","fs-5")
 
 tr.appendChild(th1);
 tr.appendChild(th2);

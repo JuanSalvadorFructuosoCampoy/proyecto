@@ -38,11 +38,11 @@ th1.textContent = "Fecha";
 th2.textContent = "Evento";
 
 th1.setAttribute("scope", "col")
-th1.classList.add("p-2", "text-center", "col-2", "align-middle")
+th1.classList.add("p-2", "text-center", "col-2", "align-middle","fs-5")
 
 th2.setAttribute("scope", "col")
-th2.classList.add("p-2", "text-center", "col-8", "align-middle")
-th3.classList.add("p-2", "text-center", "align-middle")
+th2.classList.add("p-2", "text-center", "col-8", "align-middle","fs-5")
+th3.classList.add("p-2", "text-center", "align-middle","fs-5")
 
 
 tr.appendChild(th1);
