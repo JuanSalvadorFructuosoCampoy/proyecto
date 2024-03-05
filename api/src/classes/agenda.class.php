@@ -66,7 +66,7 @@ class User extends Database
 			}
 		}
 
-		$registros = parent::getDB($this->table, $params);
+		$registros = parent::getCitaDB( $params);
 
 		return $registros;
 	}

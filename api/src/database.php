@@ -213,4 +213,30 @@ ON t.fecha = e.fecha";
 		}
 		return $resultArray;
 	}
+
+	public function getCitaDB($extra = null)
+	{
+		$query = "SELECT * FROM agenda";
+
+		if ($extra != null) {
+			$query .= ' WHERE';
+
+			foreach ($extra as $key => $condition) {
+				$query .= ' ' . $key . ' = "' . $condition . '"';
+				if ($extra[$key] != end($extra)) {
+					$query .= " AND ";
+				}
+			}
+		}
+		$query .= " ORDER BY fecha, hora ASC";
+
+		$results = $this->connection->query($query);
+		$resultArray = array();
+
+		foreach ($results as $value) {
+			$resultArray[] = $value;
+		}
+
+		return $resultArray;
+	}
 }

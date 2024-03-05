@@ -31,76 +31,19 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaagenda").appendChild(tbody);
 
-//Petición GET para obtener los registros de la tabla
-fetch(`${window.location.protocol}//${window.location.host}/api/agenda.php`, {
-    headers: {
-        "api-key": sessionStorage.getItem("token")
-    }
-})
-    .then(response => response.json())
-    .then(data => { 
-        data['agendas'].forEach(registro => {
-            const tr = document.createElement("tr");
-            const td1 = document.createElement("td");
-            const td2 = document.createElement("td");
-            const td3 = document.createElement("td");
-            const td4 = document.createElement("td");
+//Input de tipo fecha para filtrar por fecha los registros de la tabla
+const fechaInput = document.createElement("input");
+fechaInput.setAttribute("type", "date");
+fechaInput.setAttribute("id", "fechaInput");
+fechaInput.classList.add("form-control", "w-25", "m-auto", "mt-3");
+fechaInput.value = new Date().toISOString().split("T")[0];
 
-            td1.classList.add("p-2", "text-center","fs-5")
-            td2.classList.add("p-2", "text-center","fs-5")
-            td3.classList.add("p-2", "text-center","fs-5")
-            td4.classList.add("p-2", "text-center","fs-5")
+document.body.insertBefore(fechaInput, table);
 
-            let horaFormateada = registro.hora.slice(0, 5);
-            td1.textContent = registro.fecha;
-            td2.textContent = horaFormateada;
-            td3.textContent = registro.cita;
+let fechaEnElInput = document.getElementById("fechaInput").value;
 
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.dataset.id = registro.id
-            const botonEditar = document.createElement("button");
-            botonEditar.textContent = "Editar";
-            botonEditar.classList.add("btn", "btn-info","btn-sm","me-1");
-            botonEditar.setAttribute("id", `botonEditar${registro.id}`);
-            td4.appendChild(botonEditar);
-
-            const botonBorrar = document.createElement("button");
-            botonBorrar.textContent = "Borrar";
-            botonBorrar.classList.add("btn", "btn-danger","btn-sm");
-            botonBorrar.setAttribute("id", `botonBorrar${registro.id}`);
-            td4.appendChild(botonBorrar);
-
-            tbody.appendChild(tr);
-
-            botonBorrar.addEventListener("click", async (e) => {
-                const id = e.target.parentNode.parentNode.dataset.id;
-                const confirmDelete = await mostrarVentanaConfirmar("¿Estás seguro de que quieres borrar esta cita?");
-                if (confirmDelete) {
-                    fetch(`${window.location.protocol}//${window.location.host}/api/agenda.php?id=${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            "api-key": sessionStorage.getItem("token")
-                        },
-                    })
-                        .then(() => {
-                            window.location.reload(); //Recarga la página para que se actualice la tabla
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                }
-            });
-
-            botonEditar.addEventListener("click", (e) => {
-                const id = e.target.parentNode.parentNode.firstChild.textContent;
-                window.location.href = `editar.html?id=${id}`
-            })
-
-        });
-    })
+url = `${window.location.protocol}//${window.location.host}/api/agenda.php?fecha=${fechaEnElInput}`
+hacerFetch(url)
 
 
 //Botón para volver al inicio
@@ -113,11 +56,7 @@ botonVolver.addEventListener("click", () => {
     window.location.href = "../../index.html"
 })
 
-//Input de tipo fecha para filtrar por fecha los registros de la tabla
-const fechaInput = document.createElement("input");
-fechaInput.setAttribute("type", "date");
-fechaInput.classList.add("form-control", "w-25", "m-auto", "mt-3");
-document.body.insertBefore(fechaInput, table);
+
 
 fechaInput.addEventListener("input", () => {
     const fechaSeleccionada = fechaInput.value;
@@ -125,11 +64,11 @@ fechaInput.addEventListener("input", () => {
     let mes = fechaSeleccionada.split("-")[1];
     let dia = fechaSeleccionada.split("-")[2];
     fechaSeleccionadaFormateada = `${dia}-${mes}-${anio}`;
-
     const filas = tbody.getElementsByTagName("tr");
     for (let i = 0; i < filas.length; i++) {
         const celdas = filas[i].getElementsByTagName("td");
-        let fechaRegistro = celdas[1].textContent.split(" - ")[0];
+        let fechaRegistro = celdas[0].textContent.split(" - ")[0];
+
         fechaRegistro = fechaRegistro.replaceAll("/", "-")
 
         if (fechaRegistro !== fechaSeleccionadaFormateada) {
@@ -142,6 +81,8 @@ fechaInput.addEventListener("input", () => {
     if (fechaSeleccionada == "") {
         for (let i = 0; i < filas.length; i++) {
             filas[i].style.display = "";
+            tbody.innerHTML = "";
+            hacerFetch(`${window.location.protocol}//${window.location.host}/api/agenda.php`)
         }
     }
 });
@@ -150,7 +91,7 @@ fechaInput.addEventListener("input", () => {
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
-barraBusqueda.setAttribute("placeholder", "Buscar registro");
+barraBusqueda.setAttribute("placeholder", "Buscar cita");
 barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 barraBusqueda.focus();
@@ -217,5 +158,79 @@ function mostrarVentanaConfirmar(mensaje){
             resolve(false);
         });
     });
+}
+
+//Hacer fetch a la API para obtener los registros de las citas
+function hacerFetch(url){
+    fetch(url, {
+        headers: {
+            "api-key": sessionStorage.getItem("token")
+        }
+    })
+        .then(response => response.json())
+        .then(data => { 
+            data['agendas'].forEach(registro => {
+                const tr = document.createElement("tr");
+                const td1 = document.createElement("td");
+                const td2 = document.createElement("td");
+                const td3 = document.createElement("td");
+                const td4 = document.createElement("td");
+    
+                td1.classList.add("p-2", "text-center","fs-5")
+                td2.classList.add("p-2", "text-center","fs-5")
+                td3.classList.add("p-2", "text-center","fs-5")
+                td4.classList.add("p-2", "text-center","fs-5")
+    
+                td1.textContent = registro.fecha.split("-").reverse().join("-");
+    
+                let horaFormateada = registro.hora.slice(0, 5);
+                td2.textContent = horaFormateada;
+                td3.textContent = registro.cita;
+    
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.dataset.id = registro.id
+                const botonEditar = document.createElement("button");
+                botonEditar.textContent = "Editar";
+                botonEditar.classList.add("btn", "btn-info","btn-sm","me-1");
+                botonEditar.setAttribute("id", `botonEditar${registro.id}`);
+                td4.appendChild(botonEditar);
+    
+                const botonBorrar = document.createElement("button");
+                botonBorrar.textContent = "Borrar";
+                botonBorrar.classList.add("btn", "btn-danger","btn-sm");
+                botonBorrar.setAttribute("id", `botonBorrar${registro.id}`);
+                td4.appendChild(botonBorrar);
+    
+                tbody.appendChild(tr);
+    
+                botonBorrar.addEventListener("click", async (e) => {
+                    const id = e.target.parentNode.parentNode.dataset.id;
+                    const confirmDelete = await mostrarVentanaConfirmar("¿Estás seguro de que quieres borrar esta cita?");
+                    if (confirmDelete) {
+                        fetch(`${window.location.protocol}//${window.location.host}/api/agenda.php?id=${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                "api-key": sessionStorage.getItem("token")
+                            },
+                        })
+                            .then(() => {
+                                window.location.reload(); //Recarga la página para que se actualice la tabla
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    }
+                });
+    
+                botonEditar.addEventListener("click", (e) => {
+                    const id = e.target.parentNode.parentNode.dataset.id;
+                    window.location.href = `editar.html?id=${id}`
+                })
+    
+            });
+        })
 }
 

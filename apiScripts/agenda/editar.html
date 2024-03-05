@@ -10,7 +10,7 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
     <script src="../../js/sessionStorage.js"></script>
-    <script defer src="./js/agenda.js"></script>
+    <script defer src="./js/editarCita.js"></script>
     <link rel="stylesheet" href="../css/estilos.css">
     <title>Agenda de citas</title>
 </head>
@@ -18,8 +18,29 @@
 <body>
     <img src="../../images/imagenFondo.png" alt="imagen fondo" class="opacity-25 position-absolute top-50 start-50 translate-middle" style="z-index: -1;">
     <img id="saludCapilar" src="../../images/saludCapilar.png" class="img-fluid" alt="Salud capilar hair deluxe">
-    <h2><strong>AGENDA DE CITAS</strong></h2>
-    <div id="ventanaConfirmar" class="d-flex justify-content-center d-none"></div>
+    <h2><strong>EDITAR CITA</strong></h2>
+        <div class="row d-flex justify-content-center align-items-center max-vh-100">
+            <div class="col-12 col-md-6 col-lg-4">
+        <form id="formNuevaCita" class="formNuevaCita">
+
+            <div class="mb-3">
+                <label for="fecha" class="form-label"><strong>Fecha</strong></label>
+                <input type="date" class="form-control" id="fecha" name="fecha" required>
+            </div>
+            <div class="mb-3">
+                <label for="hora" class="form-label"><strong>Hora</strong></label>
+                <input type="time" class="form-control" id="hora" name="hora" required>
+            </div>
+            <div class="mb-3">
+                <label for="cita" class="form-label"><strong>Cita</strong></label>
+                <textarea class="form-control" id="cita" name="cita" rows="10" required></textarea>
+            </div>
+    
+            <button type="submit" class="btn btn-primary" id="enviar">Editar cita</button>
+            <button type="button" class="btn btn-secondary" id="cancelar">Cancelar</button>
+        </form>
+            </div>
+        </div>
 </body>
 
 </html>
