@@ -1,7 +1,7 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con registros de la tabla ventas
- *	La clase "ventas.class.php" es la clase del modelo, que representa a un jugador de la tabla
+ *	Script que se usa en los endpoints para trabajar con registros de los cierres de caja diarios
+ *	La clase "cierre_caja.class.php" es la clase con la que operará este script.
 */
 
 require 'src/classes/cierre_caja.class.php';//Se incluye el archivo de la clase del modelo
@@ -33,7 +33,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		break;
 		
-
+/**
+ * En caso de que se mande una solicitud diferente de GET, devuelve un mensaje de error.
+ 
+ */
 	default:
 		$response = array(
 			'result' => 'error'

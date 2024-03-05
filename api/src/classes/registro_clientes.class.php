@@ -1,6 +1,6 @@
 <?php
 /**
- * Clase para el modelo que representa a la tabla "regisro_clientes".
+ * Clase para el modelo que representa a la tabla "registro_clientes".
  */
 
 require_once 'src/database.php';
@@ -126,7 +126,7 @@ class User extends Database
 
 	public function patch($id, $params)
 	{
-		$affected_rows = parent::updateDB($this->table, $id, $params);//Llama al método updateDB de la clase Database (parent de player, que player extends Database),
+		$affected_rows = parent::updateDB($this->table, $id, $params);//Llama al método updateDB de la clase Database, que actualiza un registro en la base de datos
 
 		if ($affected_rows == 0) {//Si no se ha actualizado ningún registro, devuelve un error
 			$response = array(

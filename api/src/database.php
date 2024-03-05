@@ -116,6 +116,9 @@ class Database
 		return $this->connection->affected_rows;
 	}
 
+	/**
+	 * Método para recuperar los datos del registro de clientes, ordenados por fecha e ID.
+	 */
 	public function getRegistro($id_cliente)
 	{
 		$query = "SELECT * FROM registro_clientes WHERE id_cliente = $id_cliente ORDER BY fecha DESC, id DESC";
@@ -127,6 +130,9 @@ class Database
 		return $resultArray;
 	}
 
+	/**
+	 * Método para obtener una nueva ID de productos o servicios
+	 */
 	public function getNuevaId($table)
 	{
 		if ($table == "productos") {
@@ -154,6 +160,10 @@ class Database
 		}
 	}
 
+	/**
+	 * Método para insertar una nueva ID de productos o servicios, si es un producto, se inserta
+	 * en la tabla productos, si es un servicio, se inserta en la tabla servicios
+	 */
 	public function insertPoS($table, $data)
 	{
 		$id = $this->getNuevaId($table);
@@ -170,7 +180,9 @@ class Database
 		return $this->connection->insert_id;
 	}
 
-	//Método para recuperar los datos de cierre de caja, si no se pasa fecha, se muestran todos los datos, si se pasa fecha, se muestran los datos de esa fecha
+	/**
+	 * Método para recuperar los datos de la caja, si no se pasa fecha, se muestran todos los datos, si se pasa fecha, se muestran los datos de esa fecha
+	 */
 	public function getCierreCajaDB($fecha)
 	{
 		if (empty($fecha)) {
@@ -214,6 +226,9 @@ ON t.fecha = e.fecha";
 		return $resultArray;
 	}
 
+	/**
+	 * Método para recuperar los datos de la agenda, si no se pasa fecha, se muestran todos los datos, si se pasa fecha, se muestran los datos de esa fecha
+	 */
 	public function getCitaDB($extra = null)
 	{
 		$query = "SELECT * FROM agenda";

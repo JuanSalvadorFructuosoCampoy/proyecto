@@ -1,6 +1,6 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con registros de la tabla SERVICIO
+ *	Script que se usa en los endpoints para trabajar con registros de la tabla servicios
  *	La clase "servicios.class.php" es la clase del modelo, que representa a un servicio de la tabla
 */
 
@@ -84,7 +84,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		Response::result(200, $response);	
 		break;
-
+		
+		/**
+		 * Si se recibe un PATCH se llama al método patch del modelo, tras comprobar que se han recibido los parámetros necesarios
+		 */
 	case 'PATCH':
 		//Llama al método patch del modelo
 		$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH

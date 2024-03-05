@@ -1,7 +1,7 @@
 <?php
 /**
- *	Script que se usa en los endpoints para trabajar con agendas de la tabla agenda_clientes
- *	La clase "agenda.class.php" es la clase del modelo, que representa a un jugador de la tabla
+ *	Script que se usa en los endpoints para trabajar con agendas de la tabla agenda
+ *	La clase "agenda.class.php" es la clase del modelo, que representa la agenda de citas
 */
 
 require 'src/classes/agenda.class.php';//Se incluye el archivo de la clase del modelo
@@ -62,7 +62,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		break;
 
 	/**
-	 * Cuando es PUT, comprobamos si la petición lleva el id del jugador que hay que actualizar. En caso afirmativo se usa el método update() del modelo.
+	 * Cuando es PUT, comprobamos si la petición lleva el id del registro de la tabla que hay que actualizar. En caso afirmativo se usa el método update() del modelo.
 	 */
 	case 'PUT':
 		$params = json_decode(file_get_contents('php://input'), true);
@@ -86,6 +86,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		Response::result(200, $response);	
 		break;
 
+		/**
+		 * Si se recibe un PATCH, se comprueba si se han recibido parámetros y en caso afirmativo se usa el método patch() del modelo
+		 */
 		case 'PATCH':
 			//Llama al método patch del modelo
 			$params = json_decode(file_get_contents('php://input'), true);//Se recogen los parámetros que se han enviado en la petición PATCH
@@ -99,7 +102,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			break;
 
 	/**
-	 * Cuando se solicita un DELETE se comprueba que se envíe un id de jugador. En caso afirmativo se utiliza el método delete() del modelo.
+	 * Cuando se solicita un DELETE se comprueba que se envíe un id. En caso afirmativo se utiliza el método delete() del modelo.
 	 */
 	case 'DELETE':
 		if(!isset($_GET['id']) || empty($_GET['id'])){

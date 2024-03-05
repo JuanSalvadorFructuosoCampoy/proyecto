@@ -1,6 +1,6 @@
 <?php
 /**
- * Clase para el modelo que representa a la tabla "regisro_clientes".
+ * Clase para el modelo que representa el cierre de caja diario.
  */
 
 require_once 'src/database.php';
@@ -37,7 +37,7 @@ class User extends Database
 			}
 		}
 
-		$registros = parent::getCierreCajaDB( $params);
+		$registros = parent::getCierreCajaDB( $params); // Llamada al método de la clase padre que recupera los registros de la base de datos
 
 		return $registros;
 	}
