@@ -65,25 +65,47 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         rol: rol,
         activo: "0"
     }
-
+    // Validar que no exista un empleado con el mismo nombre
+    let empleadosNombres = [];
     const jsonDatos = JSON.stringify(datosInput)
     fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
-        method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             "api-key": sessionStorage.getItem("token")
-        },
-        body: jsonDatos
+        }
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Éxito:', data);
-            window.location.href = "empleados.html";
+            data.empleados.forEach(empleado => {
+                empleadosNombres = data.empleados.map(empleado => empleado.nombre);
+            })  
+            if(empleadosNombres.includes(nombre)){
+                const errorMessageElement = document.createElement('p');
+                errorMessageElement.textContent = "Ya existe un empleado con ese nombre";
+                errorMessageElement.classList.add("text-danger")
+                document.getElementById('nombre').insertAdjacentElement('afterend', errorMessageElement);
+                return;
+            }else{
+                fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "api-key": sessionStorage.getItem("token")
+                    },
+                    body: jsonDatos
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Éxito:', data);
+                        window.location.href = "empleados.html";
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
         })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    });
+    })
+        
+
 
 //Botón para cancelar
 const cancelar = document.getElementById('cancelar');
