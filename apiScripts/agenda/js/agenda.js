@@ -145,35 +145,35 @@ botonNuevo.addEventListener("click", () => {
 /**
  * Función que muestra una ventana de confirmación
  */
-function mostrarVentanaConfirmar(mensaje){
+function mostrarVentanaAviso(mensaje){
     return new Promise((resolve, reject) => {
-        document.getElementById("ventanaConfirmar").innerHTML = "";
-        document.getElementById("ventanaConfirmar").classList.remove("d-none");
-        document.getElementById("ventanaConfirmar").classList.add("d-block");
-        document.getElementById("ventanaConfirmar").classList.add("align-items-center", "justify-content-center","d-flex")
+        document.getElementById("ventanaAviso").innerHTML = "";
+        document.getElementById("ventanaAviso").classList.remove("d-none");
+        document.getElementById("ventanaAviso").classList.add("d-block");
+        document.getElementById("ventanaAviso").classList.add("align-items-center", "justify-content-center","d-flex")
         const p = document.createElement("P")
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
-        document.getElementById("ventanaConfirmar").append(p);
+        document.getElementById("ventanaAviso").append(p);
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
 
-        document.getElementById("ventanaConfirmar").appendChild(botonConfirmar);
+        document.getElementById("ventanaAviso").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
-            document.getElementById("ventanaConfirmar").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
 
-            document.getElementById("ventanaConfirmar").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(true);
         });
 
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");
-        document.getElementById("ventanaConfirmar").appendChild(botonCancelar);
+        document.getElementById("ventanaAviso").appendChild(botonCancelar);
         botonCancelar.addEventListener("click", () => {
-            document.getElementById("ventanaConfirmar").classList.remove("d-block");
-            document.getElementById("ventanaConfirmar").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(false);
         });
     });
@@ -229,7 +229,7 @@ function hacerFetch(url){
     
                 botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.dataset.id;
-                    const confirmDelete = await mostrarVentanaConfirmar("¿Estás seguro de que quieres borrar esta cita?");
+                    const confirmDelete = await mostrarVentanaAviso("¿Estás seguro de que quieres borrar esta cita?");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/agenda.php?id=${id}`, {
                             method: 'DELETE',

@@ -108,7 +108,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
                 //Evento para el botón de borrar
                 botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = await mostrarVentanaError("¿Estás seguro de que quieres borrar este producto?");
+                    const confirmDelete = await mostrarventanaAviso("¿Estás seguro de que quieres borrar este producto?");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id=${id}`, {
                             method: 'DELETE',    
@@ -191,26 +191,26 @@ botonNuevo.addEventListener("click", () => {
 });
 
 //Función para mostrar una ventana
-function mostrarVentanaError(mensaje){
+function mostrarventanaAviso(mensaje){
     return new Promise((resolve, reject) => {
-        document.getElementById("ventanaError").innerHTML = "";
-        document.getElementById("ventanaError").classList.remove("d-none");
-        document.getElementById("ventanaError").classList.add("d-block");
-        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center","d-flex")
+        document.getElementById("ventanaAviso").innerHTML = "";
+        document.getElementById("ventanaAviso").classList.remove("d-none");
+        document.getElementById("ventanaAviso").classList.add("d-block");
+        document.getElementById("ventanaAviso").classList.add("align-items-center", "justify-content-center","d-flex")
         const p = document.createElement("P")
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
-        document.getElementById("ventanaError").append(p);
+        document.getElementById("ventanaAviso").append(p);
 
         //Botón para confirmar dentro de la ventana
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
-        document.getElementById("ventanaError").appendChild(botonConfirmar);
+        document.getElementById("ventanaAviso").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
-            document.getElementById("ventanaError").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
             console.log("Evento de botón confirmar");
-            document.getElementById("ventanaError").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(true);
         });
 
@@ -218,10 +218,10 @@ function mostrarVentanaError(mensaje){
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");
-        document.getElementById("ventanaError").appendChild(botonCancelar);
+        document.getElementById("ventanaAviso").appendChild(botonCancelar);
         botonCancelar.addEventListener("click", () => {
-            document.getElementById("ventanaError").classList.remove("d-block");
-            document.getElementById("ventanaError").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(false);
         });
     });

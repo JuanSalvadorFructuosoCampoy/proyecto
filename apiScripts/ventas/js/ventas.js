@@ -191,7 +191,7 @@ botonVolver.addEventListener("click", () => {
 //Función que selecciona un item
 function seleccionarItem(tarjeta) {
     if (tarjeta.classList.contains("bg-danger")) {
-        mostrarVentanaError("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
+        mostrarventanaAviso("NO SE PUEDE SELECCIONAR UN ITEM SIN STOCK");
         return;
     }
 
@@ -316,7 +316,7 @@ form.addEventListener("submit", async (e) => {
     const items = tbody.querySelectorAll("tr");
     //Si no hay items, se muestra un mensaje de error
     if (items.length == 0) {
-        mostrarVentanaError("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
+        mostrarventanaAviso("NO SE PUEDE HACER UNA VENTA SIN PRODUCTOS O SERVICIOS")
         return;
     }
     //Recogemos los inputs de cantidad y precio
@@ -340,7 +340,7 @@ form.addEventListener("submit", async (e) => {
 
     //Si hay valores no válidos, se muestra un mensaje de error
     if (valoresNoValidos) {
-        mostrarVentanaError("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
+        mostrarventanaAviso("HAY VALORES ERRÓNEOS EN LA CANTIDAD O PRECIO DE ALGÚN PRODUCTO O SERVICIO");
         return;
     }
 
@@ -355,12 +355,12 @@ form.addEventListener("submit", async (e) => {
 
     //Si se intenta hacer una factura sin cliente o un ticket con cliente, se muestra un mensaje de error
     if (selectedValue == "factura" && clientes.value == "0") {
-        mostrarVentanaError("NO SE PUEDE EMITIR UNA FACTURA SIN CLIENTE")
+        mostrarventanaAviso("NO SE PUEDE EMITIR UNA FACTURA SIN CLIENTE")
         return;
 
         //Si se intenta hacer un ticket con cliente, se muestra un mensaje de error
     } else if (selectedValue == "ticket" && clientes.value != "0") {
-        mostrarVentanaError("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
+        mostrarventanaAviso("NO SE PUEDE EMITIR UN TICKET CON CLIENTE")
         return;
 
     } else {
@@ -631,14 +631,14 @@ function calcularPrecio() {
 }//Fin calcularPrecio
 
 //Función que nos muestra la ventana de error
-function mostrarVentanaError(mensaje) {
-    document.getElementById("ventanaError").style.display = "block";
-    document.getElementById("ventanaError").textContent = mensaje;
+function mostrarventanaAviso(mensaje) {
+    document.getElementById("ventanaAviso").style.display = "block";
+    document.getElementById("ventanaAviso").textContent = mensaje;
     setTimeout(() => {
-        document.getElementById("ventanaError").style.display = "none";
+        document.getElementById("ventanaAviso").style.display = "none";
     }, 3000);
     return
-}//Fin mostrarVentanaError
+}//Fin mostrarventanaAviso
 
 //Función que nos muestra la ventana de cambio de pago en efectivo
 function mostrarVentanaCambio(mensaje) {

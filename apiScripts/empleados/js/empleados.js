@@ -153,7 +153,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
                 //La función es asíncrona para que espere a que el usuario confirme que quiere borrar el empleado
                 botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
-                    const confirmDelete = await mostrarVentanaError("¿Estás seguro de que quieres borrar este empleado? Si tiene alguna venta asociada, no se borrará.");
+                    const confirmDelete = await mostrarventanaAviso("¿Estás seguro de que quieres borrar este empleado? Si tiene alguna venta asociada, no se borrará.");
                     if (confirmDelete) {
                         fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${id}`, {
                             method: 'DELETE',
@@ -249,35 +249,35 @@ botonNuevo.addEventListener("click", () => {
 /**
  * Función para mostrar una ventana de confirmación
  */
-function mostrarVentanaError(mensaje) {
+function mostrarventanaAviso(mensaje) {
     return new Promise((resolve, reject) => {
-        document.getElementById("ventanaError").innerHTML = "";
-        document.getElementById("ventanaError").classList.remove("d-none");
-        document.getElementById("ventanaError").classList.add("d-block");
-        document.getElementById("ventanaError").classList.add("align-items-center", "justify-content-center", "d-flex")
+        document.getElementById("ventanaAviso").innerHTML = "";
+        document.getElementById("ventanaAviso").classList.remove("d-none");
+        document.getElementById("ventanaAviso").classList.add("d-block");
+        document.getElementById("ventanaAviso").classList.add("align-items-center", "justify-content-center", "d-flex")
         const p = document.createElement("P")
         p.classList.add("text-center", "m-2")
         p.textContent = mensaje;
-        document.getElementById("ventanaError").append(p);
+        document.getElementById("ventanaAviso").append(p);
         const botonConfirmar = document.createElement("button");
         botonConfirmar.textContent = "Confirmar";
         botonConfirmar.classList.add("btn", "btn-success", "m-2");
 
-        document.getElementById("ventanaError").appendChild(botonConfirmar);
+        document.getElementById("ventanaAviso").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
-            document.getElementById("ventanaError").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
             console.log("Evento de botón confirmar");
-            document.getElementById("ventanaError").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(true);
         });
 
         const botonCancelar = document.createElement("button");
         botonCancelar.textContent = "Cancelar";
         botonCancelar.classList.add("btn", "btn-danger", "m-2");
-        document.getElementById("ventanaError").appendChild(botonCancelar);
+        document.getElementById("ventanaAviso").appendChild(botonCancelar);
         botonCancelar.addEventListener("click", () => {
-            document.getElementById("ventanaError").classList.remove("d-block");
-            document.getElementById("ventanaError").classList.add("d-none");
+            document.getElementById("ventanaAviso").classList.remove("d-block");
+            document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(false);
         });
     });
