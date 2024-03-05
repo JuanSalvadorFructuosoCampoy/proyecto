@@ -77,12 +77,18 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
                 const anio = fecha.getFullYear().toString();
                 td1.textContent = `${dia}/${mes}/${anio}`;
-
                 td2.textContent = `${parseFloat(element.efectivo).toFixed(2)}€`;
+                if(td2.textContent == "NaN€"){
+                    td2.textContent = "0€"
+                }
                 td3.textContent = `${parseFloat(element.tarjeta).toFixed(2)}€`;
+                if(td3.textContent == "NaN€"){
+                    td3.textContent = "0€"
+                }
 
+                
 
-                const total = (parseFloat(element.efectivo) + parseFloat(element.tarjeta)).toFixed(2);
+                const total = (parseFloat(td2.textContent) + parseFloat(td3.textContent)).toFixed(2);
                 td4.textContent = `${total}€`;
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -108,9 +114,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                         }
                 })
                 let cierreCaja = await fetchDia.json();
-                console.log(cierreCaja.ventas[0].fecha)
-                console.log(cierreCaja.ventas[0].efectivo)
-                console.log(cierreCaja.ventas[0].tarjeta)
+
                 fetch(`${window.location.protocol}//${window.location.host}/templates/cierre_caja.html`) 
                 .then(response => response.text())
                 .then(ticket => {
@@ -124,9 +128,19 @@ fetch(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`
                 let fechaNueva = `${diaNuevo}/${mesNuevo}/${anioNuevo}`;
                 let textoFecha = document.createTextNode(fechaNueva);
                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
-                htmlDoc.querySelector("#totalEfectivo").textContent = `${parseFloat(cierreCaja.ventas[0].efectivo).toFixed(2)}€`;
+                    console.log(cierreCaja.ventas[0].efectivo)
+                if(cierreCaja.ventas[0].efectivo == null){
+                    htmlDoc.querySelector("#totalEfectivo").textContent = "0€"
+                }else{
+                    htmlDoc.querySelector("#totalEfectivo").textContent = `${parseFloat(cierreCaja.ventas[0].efectivo).toFixed(2)}€`;
+                }
+
+                if(cierreCaja.ventas[0].tarjeta == null){
+                    htmlDoc.querySelector("#totalTarjeta").textContent = "0€"
+                }else{
                 htmlDoc.querySelector("#totalTarjeta").textContent = `${parseFloat(cierreCaja.ventas[0].tarjeta).toFixed(2)}€`;
-                htmlDoc.querySelector("#total").textContent = `${(parseFloat(cierreCaja.ventas[0].efectivo) + parseFloat(cierreCaja.ventas[0].tarjeta)).toFixed(2)}€`;
+            }
+                htmlDoc.querySelector("#total").textContent = `${(parseFloat(htmlDoc.querySelector("#totalEfectivo").textContent) + parseFloat(htmlDoc.querySelector("#totalTarjeta").textContent)).toFixed(2)}€`;
                 const ticketWindow = window.open("", "Documento de venta","width=800px,height=800px");
                 ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                 ticketWindow.print();
