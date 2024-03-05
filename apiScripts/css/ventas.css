@@ -127,8 +127,8 @@ article {
 
     #items{
         height: 70%;
-        min-height: 370px;
-        max-height: 370px;
+        min-height: 340px;
+        max-height: 340px;
         overflow-y: scroll !important;
     }
 }

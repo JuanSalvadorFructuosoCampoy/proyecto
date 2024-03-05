@@ -71,11 +71,13 @@
                         <input type="radio" id="tarjeta" name="pago" value="tarjeta">
                         <label for="tarjeta">TARJETA</label>
                     </li>
-                <li class="list-group-item">
+                <li class="list-group-item ">
                     <label for="clientes"><strong>Cliente</strong></label>
                     <select class="ms-1" id="clientes" name="clientes">
                     </select>
+                    <div class="d-flex justify-content-center">
                     <button type="button" id="nuevoCliente" class="btn btn-warning ms-1">Nuevo cliente</button>
+                </div>
                 </li>
 
                 <li class="list-group-item d-flex justify-content-center">
@@ -93,14 +95,14 @@
         </form>
         </section>
     </div>
-    <div id="ventanaError" class="flex-column"></div>
-    <div id="ventanaCambio"class="flex-column"></div>
+    <div id="ventanaAviso" class="flex-column"></div>
+    <div id="ventanaCambio" class="flex-column"></div>
     <div id="ventanaNuevoCliente" class="flex-column d-none">
         <img src="../../images/imagenFondo.png" alt="imagen fondo" class="opacity-25 position-absolute top-50 start-50 translate-middle" style="z-index: -1;">
         <h2 class="text-center"><strong>NUEVO CLIENTE</strong></h2>
         <div class="row d-flex justify-content-center align-items-center max-vh-100">
             <div class="col-8">
-        <form id="formNuevoEmpleado" class="formNuevoEmpleado">
+        <form id="formNuevoCliente" class="formNuevoCliente">
             <div class="mb-3">
                 <label for="id_fiscal" class="form-label"><strong>ID fiscal</strong></label>
                 <input type="text" class="form-control" id="id_fiscal" name="id_fiscal" required>
