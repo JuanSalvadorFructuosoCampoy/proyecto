@@ -190,6 +190,14 @@ function hacerFetch(url){
     })
         .then(response => response.json())
         .then(data => { 
+            console.log(data['agendas'].length)
+            if(data['agendas'].length == 0){
+                const h4 = document.createElement("h4");
+                h4.textContent = "NO HAY CITAS PARA ESTA FECHA";
+                h4.classList.add("text-center", "mt-3","fw-bold");
+                document.body.appendChild(h4);
+                
+            }else{
             data['agendas'].forEach(registro => {
                 const tr = document.createElement("tr");
                 const td1 = document.createElement("td");
@@ -252,6 +260,7 @@ function hacerFetch(url){
                 })
     
             });
+        }
         })
 }
 

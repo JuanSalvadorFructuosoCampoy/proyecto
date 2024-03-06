@@ -200,7 +200,9 @@ function seleccionarItem(tarjeta) {
     //Si el item ya está en la tabla, se suma 1 a la cantidad
     if (encontrado) {
         const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
+        if(cantidadElemento.value < tarjeta.dataset.stock){
         cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
+    }
         calcularPrecio();
     } else {
         //Si el item no está en la tabla, se añade
