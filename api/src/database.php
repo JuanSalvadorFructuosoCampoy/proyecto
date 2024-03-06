@@ -230,7 +230,7 @@ class Database
 			$query .= ' WHERE';
 
 			foreach ($extra as $key => $condition) {
-				$query .= ' ' . $key . ' = "' . $condition . '"';
+				$query .= ' ' . $key . ' = ' . $condition . '';
 				if ($extra[$key] != end($extra)) {
 					$query .= " AND ";
 				}

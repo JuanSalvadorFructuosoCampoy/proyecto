@@ -15,6 +15,9 @@ const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 
+const h4 = document.createElement("h4");
+h4.textContent = "NO HAY CITAS PARA ESTA FECHA";
+h4.classList.add("text-center", "d-none", "mt-3","fw-bold");
 
 th1.textContent = "Fecha";
 th2.textContent = "Hora";
@@ -49,8 +52,9 @@ document.body.insertBefore(fechaInput, table);
 
 let fechaEnElInput = document.getElementById("fechaInput").value;
 
-url = `${window.location.protocol}//${window.location.host}/api/agenda.php?fecha=${fechaEnElInput}`
-hacerFetch(url)
+
+hacerFetch(`${window.location.protocol}//${window.location.host}/api/agenda.php`)
+
 
 
 /**
@@ -88,14 +92,12 @@ fechaInput.addEventListener("input", () => {
         } else {
             filas[i].style.display = "";
         }
+        
     }
     if (fechaSeleccionada == "") {
-        console.log("Fecha vacía")
-        tbody.innerHTML = "";
         for (let i = 0; i < filas.length; i++) {
             filas[i].style.display = "";
         }
-        hacerFetch(`${window.location.protocol}//${window.location.host}/api/agenda.php`)
     }
 
 });
@@ -229,6 +231,14 @@ function hacerFetch(url){
     
                 tbody.appendChild(tr);
     
+                const fechaRegistro = registro.fecha;
+
+                if (fechaRegistro != fechaEnElInput) {
+                    tr.style.display = "none";
+                }else{
+                    tr.style.display = "";
+                }
+
                 botonBorrar.addEventListener("click", async (e) => {
                     const id = e.target.parentNode.parentNode.dataset.id;
                     const confirmDelete = await mostrarVentanaAviso("¿Estás seguro de que quieres borrar esta cita?");
