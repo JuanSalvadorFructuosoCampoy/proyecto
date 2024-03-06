@@ -84,10 +84,12 @@ fechaInput.addEventListener("input", () => {
 
         if (fechaRegistro !== fechaSeleccionadaFormateada) {
             filas[i].style.display = "none";
+            
         } else {
             filas[i].style.display = "";
         }
     }
+    
 
     if (fechaSeleccionada == "") {
         for (let i = 0; i < filas.length; i++) {
