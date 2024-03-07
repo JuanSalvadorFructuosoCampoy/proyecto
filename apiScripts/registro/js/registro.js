@@ -45,6 +45,10 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
+
 //Obtenemos los registros de ventas de la base de datos
 fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     headers: {
@@ -204,6 +208,18 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 }
             }
 
+            let tablaVacia = true;
+            for(let i = 0; i < filas.length; i ++){
+                if(filas[i].style.display != "none"){
+                    tablaVacia = false;
+                }
+            }
+            if(tablaVacia){
+                h4vacia.textContent = "SIN COINCIDENCIAS";
+            }else{
+                h4vacia.textContent = "";
+            }
+
         })
 
     });
@@ -240,6 +256,18 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             for (let i = 0; i < filas.length; i++) {
                 filas[i].style.display = "";
             }
+        }
+
+        let tablaVacia = true;
+        for(let i = 0; i < filas.length; i ++){
+            if(filas[i].style.display != "none"){
+                tablaVacia = false;
+            }
+        }
+        if(tablaVacia){
+            h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
+        }else{
+            h4vacia.textContent = "";
         }
     });
 

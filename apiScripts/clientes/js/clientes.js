@@ -11,6 +11,10 @@ table.classList.add("table", "table-bordered", "table-hover");
 const thead = document.createElement("thead");
 document.getElementById("tablaclientes").appendChild(thead);
 
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
+
 const tr = document.createElement("tr");
 const th1 = document.createElement("th");
 const th2 = document.createElement("th");
@@ -193,7 +197,17 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                     filas[i].style.display = "none";
                 }
             }
-
+            let tablaVacia = true;
+            for(let i = 0; i < filas.length; i ++){
+                if(filas[i].style.display != "none"){
+                    tablaVacia = false;
+                }
+            }
+            if(tablaVacia){
+                h4vacia.textContent = "SIN COINCIDENCIAS";
+            }else{
+                h4vacia.textContent = "";
+            }
         })
 
     });

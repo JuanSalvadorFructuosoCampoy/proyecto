@@ -8,6 +8,10 @@ table.classList.add("table", "table-bordered", "table-hover");
 const thead = document.createElement("thead");
 document.getElementById("tablaempleados").appendChild(thead);
 
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
+
 //Variable para controlar el estado del checkbox de activo
 var switchActivo
 const tr = document.createElement("tr");
@@ -223,7 +227,17 @@ barraBusqueda.addEventListener("input", () => {
             filas[i].style.display = "none";
         }
     }
-
+    let tablaVacia = true;
+    for(let i = 0; i < filas.length; i ++){
+        if(filas[i].style.display != "none"){
+            tablaVacia = false;
+        }
+    }
+    if(tablaVacia){
+        h4vacia.textContent = "SIN COINCIDENCIAS";
+    }else{
+        h4vacia.textContent = "";
+    }
 })
 
 //Botón para volver al inicio

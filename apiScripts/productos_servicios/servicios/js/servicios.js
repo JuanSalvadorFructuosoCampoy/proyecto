@@ -29,6 +29,11 @@ tr.appendChild(th4);
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaservicios").appendChild(tbody);
+
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
+
 //Obtenemos los servicios de la base de datos
 fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, {
     headers: {
@@ -145,6 +150,18 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
                 } else {
                     filas[i].style.display = "none";
                 }
+            }
+            
+            let tablaVacia = true;
+            for(let i = 0; i < filas.length; i ++){
+                if(filas[i].style.display != "none"){
+                    tablaVacia = false;
+                }
+            }
+            if(tablaVacia){
+                h4vacia.textContent = "SIN COINCIDENCIAS";
+            }else{
+                h4vacia.textContent = "";
             }
 
         })

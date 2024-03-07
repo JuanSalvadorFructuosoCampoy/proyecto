@@ -35,9 +35,9 @@ thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaregistro").appendChild(tbody);
 
-
-
-
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
 
 /**
  * Input de tipo fecha para filtrar los registros de la tabla
@@ -51,7 +51,7 @@ fechaInput.value = new Date().toISOString().split("T")[0];
 /**
  * Fetch para obtener los registros de cierre de caja
  */
-fetchCierre(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php?fecha=${fechaInput.value}`);
+fetchCierre(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`);
 
 //Evento que se dispara cuando se cambia la fecha en el input de tipo fecha
 fechaInput.addEventListener("input", () => {
@@ -65,19 +65,29 @@ fechaInput.addEventListener("input", () => {
         const celdas = filas[i].getElementsByTagName("td");
         let fechaRegistro = celdas[0].textContent.split(" - ")[0];
         fechaRegistro = fechaRegistro.replaceAll("/", "-")
-        console.log("fechaRegistro", fechaRegistro)
         if (fechaRegistro !== fechaSeleccionadaFormateada) {
             filas[i].style.display = "none";
         } else {
             filas[i].style.display = "";
         }
     }
-    if (fechaSeleccionada == "") {
+
+    if (fechaInput.value == "") {
         for (let i = 0; i < filas.length; i++) {
             filas[i].style.display = "";
         }
-        tbody.innerHTML = ""
-        fetchCierre(`${window.location.protocol}//${window.location.host}/api/cierre_caja.php`);
+    }
+
+    let tablaVacia = true;
+    for(let i = 0; i < filas.length; i ++){
+        if(filas[i].style.display != "none"){
+            tablaVacia = false;
+        }
+    }
+    if(tablaVacia){
+        h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
+    }else{
+        h4vacia.textContent = "";
     }
 });
 
@@ -139,6 +149,19 @@ barraBusqueda.addEventListener("input", () => {
         }
     }
 
+        
+    let tablaVacia = true;
+    for(let i = 0; i < filas.length; i ++){
+        if(filas[i].style.display != "none"){
+            tablaVacia = false;
+        }
+    }
+    if(tablaVacia){
+        h4vacia.textContent = "SIN COINCIDENCIAS";
+    }else{
+        h4vacia.textContent = "";
+    }
+
 })
 
 /**
@@ -194,6 +217,15 @@ function fetchCierre(url) {
                         td3.textContent = "0€"
                     }
 
+                    const fechaRegistro = element.fecha;
+                    console.log("fechaRegistro", fechaRegistro)
+                    console.log("fechaEnElInput", fechaInput.value)
+                    if (fechaRegistro != fechaInput.value) {
+                    tr.style.display = "none";
+                    }else{
+                    tr.style.display = "";
+                    }
+
                     const total = (parseFloat(td2.textContent) + parseFloat(td3.textContent)).toFixed(2);
                     td4.textContent = `${total}€`;
                     tr.appendChild(td1);
@@ -202,6 +234,19 @@ function fetchCierre(url) {
                     tr.appendChild(td4);
                     tr.appendChild(td5);
                     tbody.appendChild(tr);
+
+                    const filas = tbody.getElementsByTagName("tr");
+                    let tablaVacia = true;
+                    for(let i = 0; i < filas.length; i ++){
+                        if(filas[i].style.display != "none"){
+                            tablaVacia = false;
+                        }
+                    }
+                    if(tablaVacia){
+                        h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
+                    }else{
+                        h4vacia.textContent = "";
+                    }
 
                     /**
                      * Botón para imprimir el cierre de caja

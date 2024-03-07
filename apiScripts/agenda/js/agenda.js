@@ -15,9 +15,6 @@ const th2 = document.createElement("th");
 const th3 = document.createElement("th");
 const th4 = document.createElement("th");
 
-const h4 = document.createElement("h4");
-h4.textContent = "NO HAY CITAS PARA ESTA FECHA";
-h4.classList.add("text-center", "d-none", "mt-3","fw-bold");
 
 th1.textContent = "Fecha";
 th2.textContent = "Hora";
@@ -38,7 +35,9 @@ tr.appendChild(th4);
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
 document.getElementById("tablaagenda").appendChild(tbody);
-
+const h4vacia = document.createElement("h4");
+h4vacia.classList.add("text-center", "mt-3","fw-bold");
+document.body.appendChild(h4vacia);
 /**
  * Input de tipo fecha para seleccionar la fecha de la que se quieren ver las citas
  */
@@ -99,7 +98,18 @@ fechaInput.addEventListener("input", () => {
             filas[i].style.display = "";
         }
     }
-
+    
+    let tablaVacia = true;
+    for(let i = 0; i < filas.length; i ++){
+        if(filas[i].style.display != "none"){
+            tablaVacia = false;
+        }
+    }
+    if(tablaVacia){
+        h4vacia.textContent = "NO HAY CITAS PARA ESTA FECHA";
+    }else{
+        h4vacia.textContent = "";
+    }
 });
 
 /**
@@ -264,7 +274,18 @@ function hacerFetch(url){
                 })
     
             });
-        
+            let tablaVacia = true;
+            let filas = tbody.getElementsByTagName("tr");
+            for(let i = 0; i < filas.length; i ++){
+                if(filas[i].style.display != "none"){
+                    tablaVacia = false;
+                }
+            }
+            if(tablaVacia){
+                h4vacia.textContent = "NO HAY CITAS PARA ESTA FECHA";
+            }else{
+                h4vacia.textContent = "";
+            }
         })
 }
 
