@@ -1,7 +1,11 @@
 /**
  * Script para mostrar los productos en la base de datos
  */
+// Número de filas por página
+const rowsPerPage = 10;
 
+// Número de página actual
+let currentPage = 1;
 //Creamos la tabla
 const table = document.createElement("table");
 table.setAttribute("id", "tablaproductos");
@@ -173,6 +177,10 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
         
         })
 
+
+
+        createPagination(data.productos.length);
+        displayPage(currentPage);
     });
 
 //Botón para volver al inicio
@@ -240,4 +248,41 @@ function mostrarventanaAviso(mensaje){
             resolve(false);
         });
     });
+}
+
+function createPagination(totalRows) {
+    const numPages = Math.ceil(totalRows / rowsPerPage);
+    const pagination = document.createElement("div");
+    pagination.classList.add("pagination");
+    for (let i = 1; i <= numPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.classList.add("pagination-button","btn", "btn-outline-dark","btn-group", "d-flex", "justify-content-center", "mt-3");
+        if (i === currentPage) {
+            button.classList.add("active");
+        }
+        button.addEventListener("click", () => {
+            currentPage = i;
+            displayPage(i);
+            const currentButton = document.querySelector(".pagination-button.active");
+            currentButton.classList.remove("active");
+            button.classList.add("active");
+        });
+        pagination.appendChild(button);
+    }
+    document.body.appendChild(pagination);
+}
+
+// Función para mostrar la página actual
+function displayPage(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const rows = tbody.getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+        if (i < start || i >= end) {
+            rows[i].style.display = "none";
+        } else {
+            rows[i].style.display = "";
+        }
+    }
 }

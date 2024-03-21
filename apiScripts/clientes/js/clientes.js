@@ -1,6 +1,11 @@
 /**
  * Script que se encarga de cargar la tabla de clientes y de gestionar los eventos de los botones de la misma
  */
+// Número de filas por página
+const rowsPerPage = 10;
+
+// Número de página actual
+let currentPage = 1;
 
 //Creamos la tabla
 const table = document.createElement("table");
@@ -209,15 +214,19 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
                 h4vacia.textContent = "";
             }
         })
-
+        // Crear paginación después de cargar los datos
+        createPagination(data.clientes.length);
+        displayPage(currentPage);
     });
+
+
 
 /**
  * Botón para volver al inicio
  */
 const botonVolver = document.createElement("button")
 botonVolver.textContent = "Volver al inicio"
-botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "start-0", "m-3")
+botonVolver.classList.add("btn", "btn-primary", "position-fixed", "bottom-0", "start-50", "m-3","translate-middle")
 botonVolver.setAttribute("id", "volver")
 document.body.appendChild(botonVolver)
 botonVolver.addEventListener("click", () => {
@@ -274,6 +283,44 @@ function mostrarVentanaAviso(mensaje) {
             resolve(false);
         });
     });
+}
+
+// Función para crear los botones de paginación
+function createPagination(totalRows) {
+    const numPages = Math.ceil(totalRows / rowsPerPage);
+    const pagination = document.createElement("div");
+    pagination.classList.add("pagination");
+    for (let i = 1; i <= numPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.classList.add("pagination-button","btn", "btn-outline-dark","btn-group", "d-flex", "justify-content-center", "mt-3");
+        if (i === currentPage) {
+            button.classList.add("active");
+        }
+        button.addEventListener("click", () => {
+            currentPage = i;
+            displayPage(i);
+            const currentButton = document.querySelector(".pagination-button.active");
+            currentButton.classList.remove("active");
+            button.classList.add("active");
+        });
+        pagination.appendChild(button);
+    }
+    document.body.appendChild(pagination);
+}
+
+// Función para mostrar la página actual
+function displayPage(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const rows = tbody.getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+        if (i < start || i >= end) {
+            rows[i].style.display = "none";
+        } else {
+            rows[i].style.display = "";
+        }
+    }
 }
 
 
