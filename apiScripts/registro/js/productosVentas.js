@@ -281,13 +281,13 @@ botonReimprimir.addEventListener("click", async () => {
             })
         //Si el cliente está definido, entonces debemos imprimir una factura en lugar de un ticket
     } else {
-        let fetchCliente = await fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${clienteURL}`, {
+        let fetchCliente = await fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${idURL}`, {
             headers: {
                 "api-key": sessionStorage.getItem("token")
             }
         })
         let datosCliente = await fetchCliente.json();
-
+        console.log(datosCliente['ventas'][0])
         fetch("../../../templates/factura.html")
             .then(response => response.text())
             .then(factura => {
@@ -298,23 +298,23 @@ botonReimprimir.addEventListener("click", async () => {
                 htmlDoc.querySelector("img").setAttribute("src", "../../../images/imagenFondo.png");
 
                 //Creamos los nodos de texto para los datos del cliente
-                let clienteFactura = `${datosCliente.clientes[0].nombre} ${datosCliente.clientes[0].apellido1} ${datosCliente.clientes[0].apellido2}`;
-                let textoDireccion = document.createTextNode(datosCliente.clientes[0].direccion);
+                let clienteFactura = `${datosCliente['ventas'][0].nombreCliente}`;
+                let textoDireccion = document.createTextNode(datosCliente['ventas'][0].direccionCliente);
                 htmlDoc.querySelector("#direccionCliente").insertBefore(textoDireccion, htmlDoc.querySelector("#direccionCliente").childNodes[1])
 
-                let textoIdFiscal = document.createTextNode(datosCliente.clientes[0].id_fiscal);
+                let textoIdFiscal = document.createTextNode(datosCliente['ventas'][0].idFiscalCliente);
                 htmlDoc.querySelector("#idfiscal").insertBefore(textoIdFiscal, htmlDoc.querySelector("#idfiscal").childNodes[1])
 
-                let textoTelefono = document.createTextNode(datosCliente.clientes[0].telefono);
+                let textoTelefono = document.createTextNode(datosCliente['ventas'][0].telefonoCliente);
                 htmlDoc.querySelector("#telefono").insertBefore(textoTelefono, htmlDoc.querySelector("#telefono").childNodes[1])
 
 
                 let textoFecha = document.createTextNode(fechaURL);
                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
-
+                htmlDoc.querySelector("#iva").textContent = datosCliente['ventas'][0].iva + "%";
                 let textoCliente = document.createTextNode(clienteFactura);
                 htmlDoc.querySelector("#nombreCliente").insertBefore(textoCliente, htmlDoc.querySelector("#nombreCliente").childNodes[1])
-
+                let ivaAplicado = parseFloat(datosCliente['ventas'][0].iva) / 100 + 1;
                 const tabla = document.getElementById("tablaregistro");
                 const filas = tabla.getElementsByTagName("tr");
                 for (let i = 1; i < filas.length; i++) {
@@ -328,7 +328,8 @@ botonReimprimir.addEventListener("click", async () => {
 
                     const tdPrecio = document.createElement("td");
                     tdPrecio.classList.add("unit");
-                    tdPrecio.textContent = (parseFloat(filas[i].childNodes[4].textContent) / 1.21).toFixed(2) + "€";
+                    console.log(ivaAplicado)
+                    tdPrecio.textContent = (parseFloat(filas[i].childNodes[4].textContent) / ivaAplicado).toFixed(2) + "€";
                     tr.appendChild(tdPrecio);
 
                     const tdCantidad = document.createElement("td");
@@ -338,10 +339,10 @@ botonReimprimir.addEventListener("click", async () => {
 
                     const tdPrecioSubTotal = document.createElement("td");
                     tdPrecioSubTotal.classList.add("total");
-                    tdPrecioSubTotal.textContent = (parseFloat(filas[i].childNodes[4].textContent) * parseFloat(filas[i].childNodes[3].textContent) / 1.21).toFixed(2) + "€";
+                    tdPrecioSubTotal.textContent = (parseFloat(filas[i].childNodes[4].textContent) * parseFloat(filas[i].childNodes[3].textContent) / ivaAplicado).toFixed(2) + "€";
                     tr.appendChild(tdPrecioSubTotal);
                 }
-                htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(totalURL) / 1.21).toFixed(2) + "€";
+                htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(totalURL) / ivaAplicado).toFixed(2) + "€";
                 htmlDoc.querySelector("#totalFactura").textContent = totalURL;
 
 
