@@ -20,8 +20,13 @@ class User extends Database
 		'fecha',
 		'total',
 		'cliente',
+		'nombreCliente',
+		'direccionCliente',
+		'telefonoCliente',
+		'idFiscalCliente',
 		'empleado',
-		'tipo'
+		'tipo',
+		'iva'
 	);
 
 	/**
@@ -31,8 +36,13 @@ class User extends Database
 		'fecha',
 		'total',
 		'cliente',
+		'nombreCliente',
+		'direccionCliente',
+		'telefonoCliente',
+		'idFiscalCliente',
 		'empleado',
-		'tipo'
+		'tipo',
+		'iva'
 	);
 
 	/**

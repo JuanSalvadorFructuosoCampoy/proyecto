@@ -8,6 +8,16 @@ const article = document.querySelector("article")
 const tbody = document.querySelector("tbody")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
+let iva = document.getElementById("iva");
+iva.addEventListener("input",() =>{
+    localStorage.setItem("iva",iva.value)
+})
+if(localStorage.getItem("iva")){
+    iva.value = localStorage.getItem("iva")
+}else{
+    iva.value = 21
+}
+
 
 //Barra de búsqueda para filtrar los productos y servicios
 const barraBusqueda = document.createElement("input");
@@ -401,9 +411,16 @@ form.addEventListener("submit", async (e) => {
             empleado: empleados.value,
             tipo: valorPago,
         }
+                
         //Si se ha seleccionado un cliente, se añade el cliente a la venta
         if (clientes.value != "0") {
+            let clienteFactura = document.querySelector("#clientes").options[document.querySelector("#clientes").selectedIndex];
             venta.cliente = clientes.value;
+            venta.nombreCliente = clienteFactura.textContent;
+            venta.direccionCliente = clienteFactura.dataset.direccion;
+            venta.telefonoCliente = clienteFactura.dataset.telefono;
+            venta.idFiscalCliente = clienteFactura.dataset.idfiscal;
+            venta.iva = iva.value;
         }
         //Si se ha seleccionado un ticket, se muestra el ticket en una ventana nueva
         if (selectedValue == "ticket") {
@@ -509,7 +526,8 @@ form.addEventListener("submit", async (e) => {
 
                         const tdPrecio = document.createElement("td");
                         tdPrecio.classList.add("unit");
-                        tdPrecio.textContent = (item.childNodes[2].childNodes[0].value / 1.21).toFixed(2) + "€";
+                        let ivaAplicado = iva.value / 100 + 1;
+                        tdPrecio.textContent = (item.childNodes[2].childNodes[0].value / ivaAplicado).toFixed(2) + "€";
                         tr.appendChild(tdPrecio);
 
                         const tdCantidad = document.createElement("td");
@@ -519,16 +537,17 @@ form.addEventListener("submit", async (e) => {
 
                         const tdPrecioSubTotal = document.createElement("td");
                         tdPrecioSubTotal.classList.add("total");
-                        tdPrecioSubTotal.textContent = (item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value / 1.21).toFixed(2) + "€";
+                        tdPrecioSubTotal.textContent = (item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value / ivaAplicado).toFixed(2) + "€";
                         tr.appendChild(tdPrecioSubTotal);
 
                     });
 
                     //Añadimos el total de la venta a la factura
                     const total = document.getElementById("total").textContent;
-                    htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(total) / 1.21).toFixed(2) + "€";
+                    let ivaAplicado = iva.value / 100 + 1;
+                    htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(total) / ivaAplicado).toFixed(2) + "€";
                     htmlDoc.querySelector("#totalFactura").textContent = total;
-
+                    htmlDoc.querySelector("#iva").textContent = iva.value + "%";
                     //Abrimos una ventana nueva con la factura
                     const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
@@ -539,7 +558,7 @@ form.addEventListener("submit", async (e) => {
                 });
         }//Final impresion tickets y facturas   
 
-        //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay), empleado, total de la venta y si ha sido en efectivo o con tarjeta
+        //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay) con sus datos, empleado, total de la venta, el iva y si ha sido en efectivo o con tarjeta
         fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             method: "POST",
             headers: {
