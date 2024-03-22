@@ -22,6 +22,7 @@ const th4 = document.createElement("th");
 const th5 = document.createElement("th");
 const th6 = document.createElement("th");
 const th7 = document.createElement("th");
+const th8 = document.createElement("th");
 
 th1.textContent = "ID";
 th2.textContent = "Fecha";
@@ -29,6 +30,7 @@ th3.textContent = "Empleado";
 th4.textContent = "Cliente";
 th5.textContent = "Tipo de pago";
 th6.textContent = "Total";
+th7.textContent = "IVA(%)";
 
 th1.classList.add("p-2", "text-center", "align-middle","fs-5")
 th2.classList.add("p-2", "text-center", "align-middle","fs-5")
@@ -37,6 +39,7 @@ th4.classList.add("p-2", "text-center", "align-middle","fs-5")
 th5.classList.add("p-2", "text-center", "align-middle","fs-5")
 th6.classList.add("p-2", "text-center", "align-middle","fs-5")
 th7.classList.add("p-2", "text-center", "align-middle","fs-5")
+th8.classList.add("p-2", "text-center", "align-middle","fs-5")
 
 tr.appendChild(th1);
 tr.appendChild(th2);
@@ -45,6 +48,7 @@ tr.appendChild(th4);
 tr.appendChild(th5);
 tr.appendChild(th6);
 tr.appendChild(th7);
+tr.appendChild(th8);
 
 thead.appendChild(tr);
 const tbody = document.createElement("tbody");
@@ -81,6 +85,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 const td5 = document.createElement("td");
                 const td6 = document.createElement("td");
                 const td7 = document.createElement("td");
+                const td8 = document.createElement("td");
 
                 td1.classList.add("p-2", "text-center","fs-5")
                 td2.classList.add("p-2", "text-center","fs-5")
@@ -89,6 +94,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 td5.classList.add("p-2", "text-center","fs-5")
                 td6.classList.add("p-2", "text-center","fs-5")
                 td7.classList.add("p-2", "text-center","fs-5")
+                td8.classList.add("p-2", "text-center","fs-5")
 
                 td1.textContent = element.id;
 
@@ -128,20 +134,21 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 td5.textContent = element.tipo;
 
                 td6.textContent = element.total + "€";
+                td7.textContent = element.iva + "%";
 
                 //Creamos el botón de ficha
                 const botonFicha = document.createElement("button");
                 botonFicha.textContent = "Detalle";
                 botonFicha.classList.add("btn", "btn-warning", "btn-sm","m-1");
                 botonFicha.setAttribute("id", `botonFicha${element.id}`);
-                td7.appendChild(botonFicha);
+                td8.appendChild(botonFicha);
 
                 //Creamos el botón de borrar
                 const botonBorrar = document.createElement("button");
                 botonBorrar.textContent = "Borrar";
                 botonBorrar.classList.add("btn", "btn-danger", "btn-sm");
                 botonBorrar.setAttribute("id", `botonBorrar${element.id}`);
-                td7.appendChild(botonBorrar);
+                td8.appendChild(botonBorrar);
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -150,6 +157,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 tr.appendChild(td5);
                 tr.appendChild(td6);
                 tr.appendChild(td7);
+                tr.appendChild(td8);
                 tbody.appendChild(tr);
 
                 //Event listener para los botones de ficha y borrar
