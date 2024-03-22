@@ -119,6 +119,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 }
 
                 td4.textContent = element.cantidad;
+                element.precio = parseFloat(element.precio).toFixed(2);
                 td5.textContent = element.precio + "€";
 
                 td1.classList.add("p-2", "text-center", "align-middle", "fs-5");
@@ -235,6 +236,7 @@ botonReimprimir.addEventListener("click", async () => {
         fetch("../../../templates/ticket.html")
             .then(response => response.text())
             .then(ticket => {
+                
                 //Parseamos el texto HTML en un documento HTML
                 const parser = new DOMParser();
                 //Convertimos el texto HTML en un documento HTML
@@ -328,7 +330,6 @@ botonReimprimir.addEventListener("click", async () => {
 
                     const tdPrecio = document.createElement("td");
                     tdPrecio.classList.add("unit");
-                    console.log(ivaAplicado)
                     tdPrecio.textContent = (parseFloat(filas[i].childNodes[4].textContent) / ivaAplicado).toFixed(2) + "€";
                     tr.appendChild(tdPrecio);
 

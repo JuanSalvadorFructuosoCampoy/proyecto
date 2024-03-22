@@ -410,6 +410,7 @@ form.addEventListener("submit", async (e) => {
             total: parseFloat(document.getElementById("total").getAttribute("value")),
             empleado: empleados.value,
             tipo: valorPago,
+            iva:iva.value
         }
                 
         //Si se ha seleccionado un cliente, se añade el cliente a la venta
@@ -462,7 +463,7 @@ form.addEventListener("submit", async (e) => {
 
                         const tdPrecio = document.createElement("td");
                         tdPrecio.classList.add("precio");
-                        tdPrecio.textContent = item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value + "€";
+                        tdPrecio.textContent = (item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value).toFixed(2) + "€";
                         tr.appendChild(tdPrecio);
                     });
                     //Añadimos el total de la venta al ticket
@@ -588,7 +589,8 @@ form.addEventListener("submit", async (e) => {
                                     id_item: item.dataset.id,
                                     cantidad: item.childNodes[1].childNodes[0].value,
                                     precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
-                                    id_cliente: clientes.value != "0" ? clientes.value : null
+                                    id_cliente: clientes.value != "0" ? clientes.value : null,
+                                    
                                 }
 
                                 //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente

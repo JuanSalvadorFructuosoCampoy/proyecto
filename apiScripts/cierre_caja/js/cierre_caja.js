@@ -183,7 +183,7 @@ function fetchCierre(url) {
                 h4.appendChild(strong);
                 document.body.appendChild(h4);
             } else {
-
+                data.ventas.reverse();
                 data.ventas.forEach(element => {
 
                     //Creamos las filas de la tabla

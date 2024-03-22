@@ -1,7 +1,6 @@
 /**
  * Script para mostrar los registros de ventas en la base de datos
  */
-
 // Número de filas por página
 const rowsPerPage = 10;
 
@@ -75,6 +74,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
             h4.appendChild(strong);
             document.body.appendChild(h4);
         } else {
+            data.ventas.reverse(); //Invertimos el array para que las ventas más recientes aparezcan primero
             data.ventas.forEach(element => {
 
                 const tr = document.createElement("tr");
@@ -123,7 +123,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     .then(data => {
                         //Si el cliente no está definido, mostramos "NO DEFINIDO"
                         if (data.clientes.length > 0) {
-                            td4.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1;
+                            td4.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1 + " " + data.clientes[0].apellido2;
                             td4.dataset.id = data.clientes[0].id;
                         } else {
                             td4.textContent = "NO DEFINIDO";
@@ -132,7 +132,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     });
 
                 td5.textContent = element.tipo;
-
+                    element.total = parseFloat(element.total).toFixed(2);
                 td6.textContent = element.total + "€";
                 td7.textContent = element.iva + "%";
 
