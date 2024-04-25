@@ -2,7 +2,7 @@
  * Script para mostrar los registros de ventas en la base de datos
  */
 // Número de filas por página
-const rowsPerPage = 10;
+const rowsPerPage = 6;
 
 // Número de página actual
 let currentPage = 1;

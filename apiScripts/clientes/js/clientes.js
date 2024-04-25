@@ -2,7 +2,7 @@
  * Script que se encarga de cargar la tabla de clientes y de gestionar los eventos de los botones de la misma
  */
 // Número de filas por página
-const rowsPerPage = 10;
+const rowsPerPage = 6;
 
 // Número de página actual
 let currentPage = 1;
