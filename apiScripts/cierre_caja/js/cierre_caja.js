@@ -85,7 +85,7 @@ fechaInput.addEventListener("input", () => {
         }
     }
     if(tablaVacia){
-        h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
+        h4vacia.textContent = "NO HAY VENTAS REGISTRADAS";
     }else{
         h4vacia.textContent = "";
     }
