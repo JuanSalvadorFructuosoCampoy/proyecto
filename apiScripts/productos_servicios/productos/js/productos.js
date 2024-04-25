@@ -267,6 +267,9 @@ function createPagination(totalRows) {
             const currentButton = document.querySelector(".pagination-button.active");
             currentButton.classList.remove("active");
             button.classList.add("active");
+            let barraBusqueda = document.getElementById("busqueda");
+            barraBusqueda.value = "";
+            h4vacia.textContent = "";
         });
         pagination.appendChild(button);
     }
