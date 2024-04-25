@@ -7,10 +7,15 @@ class AuthModel
 {
 	private $connection;
 	
-	public function __construct(){
-		$this->connection = new mysqli('127.0.0.1', 'root', '', 'peluqueria', '3306');
+	public function __construct()
+	{
+		$host_name = 'localhost';
+		$database = 'peluqueria';
+		$user_name = 'root';
+		$password = '';
+		$this->connection = new mysqli($host_name, $user_name, $password, $database);
 
-		if($this->connection->connect_errno){
+		if ($this->connection->connect_errno) {
 			echo 'Error de conexión a la base de datos';
 			exit;
 		}

@@ -176,12 +176,7 @@ function fetchCierre(url) {
         .then(response => response.json())
         .then(data => {
             if (data.ventas.length == 0) {
-                const h4 = document.createElement("h4");
-                const strong = document.createElement("strong");
-                h4.classList.add("text-center");
-                strong.textContent = "NO HAY VENTAS REGISTRADAS"
-                h4.appendChild(strong);
-                document.body.appendChild(h4);
+                h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
             } else {
                 data.ventas.reverse();
                 data.ventas.forEach(element => {

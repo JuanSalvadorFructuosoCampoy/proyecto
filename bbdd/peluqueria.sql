@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-03-2024 a las 18:14:07
+-- Tiempo de generación: 03-04-2024 a las 13:15:34
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,8 +43,9 @@ INSERT INTO `agenda` (`id`, `fecha`, `hora`, `cita`) VALUES
 (2, '2024-03-04', '10:30:00', 'Cita del día 4'),
 (6, '2024-03-05', '15:00:00', 'Cita creada desde la app y editada'),
 (7, '2024-03-05', '08:29:00', 'Cita a las 7 y media'),
-(10, '2024-03-06', '11:00:00', 'Cita a las 11 de la mañana'),
-(11, '2024-03-12', '10:00:00', 'Corte de pelo la semana que viene a las 10 de la mañana');
+(11, '2024-03-12', '10:00:00', 'Corte de pelo la semana que viene a las 10 de la mañana'),
+(14, '2024-03-06', '11:00:00', 'Cita nueva'),
+(15, '2024-03-21', '10:00:00', 'Cita a las 10');
 
 -- --------------------------------------------------------
 
@@ -67,10 +68,11 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `id_fiscal`, `nombre`, `apellido1`, `apellido2`, `telefono`, `direccion`) VALUES
-(1, '23306454W', 'Melody', 'de la Plata', 'Lario', 639445564, 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)'),
+(1, '00000001R', 'Melody', 'de la Plata', 'Lario', 639445564, 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)'),
 (3, '27454873A', 'Mercedes', 'Campoy', 'Guillén', 626047517, 'Calle Ricardo Gil, 43, 10ºC, 30002, Murcia'),
 (6, '48657980P', 'Juan Salvador', 'Fructuoso', 'Campoy', 639445564, 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)'),
-(20, '48657980P', 'Antonio', 'Martínez', 'Gutiérrez', 654321981, 'Calle alguna');
+(20, '48657980P', 'Antonio', 'Martínez', 'Gutiérrez', 654321981, 'Calle alguna'),
+(21, '48657980P', 'Agapito', 'Fajardo', 'Ramírez', 654696969, 'Calle Wallaby 42, Sydney');
 
 -- --------------------------------------------------------
 
@@ -94,9 +96,9 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id`, `nombre`, `apellido1`, `apellido2`, `password`, `token`, `activo`, `rol`) VALUES
-(1, 'prueba', 'prueba', NULL, '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDk2NTY1MjYsImRhdGEiOnsiaWQiOiIxIiwibm9tYnJlIjoicHJ1ZWJhIn19.tH7H7-sOzUl_Zhlpn5YHH5zqnWmiYeX24jjjnpjZpZ4', 1, 'admin'),
-(2, 'Melody', 'de la Plata', 'Lario', '2db76f21528566a3f39cdaa9f9c8794ae3193e62c8262fd1a476d9cc335f45b5', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDk0NjY1NTgsImRhdGEiOnsiaWQiOiIyIiwibm9tYnJlIjoiTWVsb2R5In19.j3XUDkEAe7ovuLBS3ze7fQwDKkILnYSkWRrml9zNTew', 1, 'admin'),
-(15, 'Juan Salvador', 'Fructuoso', 'Campoy', '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDk2NTAyNzgsImRhdGEiOnsiaWQiOiIxNSIsIm5vbWJyZSI6Ikp1YW4gU2FsdmFkb3IifX0.awXZv-iUt1hVHPUgU9aAZALNnOrmQk-dQ40xkXXp3JY', 1, 'emple');
+(1, 'prueba', 'prueba', NULL, '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTEwOTMxNTMsImRhdGEiOnsiaWQiOiIxIiwibm9tYnJlIjoicHJ1ZWJhIn19.CHEaHe4zEEFWY8qKjpIs0EkZsw_O2r_dl_vaOga_IN8', 1, 'admin'),
+(2, 'Melody', 'de la Plata', 'Lario', '2db76f21528566a3f39cdaa9f9c8794ae3193e62c8262fd1a476d9cc335f45b5', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTEwNDE4NDYsImRhdGEiOnsiaWQiOiIyIiwibm9tYnJlIjoiTWVsb2R5In19.2mixB8Pww60rMLwr_s0mKrGxKlg0H7GANuwT_BVPSjA', 1, 'admin'),
+(24, 'Antonio', 'Martínez', 'Sánchez', '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', '', 1, 'emple');
 
 -- --------------------------------------------------------
 
@@ -117,8 +119,8 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`id`, `nombre`, `stock`, `precio`) VALUES
 ('P0001', 'Keratina', 9, 100),
-('P0002', 'Tinte rubio', 0, 30),
-('P0003', 'Tinte negro', 2, 28);
+('P0002', 'Tinte rubio', 3, 30),
+('P0003', 'Tinte negro', 0, 28);
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,31 @@ INSERT INTO `productos_ventas` (`id`, `id_item`, `id_cliente`, `cantidad`, `prec
 (20, 'S0008', 20, 1, 38),
 (21, 'S0001', 0, 1, 12),
 (21, 'S0003', 0, 1, 25),
-(21, 'S0007', 0, 1, 3);
+(21, 'S0007', 0, 1, 3),
+(22, 'P0003', 0, 2, 56),
+(23, 'S0005', 0, 1, 13),
+(23, 'S0007', 0, 1, 3),
+(23, 'S0010', 0, 1, 25),
+(24, 'S0006', 0, 1, 15),
+(24, 'S0007', 0, 1, 3),
+(24, 'S0009', 0, 1, 48),
+(25, 'S0002', 21, 1, 16),
+(25, 'S0003', 21, 1, 25),
+(25, 'S0007', 21, 1, 3),
+(26, 'S0007', 0, 4, 12),
+(27, 'S0002', 0, 1, 16.5),
+(27, 'S0005', 0, 1, 13),
+(27, 'S0007', 0, 1, 3),
+(33, 'S0001', 20, 1, 12),
+(34, 'S0002', 3, 1, 16),
+(35, 'S0004', 1, 1, 18),
+(35, 'S0009', 1, 1, 48),
+(36, 'S0010', 3, 1, 25),
+(37, 'S0010', 6, 1, 25),
+(38, 'S0002', 6, 1, 16),
+(43, 'S0005', 0, 1, 13),
+(44, 'S0009', 0, 1, 48),
+(45, 'S0010', 0, 1, 25);
 
 -- --------------------------------------------------------
 
@@ -172,7 +198,8 @@ CREATE TABLE `registro_clientes` (
 INSERT INTO `registro_clientes` (`id`, `id_cliente`, `fecha`, `evento`) VALUES
 (1, 1, '2024-02-25 00:00:00', 'Inicio de la aplicación'),
 (2, 1, '2024-02-28 00:00:00', 'Sigue la aplicación'),
-(10, 1, '2024-02-29 00:00:00', 'Nuevo día');
+(10, 1, '2024-02-29 00:00:00', 'Nuevo día'),
+(14, 1, '2024-03-21 00:00:00', 'Nuevo tratamiento');
 
 -- --------------------------------------------------------
 
@@ -213,21 +240,24 @@ CREATE TABLE `ventas` (
   `fecha` datetime NOT NULL,
   `total` float NOT NULL,
   `cliente` int(11) DEFAULT NULL,
-  `empleado` int(11) NOT NULL,
-  `tipo` varchar(10) NOT NULL COMMENT 'Tarjeta o efectivo'
+  `nombreCliente` varchar(100) DEFAULT NULL,
+  `direccionCliente` varchar(200) DEFAULT NULL,
+  `telefonoCliente` int(20) DEFAULT NULL,
+  `idFiscalCliente` varchar(20) DEFAULT NULL,
+  `empleado` int(11) DEFAULT NULL,
+  `tipo` varchar(10) NOT NULL COMMENT 'Tarjeta o efectivo',
+  `iva` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`id`, `fecha`, `total`, `cliente`, `empleado`, `tipo`) VALUES
-(16, '2024-03-05 13:14:00', 130, NULL, 1, 'efectivo'),
-(17, '2024-03-05 13:16:00', 112, NULL, 1, 'tarjeta'),
-(18, '2024-03-04 13:22:00', 73, 3, 1, 'efectivo'),
-(19, '2024-03-05 17:35:00', 84, NULL, 1, 'efectivo'),
-(20, '2024-03-05 17:51:00', 53, 20, 1, 'tarjeta'),
-(21, '2024-03-05 17:54:00', 40, NULL, 1, 'efectivo');
+INSERT INTO `ventas` (`id`, `fecha`, `total`, `cliente`, `nombreCliente`, `direccionCliente`, `telefonoCliente`, `idFiscalCliente`, `empleado`, `tipo`, `iva`) VALUES
+(38, '2024-03-22 08:52:00', 16, 6, 'Juan Salvador Fructuoso Campoy', 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)', 639445564, '48657980P', 1, 'tarjeta', 20),
+(43, '2024-03-22 09:15:00', 13, NULL, NULL, NULL, NULL, NULL, 1, 'tarjeta', 21),
+(44, '2024-03-22 09:27:00', 48, NULL, NULL, NULL, NULL, NULL, 1, 'efectivo', 21),
+(45, '2024-03-22 09:27:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 'tarjeta', 21);
 
 --
 -- Índices para tablas volcadas
@@ -292,31 +322,31 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_clientes`
 --
 ALTER TABLE `registro_clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Restricciones para tablas volcadas
