@@ -176,7 +176,7 @@ function fetchCierre(url) {
         .then(response => response.json())
         .then(data => {
             if (data.ventas.length == 0) {
-                h4vacia.textContent = "NO HAY VENTAS REGISTRADAS PARA ESTA FECHA";
+                h4vacia.textContent = "NO HAY VENTAS REGISTRADAS";
             } else {
                 data.ventas.reverse();
                 data.ventas.forEach(element => {
