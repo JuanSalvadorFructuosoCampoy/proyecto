@@ -19,6 +19,17 @@ class AuthModel
 			echo 'Error de conexión a la base de datos';
 			exit;
 		}
+
+	// 	$host_name = 'db5015623169.hosting-data.io';
+	// 	$database = 'dbs12758460';
+	// 	$user_name = 'dbu5544140';
+	// 	$password = 'MelodyLua2423';
+	// 	$this->connection = new mysqli($host_name, $user_name, $password, $database);
+
+	// 	if ($this->connection->connect_errno) {
+	// 		echo 'Error de conexión a la base de datos';
+	// 		exit;
+	//    }
 	}
 
 	/**
