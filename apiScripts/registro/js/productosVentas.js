@@ -177,7 +177,7 @@ document.body.appendChild(botonReimprimir);
 const barraBusqueda = document.createElement("input");
 barraBusqueda.setAttribute("id", "busqueda");
 barraBusqueda.setAttribute("type", "text");
-barraBusqueda.setAttribute("placeholder", "Buscar evento");
+barraBusqueda.setAttribute("placeholder", "Buscar producto o servicio");
 barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 
