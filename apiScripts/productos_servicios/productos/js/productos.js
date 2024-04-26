@@ -145,24 +145,30 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
         barraBusqueda.focus();
         
         //Evento para la barra de búsqueda, que filtra los productos de la tabla
-        barraBusqueda.addEventListener("input",()=>{
+        barraBusqueda.addEventListener("input", () => {
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
-            for (let i = 0; i < filas.length; i++) {
-                const celdas = filas[i].getElementsByTagName("td");
-                let coincide = false;
-                for (let j = 0; j < celdas.length && !coincide; j++) {
-                    const celda = celdas[j];
-                    if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda
-                        coincide = true;
+        
+            if (texto === '') {
+                displayPage(currentPage);
+            } else {
+                for (let i = 0; i < filas.length; i++) {
+                    const celdas = filas[i].getElementsByTagName("td");
+                    let coincide = false;
+                    for (let j = 0; j < celdas.length && !coincide; j++) {
+                        const celda = celdas[j];
+                        if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda
+                            coincide = true;
+                        }
+                    }
+                    if (coincide) {
+                        filas[i].style.display = "";
+                    } else {
+                        filas[i].style.display = "none";
                     }
                 }
-                if (coincide) {
-                    filas[i].style.display = "";
-                } else {
-                    filas[i].style.display = "none";
-                }
             }
+        
             let tablaVacia = true;
             for(let i = 0; i < filas.length; i ++){
                 if(filas[i].style.display != "none"){
@@ -174,11 +180,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
             }else{
                 h4vacia.textContent = "";
             }
-        
         })
-
-
-
         createPagination(data.productos.length);
         displayPage(currentPage);
     });
