@@ -73,6 +73,8 @@ botonVolver.addEventListener("click", () => {
  * Evento que se dispara cuando se cambia la fecha en el input de tipo fecha
  */
 fechaInput.addEventListener("input", () => {
+    const barraBusqueda = document.getElementById("busqueda");
+    barraBusqueda.value = "";
     const fechaSeleccionada = fechaInput.value;
     let anio = fechaSeleccionada.split("-")[0];
     let mes = fechaSeleccionada.split("-")[1];
@@ -123,6 +125,7 @@ barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 barraBusqueda.focus();
 barraBusqueda.addEventListener("input", () => {
+    fechaInput.value = "";
     const texto = barraBusqueda.value.toLowerCase();
     const filas = tbody.getElementsByTagName("tr");
     for (let i = 0; i < filas.length; i++) {

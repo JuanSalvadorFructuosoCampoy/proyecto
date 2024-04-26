@@ -203,6 +203,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
         barraBusqueda.addEventListener("input", () => {
+            fechaInput.value = "";
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
         
@@ -250,6 +251,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     document.body.insertBefore(fechaInput, table);
 
     fechaInput.addEventListener("input", () => {
+        const barraBusqueda = document.getElementById("busqueda");
+        barraBusqueda.value = "";
         //Formateamos la fecha seleccionada para que coincida con el formato de la tabla
         const fechaSeleccionada = fechaInput.value;
         let anio = fechaSeleccionada.split("-")[0];
