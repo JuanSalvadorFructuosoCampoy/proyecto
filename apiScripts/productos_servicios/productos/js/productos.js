@@ -53,13 +53,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
     .then(response => response.json())
     .then(data => {
         if (data.productos.length == 0) {
-
-            const h4 = document.createElement("h4");
-            const strong = document.createElement("strong");
-            h4.classList.add("text-center");
-            strong.textContent = "NO HAY PRODUCTOS EN EL REGISTRO"
-            h4.appendChild(strong);
-            document.body.appendChild(h4);
+            h4vacia.textContent = "NO HAY PRODUCTOS EN EL REGISTRO"
         } else {
             data.productos.forEach(element => {
                 //Creamos las filas de la tabla

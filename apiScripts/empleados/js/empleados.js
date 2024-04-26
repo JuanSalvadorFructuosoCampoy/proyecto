@@ -65,12 +65,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/empleados.php`, 
     .then(response => response.json())
     .then(data => {
         if (data.empleados.length == 0) {
-            const h4 = document.createElement("h4");
-            const strong = document.createElement("strong");
-            h4.classList.add("text-center");
-            strong.textContent = "NO HAY EMPLEADOS EN EL REGISTRO"
-            h4.appendChild(strong);
-            document.body.appendChild(h4);
+            h4vacia.textContent = "NO HAY EMPLEADOS EN EL REGISTRO"
         } else {
             data.empleados.forEach(element => {
 

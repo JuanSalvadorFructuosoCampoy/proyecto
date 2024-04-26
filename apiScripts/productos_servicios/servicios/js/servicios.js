@@ -48,13 +48,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
     .then(response => response.json())
     .then(data => {
         if (data.servicios.length == 0) {
-
-            const h4 = document.createElement("h4");
-            const strong = document.createElement("strong");
-            h4.classList.add("text-center");
-            strong.textContent = "NO HAY SERVICIOS EN EL REGISTRO"
-            h4.appendChild(strong);
-            document.body.appendChild(h4);
+            h4vacia.textContent = "NO HAY SERVICIOS EN EL REGISTRO"
         } else {
             data.servicios.forEach(element => {
 

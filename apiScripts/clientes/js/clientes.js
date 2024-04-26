@@ -71,15 +71,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/clientes.php`, {
     .then(response => response.json())
     .then(data => {
         if (data.clientes.length == 0) {
-
-            const h4 = document.createElement("h4");
-            const strong = document.createElement("strong");
-            h4.classList.add("text-center");
-            strong.textContent = "NO HAY CLIENTES EN EL REGISTRO"
-            h4.appendChild(strong);
-            document.body.appendChild(h4);
+            h4vacia.textContent = "NO HAY CLIENTES EN EL REGISTRO"
         } else {
-            console.log("Cargado el script de clientes");
             data.clientes.forEach(element => {
                 //Creamos las filas de la tabla
                 const tr = document.createElement("tr");

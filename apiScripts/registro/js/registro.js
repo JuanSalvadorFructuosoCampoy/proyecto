@@ -67,12 +67,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     .then(data => {
         //Si no hay ventas en la base de datos, mostramos un mensaje
         if (data.ventas.length == 0) {
-            const h4 = document.createElement("h4");
-            const strong = document.createElement("strong");
-            h4.classList.add("text-center");
-            strong.textContent = "NO HAY VENTAS REGISTRADAS"
-            h4.appendChild(strong);
-            document.body.appendChild(h4);
+            h4vacia.textContent = "NO HAY VENTAS REGISTRADAS"
         } else {
             data.ventas.reverse(); //Invertimos el array para que las ventas más recientes aparezcan primero
             data.ventas.forEach(element => {
