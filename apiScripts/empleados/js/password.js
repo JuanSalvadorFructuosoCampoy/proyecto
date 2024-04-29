@@ -110,10 +110,10 @@ cancelar.addEventListener('click', () => {
 
 //Esta función se encarga de hashear la contraseña que el usuario introduce en el formulario
 async function hashInput(input) {
-    const msgUint8 = new TextEncoder().encode(input);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    // Calcular el hash de la contraseña
+    let hash = CryptoJS.SHA256(input);
+    // Convertir el hash a una cadena hexadecimal
+    let hashHex = hash.toString(CryptoJS.enc.Hex);
     return hashHex;
 }
 
