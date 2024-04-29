@@ -82,27 +82,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 const td4 = document.createElement("td");
                 const td5 = document.createElement("td");
                 td1.textContent = element.id;
-
-                //Si es un producto, hacemos el fetch a los productos. Si es un servicio, lo hacemos a los servicios
-                if (element.id_item.charAt(0) == "P") {
-                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/productos.php?id=${element.id_item}`)
-                        .then(data => {
-                            if (data.productos[0]) {
-                                td2.textContent = data.productos[0].nombre
-                            } else {
-                                td2.textContent = "NO DEFINIDO"
-                            }
-                        })
-                } else {
-                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/servicios.php?id=${element.id_item}`)
-                        .then(data => {
-                            if (data.servicios[0]) {
-                                td2.textContent = data.servicios[0].nombre
-                            } else {
-                                td2.textContent = "NO DEFINIDO"
-                            }
-                        })
-                }
+                td2.textContent = element.nombre;
 
                 //Si el id_cliente es 0, mostramos "NO DEFINIDO", si no, hacemos el fetch a los clientes
                 if (element.id_cliente == 0) {

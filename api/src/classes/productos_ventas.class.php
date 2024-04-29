@@ -17,6 +17,7 @@ class User extends Database
 	 */
 	private $allowedConditions_get = array(
 		'id',
+		'nombre',
 		'id_item',
 		'id_cliente',
 		'cantidad',
@@ -28,6 +29,7 @@ class User extends Database
 	 */
 	private $allowedConditions_insert = array(
 		'id',
+		'nombre',
 		'id_item',
 		'id_cliente',
 		'cantidad',

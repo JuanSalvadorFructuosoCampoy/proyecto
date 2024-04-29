@@ -587,6 +587,7 @@ form.addEventListener("submit", async (e) => {
                                 let itemVenta = {
                                     id: data.ventas[data.ventas.length - 1].id,
                                     id_item: item.dataset.id,
+                                    nombre: item.childNodes[0].textContent,
                                     cantidad: item.childNodes[1].childNodes[0].value,
                                     precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
                                     id_cliente: clientes.value != "0" ? clientes.value : null,
