@@ -238,7 +238,6 @@ function fetchCierre(url) {
                                 let fechaNueva = `${diaNuevo}/${mesNuevo}/${anioNuevo}`;
                                 let textoFecha = document.createTextNode(fechaNueva);
                                 htmlDoc.querySelector("#fecha").insertBefore(textoFecha, htmlDoc.querySelector("#fecha").childNodes[1])
-                                console.log(cierreCaja.ventas[0].efectivo)
                                 if (cierreCaja.ventas[0].efectivo == null) {
                                     //Si no hay ventas en efectivo, mostramos 0€
                                     htmlDoc.querySelector("#totalEfectivo").textContent = "0€"
