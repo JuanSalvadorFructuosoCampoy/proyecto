@@ -192,7 +192,7 @@ botonVolver.addEventListener("click", () => {
 //Botón para volver a la página de productos y servicios
 const botonProdYServ = document.createElement("button")
 botonProdYServ.textContent = "Productos y servicios"
-botonProdYServ.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-0", "m-3")
+botonProdYServ.classList.add("btn", "btn-info", "position-fixed", "bottom-0", "start-50", "m-3","translate-middle")
 botonProdYServ.setAttribute("id", "volver")
 document.body.appendChild(botonProdYServ)
 botonProdYServ.addEventListener("click", () => {

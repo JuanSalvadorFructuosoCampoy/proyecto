@@ -10,7 +10,7 @@ section{
 }
 
 article {
-    height: 300px; /* Establece un alto fijo */
+    height: 80%; /* Establece un alto fijo */
     overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
 }
 
