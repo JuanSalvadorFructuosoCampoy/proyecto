@@ -246,6 +246,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
     document.body.insertBefore(fechaInput, table);
 
     fechaInput.addEventListener("input", () => {
+        let paginacion = document.querySelector(".pagination");
         const barraBusqueda = document.getElementById("busqueda");
         barraBusqueda.value = "";
         //Formateamos la fecha seleccionada para que coincida con el formato de la tabla
@@ -254,12 +255,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         let mes = fechaSeleccionada.split("-")[1];
         let dia = fechaSeleccionada.split("-")[2];
         fechaSeleccionadaFormateada = `${dia}-${mes}-${anio}`;
-
+        if(fechaInput.value != ""){
+            paginacion.style.display = "none";
+        }
         const filas = tbody.getElementsByTagName("tr");
         for (let i = 0; i < filas.length; i++) {
             const celdas = filas[i].getElementsByTagName("td");
             let fechaRegistro = celdas[1].textContent.split(" - ")[0];
-            fechaRegistro = fechaRegistro.replaceAll("/", "-")
+            fechaRegistro = fechaRegistro.replaceAll("/", "-").trim(); // Añade .trim() aquí
 
             if (fechaRegistro !== fechaSeleccionadaFormateada) {
                 filas[i].style.display = "none";
@@ -271,7 +274,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         //Si no hay fecha seleccionada, mostramos todos los registros
         if(fechaSeleccionada == ""){
             for (let i = 0; i < filas.length; i++) {
-                filas[i].style.display = "";
+                displayPage(currentPage);
+                paginacion.style.display = "";
             }
         }
 
