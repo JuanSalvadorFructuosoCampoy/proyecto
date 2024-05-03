@@ -198,13 +198,16 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
         document.body.insertBefore(barraBusqueda, table);
         barraBusqueda.focus();
         barraBusqueda.addEventListener("input", () => {
+            let paginacion = document.querySelector(".pagination");
             fechaInput.value = "";
             const texto = barraBusqueda.value.toLowerCase();
             const filas = tbody.getElementsByTagName("tr");
         
             if (texto === '') {
+                paginacion.style.display ="";
                 displayPage(currentPage);
             } else {
+                paginacion.style.display = "none";
                 for (let i = 0; i < filas.length; i++) {
                     const celdas = filas[i].getElementsByTagName("td");
                     let coincide = false;
