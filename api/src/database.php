@@ -16,8 +16,8 @@ class Database
 	{
 		// $host_name = '';
 		// $database = '';
-		// $user_name = 
-		// $password = ;
+		// $user_name = '';
+		// $password = '';
 		// $this->connection = new mysqli($host_name, $user_name, $password, $database);
 
 		// if ($this->connection->connect_errno) {
