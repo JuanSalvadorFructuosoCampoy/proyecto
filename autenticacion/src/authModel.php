@@ -20,10 +20,10 @@ class AuthModel
 			exit;
 		}
 
-	// 	$host_name = 'db5015623169.hosting-data.io';
-	// 	$database = 'dbs12758460';
-	// 	$user_name = ;
-	// 	$password = ;
+	// 	$host_name = '';
+	// 	$database = '';
+	// 	$user_name = '';
+	// 	$password = '';
 	// 	$this->connection = new mysqli($host_name, $user_name, $password, $database);
 
 	// 	if ($this->connection->connect_errno) {
