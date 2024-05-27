@@ -114,12 +114,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     })
 
                 //Obtenemos el nombre del cliente asociado a la venta
-                hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.cliente}`)
+                hacerFetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${element.id}`)
                     .then(data => {
+                        console.log(data.ventas[0].nombreCliente)
                         //Si el cliente no está definido, mostramos "NO DEFINIDO"
-                        if (data.clientes.length > 0) {
-                            td4.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1 + " " + data.clientes[0].apellido2;
-                            td4.dataset.id = data.clientes[0].id;
+                        if (data.ventas[0].nombreCliente != null) {
+                            console.log(data.ventas.length)
+                            td4.textContent = data.ventas[0].nombreCliente;
+                            td4.dataset.id = data.ventas[0].nombreCliente;
                         } else {
                             td4.textContent = "NO DEFINIDO";
 

@@ -761,9 +761,6 @@ nuevoCliente.addEventListener("click", (e) => {
     const enviarNuevoCliente = document.getElementById('enviarNuevoCliente');
     enviarNuevoCliente.addEventListener('click', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
         e.preventDefault();
-
-        const mensajesError = formularioNuevoCliente.querySelectorAll('.text-danger');
-        mensajesError.forEach(mensaje => mensaje.remove());
         let nombre = formularioNuevoCliente.querySelector('#nombre').value.trim();
         let id_fiscal = formularioNuevoCliente.querySelector('#id_fiscal').value.trim();
         let apellido1 = formularioNuevoCliente.querySelector('#apellido1').value.trim();
@@ -837,6 +834,9 @@ nuevoCliente.addEventListener("click", (e) => {
             .catch((error) => {
                 console.error('Error:', error);
             });//Fin fetch
+
+            const mensajesError = formularioNuevoCliente.querySelectorAll('.text-danger');
+            mensajesError.forEach(mensaje => mensaje.remove());
     });//Fin enviarNuevoCliente
     
     //Evento para cancelar el nuevo cliente

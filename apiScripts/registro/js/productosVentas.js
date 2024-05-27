@@ -13,6 +13,7 @@ let idURL = urlParams.get('id');
 let fechaURL = urlParams.get('fecha');
 let empleadoURL = urlParams.get('empleado');
 let clienteURL = urlParams.get('cliente');
+console.log(clienteURL);
 let totalURL = urlParams.get('total');
 
 const h2 = document.querySelector('h2');
@@ -88,14 +89,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 if (element.id_cliente == 0) {
                     td3.textContent = "NO DEFINIDO";
                 } else {
-                    hacerFetch(`${window.location.protocol}//${window.location.host}/api/clientes.php?id=${element.id_cliente}`)
-                        .then(data => {
-                            if (data.clientes[0]) {
-                                td3.textContent = data.clientes[0].nombre + " " + data.clientes[0].apellido1 + " " + data.clientes[0].apellido2
-                            } else {
-                                td3.textContent = "NO DEFINIDO"
-                            }
-                        })
+                 td3.textContent = clienteURL;
                 }
 
                 td4.textContent = element.cantidad;
