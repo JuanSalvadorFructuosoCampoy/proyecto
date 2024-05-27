@@ -771,6 +771,8 @@ nuevoCliente.addEventListener("click", (e) => {
         let telefono = formularioNuevoCliente.querySelector('#telefono').value.trim();
         let direccion = formularioNuevoCliente.querySelector('#direccion').value.trim();
 
+        let errorEncontrado = false;
+
         // Validar contraseña
         const telefonoRegex = /^\d{9}$|^\d{3}\s\d{2}\s\d{2}\s\d{2}$|^\d{3}\s\d{3}\s\d{3}$/;
         if (!telefonoRegex.test(telefono)) {
@@ -778,7 +780,9 @@ nuevoCliente.addEventListener("click", (e) => {
             let errorMessage = "Error en el teléfono. Solamente acepta números y espacios";
             errorMessageElementTelefono.textContent = errorMessage;
             errorMessageElementTelefono.classList.add("text-danger")
-            return;
+            errorEncontrado = true;
+        } else {
+            errorMessageElementTelefono.textContent = ""
         }
         telefono = telefono.replaceAll(" ", "");
         id_fiscal = id_fiscal.toUpperCase(); // Reemplazar las minúsculas por mayúsculas
@@ -790,7 +794,12 @@ nuevoCliente.addEventListener("click", (e) => {
             errorMessageElementIdFiscal.textContent = ""
             errorMessageElementIdFiscal.textContent = errorMessage;
             errorMessageElementIdFiscal.classList.add("text-danger")
+            errorEncontrado = true;
+        } else {
+            errorMessageElementIdFiscal.textContent = ""
+        }
 
+        if (errorEncontrado) {
             return;
         }
 

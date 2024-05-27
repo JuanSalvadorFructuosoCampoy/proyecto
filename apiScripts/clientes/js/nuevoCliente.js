@@ -14,14 +14,14 @@ document.getElementById('id_fiscal').focus();
 form.addEventListener('submit', async (e) => { //Función asíncrona que espera a que se resuelva la promesa de la función hashInput
     e.preventDefault();
 
-    const mensajesError = document.querySelectorAll('.text-danger');
-    mensajesError.forEach(mensaje => mensaje.remove());
     let nombre = document.getElementById('nombre').value.trim();
     let id_fiscal = document.getElementById('id_fiscal').value.trim();
     let apellido1 = document.getElementById('apellido1').value.trim();
     let apellido2 = document.getElementById('apellido2').value.trim();
     let telefono = document.getElementById('telefono').value.trim();
     let direccion = document.getElementById('direccion').value.trim();
+
+    let errorEncontrado = false;
 
     // Validar contraseña
     const telefonoRegex = /^\d{9}$|^\d{3}\s\d{2}\s\d{2}\s\d{2}$|^\d{3}\s\d{3}\s\d{3}$/;
@@ -30,7 +30,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         let errorMessage = "Error en el teléfono. Solamente acepta números y espacios";
         errorMessageElementTelefono.textContent = errorMessage;
         errorMessageElementTelefono.classList.add("text-danger")
-        return;
+        errorEncontrado = true;
+    } else {
+        errorMessageElementTelefono.textContent = ""
     }
     telefono = telefono.replaceAll(" ","");
     id_fiscal = id_fiscal.toUpperCase(); // Reemplazar las minúsculas por mayúsculas
@@ -42,10 +44,14 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         errorMessageElementIdFiscal.textContent = ""
         errorMessageElementIdFiscal.textContent = errorMessage;
         errorMessageElementIdFiscal.classList.add("text-danger")
-        
+        errorEncontrado = true;
+    } else {
+        errorMessageElementIdFiscal.textContent = ""
+    }
+
+    if (errorEncontrado) {
         return;
     }
-    
     const datosInput = {
         nombre: nombre,
         id_fiscal: id_fiscal,
@@ -72,6 +78,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
         .catch((error) => {
             console.error('Error:', error);
         });
+
+        const mensajesError = document.querySelectorAll('.text-danger');
+        mensajesError.forEach(mensaje => mensaje.remove());
     });
 
 /**

@@ -49,6 +49,7 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
     let telefono = document.getElementById('telefono').value.trim();
     let direccion = document.getElementById('direccion').value.trim();
 
+    let errorEncontrado = false;
     /**
      * Validación del teléfono
      */
@@ -58,7 +59,9 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
         let errorMessage = "Error en el teléfono. Solamente acepta números y espacios";
         errorMessageElementTelefono.textContent = errorMessage;
         errorMessageElementTelefono.classList.add("text-danger")
-        return;
+        errorEncontrado = true;
+    } else {
+        errorMessageElementTelefono.textContent = ""
     }
 
     telefono = telefono.replaceAll(" ","");
@@ -74,7 +77,12 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
         errorMessageElementIdFiscal.textContent = ""
         errorMessageElementIdFiscal.textContent = errorMessage;
         errorMessageElementIdFiscal.classList.add("text-danger")
-        
+        errorEncontrado = true;
+    } else {
+        errorMessageElementIdFiscal.textContent = ""
+    }
+
+    if (errorEncontrado) {
         return;
     }
 
@@ -104,6 +112,9 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
         .catch((error) => {
             console.error('Error:', error);
         });
+
+        const mensajesError = document.querySelectorAll('.text-danger');
+        mensajesError.forEach(mensaje => mensaje.remove());
     });
 
     const cancelar = document.getElementById('cancelar');
