@@ -40,7 +40,6 @@ barraBusqueda.addEventListener("input", () => {
             const celda = celdas[j]; //Cada celda
             if (celda.innerHTML.toLowerCase().indexOf(texto) !== -1) {//Si el texto está en la celda, coincide es true
                 coincide = true;
-                console.log(celda.innerHTML.toLowerCase())
             }
         }
         if (coincide) {
@@ -820,7 +819,6 @@ nuevoCliente.addEventListener("click", (e) => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Éxito:', data);
                 const ventanaNuevoCliente = document.getElementById("ventanaNuevoCliente");
                 ventanaNuevoCliente.classList.add("d-none");
                 formularioNuevoCliente.querySelector('#nombre').value = ""

@@ -26,7 +26,6 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     })
         .then(response => response.json())
         .then(data => {
-            console.log('Éxito:', data);
             window.location.href = "servicios.html";
         })
         .catch((error) => {

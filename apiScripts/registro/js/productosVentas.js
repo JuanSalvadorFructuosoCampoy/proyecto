@@ -13,7 +13,6 @@ let idURL = urlParams.get('id');
 let fechaURL = urlParams.get('fecha');
 let empleadoURL = urlParams.get('empleado');
 let clienteURL = urlParams.get('cliente');
-console.log(clienteURL);
 let totalURL = urlParams.get('total');
 
 const h2 = document.querySelector('h2');
@@ -263,7 +262,6 @@ botonReimprimir.addEventListener("click", async () => {
             }
         })
         let datosCliente = await fetchCliente.json();
-        console.log(datosCliente['ventas'][0])
         fetch("../../../templates/factura.html")
             .then(response => response.text())
             .then(factura => {

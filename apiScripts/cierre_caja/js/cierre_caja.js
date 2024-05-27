@@ -169,8 +169,6 @@ function fetchCierre(url) {
                     }
 
                     const fechaRegistro = element.fecha;
-                    console.log("fechaRegistro", fechaRegistro)
-                    console.log("fechaEnElInput", fechaInput.value)
                     if (fechaRegistro != fechaInput.value) {
                     tr.style.display = "none";
                     }else{

@@ -269,7 +269,6 @@ function mostrarVentanaAviso(mensaje) {
         document.getElementById("ventanaAviso").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaAviso").classList.remove("d-block");
-            console.log("Evento de botón confirmar");
             document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(true);
         });
@@ -280,7 +279,6 @@ function mostrarVentanaAviso(mensaje) {
         document.getElementById("ventanaAviso").appendChild(botonCancelar);
         botonCancelar.addEventListener("click", () => {
             document.getElementById("ventanaAviso").classList.remove("d-block");
-            console.log("Evento de botón error")
             document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(false);
         });

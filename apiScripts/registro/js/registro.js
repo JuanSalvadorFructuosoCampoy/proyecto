@@ -116,10 +116,8 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 //Obtenemos el nombre del cliente asociado a la venta
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${element.id}`)
                     .then(data => {
-                        console.log(data.ventas[0].nombreCliente)
                         //Si el cliente no está definido, mostramos "NO DEFINIDO"
                         if (data.ventas[0].nombreCliente != null) {
-                            console.log(data.ventas.length)
                             td4.textContent = data.ventas[0].nombreCliente;
                             td4.dataset.id = data.ventas[0].nombreCliente;
                         } else {
@@ -355,7 +353,6 @@ function mostrarventanaAviso(mensaje) {
         document.getElementById("ventanaAviso").appendChild(botonConfirmar);
         botonConfirmar.addEventListener("click", () => {
             document.getElementById("ventanaAviso").classList.remove("d-block");
-            console.log("Evento de botón confirmar");
             document.getElementById("ventanaAviso").classList.add("d-none");
             resolve(true);
         });
