@@ -205,7 +205,8 @@ async function hacerFetch(url) {
 //Evento para imprimir el documento
 botonReimprimir.addEventListener("click", async () => {
     //Si el cliente es "undefined", mostramos el ticket, si no, mostramos la factura
-    if (clienteURL == "undefined") {
+    console.log(clienteURL)
+    if (clienteURL == "NO DEFINIDO") {
         fetch("../../../templates/ticket.html")
             .then(response => response.text())
             .then(ticket => {
