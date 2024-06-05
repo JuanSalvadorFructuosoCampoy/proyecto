@@ -83,8 +83,9 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos_ventas
                 const td5 = document.createElement("td");
                 td1.textContent = element.id;
                 td2.textContent = element.nombre;
+
                 //Si el id_cliente es 0, mostramos "NO DEFINIDO", si no, hacemos el fetch a los clientes
-                if (clienteURL == "undefined") {
+                if (clienteURL == 0 || clienteURL == "undefined") {
                     td3.textContent = "NO DEFINIDO";
                 } else {
                  td3.textContent = clienteURL;

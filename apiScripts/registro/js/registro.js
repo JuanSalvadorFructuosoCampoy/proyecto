@@ -149,7 +149,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                     const id = e.target.parentNode.parentNode.firstChild.textContent;
                     const fecha = e.target.parentNode.parentNode.childNodes[1].textContent;
                     const empleado = e.target.parentNode.parentNode.childNodes[2].textContent;
-                    const cliente = e.target.parentNode.parentNode.childNodes[3].dataset.id;
+                    const cliente = e.target.parentNode.parentNode.childNodes[3].textContent;
                     const total = e.target.parentNode.parentNode.childNodes[5].textContent;
                     window.location.href = `productos_ventas.html?id=${id}&fecha=${fecha}&empleado=${empleado}&cliente=${cliente}&total=${total}`
                 })
