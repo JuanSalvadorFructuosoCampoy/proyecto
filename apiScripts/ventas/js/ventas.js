@@ -408,6 +408,7 @@ form.addEventListener("submit", async (e) => {
             fecha: fechaFormateada,
             total: parseFloat(document.getElementById("total").getAttribute("value")),
             empleado: empleados.value,
+            nombreEmpleado: empleados.options[empleados.selectedIndex].textContent,
             tipo: valorPago,
             iva:iva.value
         }
@@ -590,7 +591,6 @@ form.addEventListener("submit", async (e) => {
                                     cantidad: item.childNodes[1].childNodes[0].value,
                                     precio: item.childNodes[2].childNodes[0].value * item.childNodes[1].childNodes[0].value,
                                     id_cliente: clientes.value != "0" ? clientes.value : null,
-                                    
                                 }
 
                                 //Insertamos en la tabla productos_ventas de la base de datos los datos de la venta: id de la venta, id del item, cantidad, precio y si hay cliente, el id del cliente

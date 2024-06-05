@@ -25,6 +25,7 @@ class User extends Database
 		'telefonoCliente',
 		'idFiscalCliente',
 		'empleado',
+		'nombreEmpleado',
 		'tipo',
 		'iva'
 	);
@@ -41,6 +42,7 @@ class User extends Database
 		'telefonoCliente',
 		'idFiscalCliente',
 		'empleado',
+		'nombreEmpleado',
 		'tipo',
 		'iva'
 	);

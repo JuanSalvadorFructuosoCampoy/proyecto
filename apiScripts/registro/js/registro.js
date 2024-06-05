@@ -103,15 +103,11 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 td2.textContent = `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
 
                 //Obtenemos el nombre del empleado y del cliente asociados a la venta
-                hacerFetch(`${window.location.protocol}//${window.location.host}/api/empleados.php?id=${element.empleado}`)
-                    .then(data => {
-                        //Si el empleado no está definido, mostramos "NO DEFINIDO"
-                        if (data.empleados[0]) {
-                            td3.textContent = data.empleados[0].nombre
-                        } else {
-                            td3.textContent = "NO DEFINIDO"
-                        }
-                    })
+                if(element.nombreEmpleado != null){
+                    td3.textContent = element.nombreEmpleado;
+                } else {
+                    td3.textContent = "NO DEFINIDO";
+                }
 
                 //Obtenemos el nombre del cliente asociado a la venta
                 hacerFetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${element.id}`)
