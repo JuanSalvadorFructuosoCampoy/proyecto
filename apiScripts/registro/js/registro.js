@@ -106,21 +106,14 @@ fetch(`${window.location.protocol}//${window.location.host}/api/ventas.php`, {
                 if(element.nombreEmpleado != null){
                     td3.textContent = element.nombreEmpleado;
                 } else {
-                    td3.textContent = "NO DEFINIDO";
+                    td3.textContent = "NO DEFINIDO"; 
                 }
 
-                //Obtenemos el nombre del cliente asociado a la venta
-                hacerFetch(`${window.location.protocol}//${window.location.host}/api/ventas.php?id=${element.id}`)
-                    .then(data => {
-                        //Si el cliente no está definido, mostramos "NO DEFINIDO"
-                        if (data.ventas[0].nombreCliente != null) {
-                            td4.textContent = data.ventas[0].nombreCliente;
-                            td4.dataset.id = data.ventas[0].nombreCliente;
-                        } else {
-                            td4.textContent = "NO DEFINIDO";
-
-                        }
-                    });
+                if(element.nombreCliente != null){
+                    td4.textContent = element.nombreCliente;
+                } else {
+                    td4.textContent = "NO DEFINIDO";
+                }
 
                 td5.textContent = element.tipo;
                     element.total = parseFloat(element.total).toFixed(2);
