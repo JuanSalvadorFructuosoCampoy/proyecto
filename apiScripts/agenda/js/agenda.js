@@ -75,6 +75,7 @@ botonVolver.addEventListener("click", () => {
 fechaInput.addEventListener("input", () => {
     const barraBusqueda = document.getElementById("busqueda");
     barraBusqueda.value = "";
+    h4vacia.textContent = "";
     const fechaSeleccionada = fechaInput.value;
     let anio = fechaSeleccionada.split("-")[0];
     let mes = fechaSeleccionada.split("-")[1];
@@ -125,6 +126,7 @@ barraBusqueda.classList.add("form-control", "w-50", "m-auto", "mt-3");
 document.body.insertBefore(barraBusqueda, table);
 barraBusqueda.focus();
 barraBusqueda.addEventListener("input", () => {
+    h4vacia.textContent = "";
     fechaInput.value = "";
     const texto = barraBusqueda.value.toLowerCase();
     const filas = tbody.getElementsByTagName("tr");
@@ -142,6 +144,17 @@ barraBusqueda.addEventListener("input", () => {
         } else {
             filas[i].style.display = "none";
         }
+    }
+    let tablaVacia = true;
+    for(let i = 0; i < filas.length; i ++){
+        if(filas[i].style.display != "none"){
+            tablaVacia = false;
+        }
+    }
+    if(tablaVacia){
+        h4vacia.textContent = "NO HAY CITAS";
+    }else{
+        h4vacia.textContent = "";
     }
 
 })

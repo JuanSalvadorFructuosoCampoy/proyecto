@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2024 a las 13:15:34
+-- Tiempo de generación: 05-06-2024 a las 23:43:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,13 +39,7 @@ CREATE TABLE `agenda` (
 --
 
 INSERT INTO `agenda` (`id`, `fecha`, `hora`, `cita`) VALUES
-(1, '2024-03-04', '09:20:00', 'Cita con Mari para la peluquería'),
-(2, '2024-03-04', '10:30:00', 'Cita del día 4'),
-(6, '2024-03-05', '15:00:00', 'Cita creada desde la app y editada'),
-(7, '2024-03-05', '08:29:00', 'Cita a las 7 y media'),
-(11, '2024-03-12', '10:00:00', 'Corte de pelo la semana que viene a las 10 de la mañana'),
-(14, '2024-03-06', '11:00:00', 'Cita nueva'),
-(15, '2024-03-21', '10:00:00', 'Cita a las 10');
+(2, '2024-04-29', '20:00:00', 'Corte de pelo');
 
 -- --------------------------------------------------------
 
@@ -62,17 +56,6 @@ CREATE TABLE `clientes` (
   `telefono` int(11) NOT NULL,
   `direccion` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `id_fiscal`, `nombre`, `apellido1`, `apellido2`, `telefono`, `direccion`) VALUES
-(1, '00000001R', 'Melody', 'de la Plata', 'Lario', 639445564, 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)'),
-(3, '27454873A', 'Mercedes', 'Campoy', 'Guillén', 626047517, 'Calle Ricardo Gil, 43, 10ºC, 30002, Murcia'),
-(6, '48657980P', 'Juan Salvador', 'Fructuoso', 'Campoy', 639445564, 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)'),
-(20, '48657980P', 'Antonio', 'Martínez', 'Gutiérrez', 654321981, 'Calle alguna'),
-(21, '48657980P', 'Agapito', 'Fajardo', 'Ramírez', 654696969, 'Calle Wallaby 42, Sydney');
 
 -- --------------------------------------------------------
 
@@ -96,9 +79,8 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id`, `nombre`, `apellido1`, `apellido2`, `password`, `token`, `activo`, `rol`) VALUES
-(1, 'prueba', 'prueba', NULL, '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTEwOTMxNTMsImRhdGEiOnsiaWQiOiIxIiwibm9tYnJlIjoicHJ1ZWJhIn19.CHEaHe4zEEFWY8qKjpIs0EkZsw_O2r_dl_vaOga_IN8', 1, 'admin'),
-(2, 'Melody', 'de la Plata', 'Lario', '2db76f21528566a3f39cdaa9f9c8794ae3193e62c8262fd1a476d9cc335f45b5', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTEwNDE4NDYsImRhdGEiOnsiaWQiOiIyIiwibm9tYnJlIjoiTWVsb2R5In19.2mixB8Pww60rMLwr_s0mKrGxKlg0H7GANuwT_BVPSjA', 1, 'admin'),
-(24, 'Antonio', 'Martínez', 'Sánchez', '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', '', 1, 'emple');
+(1, 'prueba', 'prueba', NULL, '224f353d391d9183fc467105fc5d453c4960edec6086d4ce1b9e19abb0cedb40', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTc2MjE5MDAsImRhdGEiOnsiaWQiOiIxIiwibm9tYnJlIjoicHJ1ZWJhIn19.R9EEE7HkzL6PyM2hhJ_u9QXq6pLLdybqjB_BR_i8rM8', 1, 'admin'),
+(2, 'Melody', 'de la Plata', 'Lario', '2db76f21528566a3f39cdaa9f9c8794ae3193e62c8262fd1a476d9cc335f45b5', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTEwNDE4NDYsImRhdGEiOnsiaWQiOiIyIiwibm9tYnJlIjoiTWVsb2R5In19.2mixB8Pww60rMLwr_s0mKrGxKlg0H7GANuwT_BVPSjA', 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -118,7 +100,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `stock`, `precio`) VALUES
-('P0001', 'Keratina', 9, 100),
+('P0001', 'Keratina', 7, 100),
 ('P0002', 'Tinte rubio', 3, 30),
 ('P0003', 'Tinte negro', 0, 28);
 
@@ -131,6 +113,7 @@ INSERT INTO `productos` (`id`, `nombre`, `stock`, `precio`) VALUES
 CREATE TABLE `productos_ventas` (
   `id` int(11) NOT NULL,
   `id_item` varchar(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
   `id_cliente` int(11) DEFAULT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` float NOT NULL
@@ -140,43 +123,13 @@ CREATE TABLE `productos_ventas` (
 -- Volcado de datos para la tabla `productos_ventas`
 --
 
-INSERT INTO `productos_ventas` (`id`, `id_item`, `id_cliente`, `cantidad`, `precio`) VALUES
-(16, 'P0001', 0, 1, 100),
-(16, 'P0002', 0, 1, 30),
-(17, 'P0003', 0, 4, 112),
-(18, 'S0009', 3, 1, 48),
-(18, 'S0010', 3, 1, 25),
-(19, 'P0003', 0, 3, 84),
-(20, 'S0001', 20, 1, 12),
-(20, 'S0007', 20, 1, 3),
-(20, 'S0008', 20, 1, 38),
-(21, 'S0001', 0, 1, 12),
-(21, 'S0003', 0, 1, 25),
-(21, 'S0007', 0, 1, 3),
-(22, 'P0003', 0, 2, 56),
-(23, 'S0005', 0, 1, 13),
-(23, 'S0007', 0, 1, 3),
-(23, 'S0010', 0, 1, 25),
-(24, 'S0006', 0, 1, 15),
-(24, 'S0007', 0, 1, 3),
-(24, 'S0009', 0, 1, 48),
-(25, 'S0002', 21, 1, 16),
-(25, 'S0003', 21, 1, 25),
-(25, 'S0007', 21, 1, 3),
-(26, 'S0007', 0, 4, 12),
-(27, 'S0002', 0, 1, 16.5),
-(27, 'S0005', 0, 1, 13),
-(27, 'S0007', 0, 1, 3),
-(33, 'S0001', 20, 1, 12),
-(34, 'S0002', 3, 1, 16),
-(35, 'S0004', 1, 1, 18),
-(35, 'S0009', 1, 1, 48),
-(36, 'S0010', 3, 1, 25),
-(37, 'S0010', 6, 1, 25),
-(38, 'S0002', 6, 1, 16),
-(43, 'S0005', 0, 1, 13),
-(44, 'S0009', 0, 1, 48),
-(45, 'S0010', 0, 1, 25);
+INSERT INTO `productos_ventas` (`id`, `id_item`, `nombre`, `id_cliente`, `cantidad`, `precio`) VALUES
+(45, 'S0008', 'Botox melena', NULL, 1, 38),
+(57, 'S0004', 'Corte con estilo', 0, 1, 18),
+(58, 'S0008', 'Botox melena', 1, 1, 38),
+(59, 'S0007', 'Acabado con plancha', 9, 1, 3),
+(60, 'S0003', 'Color raíz', 0, 1, 25),
+(61, 'S0001', 'Corte de puntas', 0, 1, 12);
 
 -- --------------------------------------------------------
 
@@ -190,16 +143,6 @@ CREATE TABLE `registro_clientes` (
   `fecha` datetime NOT NULL,
   `evento` varchar(10000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `registro_clientes`
---
-
-INSERT INTO `registro_clientes` (`id`, `id_cliente`, `fecha`, `evento`) VALUES
-(1, 1, '2024-02-25 00:00:00', 'Inicio de la aplicación'),
-(2, 1, '2024-02-28 00:00:00', 'Sigue la aplicación'),
-(10, 1, '2024-02-29 00:00:00', 'Nuevo día'),
-(14, 1, '2024-03-21 00:00:00', 'Nuevo tratamiento');
 
 -- --------------------------------------------------------
 
@@ -222,7 +165,7 @@ INSERT INTO `servicios` (`id`, `nombre`, `precio`) VALUES
 ('S0002', 'Peinado pelo largo', 16),
 ('S0003', 'Color raíz', 25),
 ('S0004', 'Corte con estilo', 18),
-('S0005', 'Peinado pelo corto', 13),
+('S0005', 'Peinado pelo corto', 25),
 ('S0006', 'Peinado melena', 15),
 ('S0007', 'Acabado con plancha', 3),
 ('S0008', 'Botox melena', 38),
@@ -245,6 +188,7 @@ CREATE TABLE `ventas` (
   `telefonoCliente` int(20) DEFAULT NULL,
   `idFiscalCliente` varchar(20) DEFAULT NULL,
   `empleado` int(11) DEFAULT NULL,
+  `nombreEmpleado` varchar(50) NOT NULL,
   `tipo` varchar(10) NOT NULL COMMENT 'Tarjeta o efectivo',
   `iva` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -253,11 +197,13 @@ CREATE TABLE `ventas` (
 -- Volcado de datos para la tabla `ventas`
 --
 
-INSERT INTO `ventas` (`id`, `fecha`, `total`, `cliente`, `nombreCliente`, `direccionCliente`, `telefonoCliente`, `idFiscalCliente`, `empleado`, `tipo`, `iva`) VALUES
-(38, '2024-03-22 08:52:00', 16, 6, 'Juan Salvador Fructuoso Campoy', 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)', 639445564, '48657980P', 1, 'tarjeta', 20),
-(43, '2024-03-22 09:15:00', 13, NULL, NULL, NULL, NULL, NULL, 1, 'tarjeta', 21),
-(44, '2024-03-22 09:27:00', 48, NULL, NULL, NULL, NULL, NULL, 1, 'efectivo', 21),
-(45, '2024-03-22 09:27:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 'tarjeta', 21);
+INSERT INTO `ventas` (`id`, `fecha`, `total`, `cliente`, `nombreCliente`, `direccionCliente`, `telefonoCliente`, `idFiscalCliente`, `empleado`, `nombreEmpleado`, `tipo`, `iva`) VALUES
+(45, '2024-06-05 21:46:00', 38, NULL, NULL, NULL, NULL, NULL, 1, 'prueba', 'tarjeta', 21),
+(57, '2024-06-05 22:23:00', 18, NULL, NULL, NULL, NULL, NULL, 1, 'prueba', 'tarjeta', 21),
+(58, '2024-06-05 22:29:00', 38, 1, 'Juan Salvador Fructuoso', 'Calle Camino Viejo, 39, 30816', 639445564, '48657980P', 1, 'prueba', 'tarjeta', 21),
+(59, '2024-06-05 22:52:00', 3, 9, 'Melody de la Plata Lario', 'Calle Camino Viejo, 39, 30816, La Hoya (Lorca)', 626824195, '23306454W', 1, 'prueba', 'tarjeta', 21),
+(60, '2024-06-05 22:55:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 'prueba', 'tarjeta', 21),
+(61, '2024-06-05 23:11:00', 12, NULL, NULL, NULL, NULL, NULL, 1, 'prueba', 'tarjeta', 21);
 
 --
 -- Índices para tablas volcadas
@@ -291,7 +237,8 @@ ALTER TABLE `productos`
 -- Indices de la tabla `productos_ventas`
 --
 ALTER TABLE `productos_ventas`
-  ADD PRIMARY KEY (`id`,`id_item`) USING BTREE;
+  ADD PRIMARY KEY (`id`,`id_item`) USING BTREE,
+  ADD KEY `id_cliente` (`id_cliente`);
 
 --
 -- Indices de la tabla `registro_clientes`
@@ -311,8 +258,7 @@ ALTER TABLE `servicios`
 --
 ALTER TABLE `ventas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `empleado` (`empleado`),
-  ADD KEY `clientes_fk` (`cliente`);
+  ADD KEY `empleado` (`empleado`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -322,48 +268,47 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_clientes`
 --
 ALTER TABLE `registro_clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `productos_ventas`
+--
+ALTER TABLE `productos_ventas`
+  ADD CONSTRAINT `productos_ventas_ibfk_1` FOREIGN KEY (`id`) REFERENCES `ventas` (`id`);
+
+--
 -- Filtros para la tabla `registro_clientes`
 --
 ALTER TABLE `registro_clientes`
   ADD CONSTRAINT `registro_clientes_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`);
-
---
--- Filtros para la tabla `ventas`
---
-ALTER TABLE `ventas`
-  ADD CONSTRAINT `clientes_fk` FOREIGN KEY (`cliente`) REFERENCES `clientes` (`id`),
-  ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`empleado`) REFERENCES `empleados` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
