@@ -303,7 +303,7 @@ botonReimprimir.addEventListener("click", async () => {
 
                     const tdPrecio = document.createElement("td");
                     tdPrecio.classList.add("unit");
-                    tdPrecio.textContent = (parseFloat(filas[i].childNodes[4].textContent) / ivaAplicado).toFixed(2) + "€";
+                    tdPrecio.textContent = (parseFloat(filas[i].childNodes[4].textContent) / parseFloat(filas[i].childNodes[3].textContent)/ ivaAplicado).toFixed(2) + "€";
                     tr.appendChild(tdPrecio);
 
                     const tdCantidad = document.createElement("td");
@@ -313,7 +313,7 @@ botonReimprimir.addEventListener("click", async () => {
 
                     const tdPrecioSubTotal = document.createElement("td");
                     tdPrecioSubTotal.classList.add("total");
-                    tdPrecioSubTotal.textContent = (parseFloat(filas[i].childNodes[4].textContent) * parseFloat(filas[i].childNodes[3].textContent) / ivaAplicado).toFixed(2) + "€";
+                    tdPrecioSubTotal.textContent = (parseFloat(filas[i].childNodes[4].textContent) / ivaAplicado).toFixed(2) + "€";
                     tr.appendChild(tdPrecioSubTotal);
                 }
                 htmlDoc.querySelector("#baseImponible").textContent = (parseFloat(totalURL) / ivaAplicado).toFixed(2) + "€";

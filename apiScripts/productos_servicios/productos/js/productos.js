@@ -73,7 +73,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/productos.php`, 
                 if(element.precio == 0){
                     precioProducto = "No definido";
                 }else{
-                    precioProducto = element.precio+"€"
+                    precioProducto = parseFloat(element.precio).toFixed(2) + " €";
                 }
 
                 td1.textContent = element.id;

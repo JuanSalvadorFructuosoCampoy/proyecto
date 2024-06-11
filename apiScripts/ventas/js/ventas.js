@@ -9,12 +9,12 @@ const tbody = document.querySelector("tbody")
 let url = "productos"
 const contenedorFluid = document.querySelector(".container-fluid")
 let iva = document.getElementById("iva");
-iva.addEventListener("input",() =>{
-    localStorage.setItem("iva",iva.value)
+iva.addEventListener("input", () => {
+    localStorage.setItem("iva", iva.value)
 })
-if(localStorage.getItem("iva")){
+if (localStorage.getItem("iva")) {
     iva.value = localStorage.getItem("iva")
-}else{
+} else {
     iva.value = 21
 }
 
@@ -209,9 +209,9 @@ function seleccionarItem(tarjeta) {
     //Si el item ya está en la tabla, se suma 1 a la cantidad
     if (encontrado) {
         const cantidadElemento = encontrado.querySelector("td:nth-child(2) input");
-        if(cantidadElemento.value < tarjeta.dataset.stock){
-        cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
-    }
+        if (cantidadElemento.value < parseInt(tarjeta.dataset.stock) || tarjeta.id.includes("S")) {
+            cantidadElemento.value = parseInt(cantidadElemento.value) + 1;
+        }
         calcularPrecio();
     } else {
         //Si el item no está en la tabla, se añade
@@ -410,9 +410,9 @@ form.addEventListener("submit", async (e) => {
             empleado: empleados.value,
             nombreEmpleado: empleados.options[empleados.selectedIndex].textContent,
             tipo: valorPago,
-            iva:iva.value
+            iva: iva.value
         }
-                
+
         //Si se ha seleccionado un cliente, se añade el cliente a la venta
         if (clientes.value != "0") {
             let clienteFactura = document.querySelector("#clientes").options[document.querySelector("#clientes").selectedIndex];
@@ -474,9 +474,11 @@ form.addEventListener("submit", async (e) => {
                     const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
-                    ticketWindow.print();
-                    window.location.reload();
-
+                    // Recargar la página después de que la ventana de impresión se haya cargado
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000); // 1000 milisegundos = 1 segundo
+                ticketWindow.print();
                 });
         } else {
             //Impresión de facturas
@@ -553,10 +555,14 @@ form.addEventListener("submit", async (e) => {
                     const ticketWindow = window.open("", "Documento de venta", "width=800px,height=800px");
                     ticketWindow.document.write(htmlDoc.documentElement.outerHTML);
                     ticketWindow.document.title = "Documento de venta"; // Establecer el título de la pestaña
+                    // Recargar la página después de que la ventana de impresión se haya cargado
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1000); // 1000 milisegundos = 1 segundo
+                    
                     ticketWindow.print();
-                    window.location.reload();
-
                 });
+
         }//Final impresion tickets y facturas   
 
         //Insertamos en la tabla ventas de la base de datos los datos de la venta: fecha, cliente (si lo hay) con sus datos, empleado, total de la venta, el iva y si ha sido en efectivo o con tarjeta
@@ -624,9 +630,6 @@ form.addEventListener("submit", async (e) => {
                                                         stock: producto.stock - item.childNodes[1].childNodes[0].value
                                                     })
                                                 })
-                                                    .then(() => {
-                                                        hacerFetch(sessionStorage.getItem("tipo") ? sessionStorage.getItem("tipo") : "productos");
-                                                    })
                                             }//Fin if producto.id
                                         })//Fin forEach producto
                                     })//Fin fetch productos
@@ -833,10 +836,10 @@ nuevoCliente.addEventListener("click", (e) => {
                 console.error('Error:', error);
             });//Fin fetch
 
-            const mensajesError = formularioNuevoCliente.querySelectorAll('.text-danger');
-            mensajesError.forEach(mensaje => mensaje.remove());
+        const mensajesError = formularioNuevoCliente.querySelectorAll('.text-danger');
+        mensajesError.forEach(mensaje => mensaje.remove());
     });//Fin enviarNuevoCliente
-    
+
     //Evento para cancelar el nuevo cliente
     const cancelarNuevoCliente = document.getElementById('cancelarNuevoCliente');
     cancelarNuevoCliente.addEventListener('click', () => {

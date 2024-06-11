@@ -67,7 +67,7 @@ fetch(`${window.location.protocol}//${window.location.host}/api/servicios.php`, 
                 if (element.precio == 0) {
                     precioServicio = "No definido";
                 } else {
-                    precioServicio = element.precio + "€"
+                    precioServicio = parseFloat(element.precio).toFixed(2) + " €";
                 }
 
                 td1.textContent = element.id;
