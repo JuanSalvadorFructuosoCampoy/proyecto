@@ -93,7 +93,7 @@ function hacerFetch(url) {
             contenedor.appendChild(list);
             data[url].forEach(item => {
                 const tarjeta = document.createElement("div")
-                tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-3", "col-lg-2", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center");
+                tarjeta.classList.add("card", "col", "col-12", "col-sm-2", "col-md-3", "col-lg-2", "m-1", "text-center", "border", "bg-light", "rounded-3", "p-3", "d-flex", "align-items-center","no-select");
                 tarjeta.setAttribute("id", item.id);
 
                 //Guardamos el stock del producto en el dataset de la tarjeta
@@ -234,9 +234,12 @@ function seleccionarItem(tarjeta) {
         tr.appendChild(tdCantidad)
         tdCantidad.appendChild(cantidad);
         tdCantidad.addEventListener("input", () => {
-            //Si la cantidad es mayor que el stock, se pone el stock
+            //Si la cantidad es menor que 0, se pone a 0
             if (cantidad.value < 0) {
                 cantidad.value = 0;
+            }
+            if(cantidad.value > parseInt(tarjeta.dataset.stock)){
+                cantidad.value = parseInt(tarjeta.dataset.stock)
             }
             //Calcula el precio total de la venta
             calcularPrecio();
@@ -298,6 +301,8 @@ function seleccionarItem(tarjeta) {
         calcularPrecio();
     }
 }//Fin seleccionarItem
+
+
 
 //Evento para que no se envíe el formulario al pulsar enter
 document.querySelector("input").addEventListener("keypress", (e) => {
@@ -871,16 +876,12 @@ nuevoCliente.addEventListener("click", (e) => {
             letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
             letra = letra.substring(numero, numero + 1);
             if (letra != let) {
-                //alert('Dni erroneo, la letra del NIF no se corresponde');
                 return false;
             } else {
-                //alert('Dni correcto');
                 return true;
             }
         } else {
-            //alert('Dni erroneo, formato no válido');
             return false;
         }
     }
-
 })//Fin nuevoCliente

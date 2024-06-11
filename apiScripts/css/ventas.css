@@ -14,6 +14,14 @@ article {
     overflow-y: scroll; /* Muestra una barra de desplazamiento cuando hay desbordamiento */
 }
 
+/*Para evitar que se seleccione el texto de las tarjetas*/
+.no-select {
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+
 
 
 @media (max-width: 576.98px) { /* Pantallas xs */
