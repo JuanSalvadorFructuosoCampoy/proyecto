@@ -117,7 +117,8 @@ function hacerFetch(url) {
                 strong.textContent = item.nombre;
                 titulo.appendChild(strong);
                 const precio = document.createElement("div")
-                precio.textContent = item.precio + "€";
+                
+                precio.textContent = parseFloat(item.precio).toFixed(2) + "€";
                 tarjeta.append(titulo, precio);
 
                 //Evento para seleccionar el item
