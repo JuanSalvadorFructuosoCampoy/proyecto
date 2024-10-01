@@ -34,10 +34,10 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
     } else {
         errorMessageElementTelefono.textContent = ""
     }
-    telefono = telefono.replaceAll(" ","");
+    telefono = telefono.replaceAll(" ", "");
     id_fiscal = id_fiscal.toUpperCase(); // Reemplazar las minúsculas por mayúsculas
-    id_fiscal = id_fiscal.replaceAll(" ",""); // Eliminar espacios
-    id_fiscal = id_fiscal.replaceAll("-",""); // Eliminar guiones
+    id_fiscal = id_fiscal.replaceAll(" ", ""); // Eliminar espacios
+    id_fiscal = id_fiscal.replaceAll("-", ""); // Eliminar guiones
 
     if (!validateDNI(id_fiscal)) {
         let errorMessage = "Error en el ID fiscal. El formato no es válido";
@@ -78,9 +78,9 @@ form.addEventListener('submit', async (e) => { //Función asíncrona que espera 
             console.error('Error:', error);
         });
 
-        const mensajesError = document.querySelectorAll('.text-danger');
-        mensajesError.forEach(mensaje => mensaje.remove());
-    });
+    const mensajesError = document.querySelectorAll('.text-danger');
+    mensajesError.forEach(mensaje => mensaje.remove());
+});
 
 /**
  * Botón para cancelar la creación del cliente
@@ -99,49 +99,23 @@ function validateDNI(dni) {
 
     dni = dni.toUpperCase();
 
-    if(expresion_regular_dni.test(dni) === true){
-        numero = dni.substr(0,dni.length-1);
+    if (expresion_regular_dni.test(dni) === true) {
+        numero = dni.substr(0, dni.length - 1);
         numero = numero.replace('X', 0);
         numero = numero.replace('Y', 1);
         numero = numero.replace('Z', 2);
-        let = dni.substr(dni.length-1, 1);
+        let = dni.substr(dni.length - 1, 1);
         numero = numero % 23;
         letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
-        letra = letra.substring(numero, numero+1);
-        if (letra != let) {
-            //alert('Dni erroneo, la letra del NIF no se corresponde');
-            return false;
-        }else{
-            //alert('Dni correcto');
-            return true;
-        }
-    }else if (expresion_regular_cif.test(dni) === true) {
-        var cif = dni;
-        var control = cif.substr(cif.length - 1, 1);
-        var sumaA = 0;
-        var sumaB = 0;
-        for (var i = 1; i < 8; i += 2) {
-            sumaA += parseInt(cif.substr(i, 1), 10);
-        }
-        for (var i = 0; i < 8; i += 2) {
-            var digito = 2 * parseInt(cif.substr(i, 1), 10);
-            if (digito > 9) {
-                digito = 1 + (digito - 10);
-            }
-            sumaB += digito;
-        }
-        var sumaC = sumaA + sumaB;
-        var digitoControl = (10 - (sumaC % 10)) % 10;
-        if (control == digitoControl || control == 'JABCDEFGHI'.charAt(digitoControl)) {
-            return true;
-        } else {
-            return false;
-        }
-    }else{
-        //alert('Dni erroneo, formato no válido');
+        letra = letra.substring(numero, numero + 1);
+        return letra === let;
+    } else if (expresion_regular_cif.test(dni) === true) {
+        return true
+    } else {
         return false;
     }
 }
+
 
 /**
  * Botón para volver al inicio
