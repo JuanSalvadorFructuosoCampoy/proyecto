@@ -864,24 +864,50 @@ nuevoCliente.addEventListener("click", (e) => {
     function validateDNI(dni) {
         var numero, let, letra;
         var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
-
+        var expresion_regular_cif = /^[ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]$/;
+    
         dni = dni.toUpperCase();
-
-        if (expresion_regular_dni.test(dni) === true) {
-            numero = dni.substr(0, dni.length - 1);
+    
+        if(expresion_regular_dni.test(dni) === true){
+            numero = dni.substr(0,dni.length-1);
             numero = numero.replace('X', 0);
             numero = numero.replace('Y', 1);
             numero = numero.replace('Z', 2);
-            let = dni.substr(dni.length - 1, 1);
+            let = dni.substr(dni.length-1, 1);
             numero = numero % 23;
             letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
-            letra = letra.substring(numero, numero + 1);
+            letra = letra.substring(numero, numero+1);
             if (letra != let) {
+                //alert('Dni erroneo, la letra del NIF no se corresponde');
                 return false;
-            } else {
+            }else{
+                //alert('Dni correcto');
                 return true;
             }
-        } else {
+        }else if (expresion_regular_cif.test(identifier) === true) {
+            var cif = identifier;
+            var control = cif.substr(cif.length - 1, 1);
+            var sumaA = 0;
+            var sumaB = 0;
+            for (var i = 1; i < 8; i += 2) {
+                sumaA += parseInt(cif.substr(i, 1), 10);
+            }
+            for (var i = 0; i < 8; i += 2) {
+                var digito = 2 * parseInt(cif.substr(i, 1), 10);
+                if (digito > 9) {
+                    digito = 1 + (digito - 10);
+                }
+                sumaB += digito;
+            }
+            var sumaC = sumaA + sumaB;
+            var digitoControl = (10 - (sumaC % 10)) % 10;
+            if (control == digitoControl || control == 'JABCDEFGHI'.charAt(digitoControl)) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            //alert('Dni erroneo, formato no válido');
             return false;
         }
     }

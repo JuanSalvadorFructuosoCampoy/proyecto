@@ -131,10 +131,11 @@ form.addEventListener('submit', (e) => { //Función asíncrona que espera a que 
 function validateDNI(dni) {
     var numero, let, letra;
     var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
+    var expresion_regular_cif = /^[ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]$/;
 
     dni = dni.toUpperCase();
 
-    if(expresion_regular_dni.test(dni) == true){
+    if(expresion_regular_dni.test(dni) === true){
         numero = dni.substr(0,dni.length-1);
         numero = numero.replace('X', 0);
         numero = numero.replace('Y', 1);
@@ -150,11 +151,34 @@ function validateDNI(dni) {
             //alert('Dni correcto');
             return true;
         }
+    }else if (expresion_regular_cif.test(identifier) === true) {
+        var cif = identifier;
+        var control = cif.substr(cif.length - 1, 1);
+        var sumaA = 0;
+        var sumaB = 0;
+        for (var i = 1; i < 8; i += 2) {
+            sumaA += parseInt(cif.substr(i, 1), 10);
+        }
+        for (var i = 0; i < 8; i += 2) {
+            var digito = 2 * parseInt(cif.substr(i, 1), 10);
+            if (digito > 9) {
+                digito = 1 + (digito - 10);
+            }
+            sumaB += digito;
+        }
+        var sumaC = sumaA + sumaB;
+        var digitoControl = (10 - (sumaC % 10)) % 10;
+        if (control == digitoControl || control == 'JABCDEFGHI'.charAt(digitoControl)) {
+            return true;
+        } else {
+            return false;
+        }
     }else{
         //alert('Dni erroneo, formato no válido');
         return false;
     }
 }
+
 /**
  * Botón para volver al inicio
  */
