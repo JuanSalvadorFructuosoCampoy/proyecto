@@ -152,7 +152,7 @@ function validateDNI(dni) {
             return true;
         }
     }else if (expresion_regular_cif.test(dni) === true) {
-        var cif = identifier;
+        var cif = dni;
         var control = cif.substr(cif.length - 1, 1);
         var sumaA = 0;
         var sumaB = 0;
