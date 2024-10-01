@@ -151,7 +151,7 @@ function validateDNI(dni) {
             //alert('Dni correcto');
             return true;
         }
-    }else if (expresion_regular_cif.test(identifier) === true) {
+    }else if (expresion_regular_cif.test(dni) === true) {
         var cif = identifier;
         var control = cif.substr(cif.length - 1, 1);
         var sumaA = 0;
